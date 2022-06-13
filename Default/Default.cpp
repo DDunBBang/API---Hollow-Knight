@@ -78,6 +78,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,				// 메모리에 할당되는 실체, 즉
 			if (dwTime + 10 < GetTickCount())
 			{
 				pMainGame->Update();
+				pMainGame->Late_Update();
 				pMainGame->Render();
 				dwTime = GetTickCount();
 			}
@@ -139,7 +140,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, 
 	   WS_OVERLAPPEDWINDOW,
-       200, 200,	// 창이 생성되는 left, top위 위치
+       200, 0,	// 창이 생성되는 left, top위 위치
 	   rc.right - rc.left, 
 	   rc.bottom - rc.top,	// 창의 가로, 세로 사이즈
 	   nullptr, nullptr, 

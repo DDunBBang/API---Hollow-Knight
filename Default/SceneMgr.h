@@ -3,12 +3,17 @@
 
 class CSceneMgr
 {
-public:
-	enum SCENEID {MENU, FIELD, ENDING, SCENE_END};
 
 private:
 	CSceneMgr();
 	~CSceneMgr();
+
+public:
+	void		Scene_Change(SCENEID eScene);
+	void		Update(void);
+	void		Late_Update(void);
+	void		Render(HDC hDC);
+	void		Release(void);
 
 public:
 	static CSceneMgr* Get_Instance()

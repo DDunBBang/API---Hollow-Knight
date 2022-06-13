@@ -55,6 +55,18 @@
     <Filter Include="98. Design\BmpMgr\MyBmp">
       <UniqueIdentifier>{97e2e941-9be3-4079-8815-ffd91ccbd1a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Scene\00. Menu">
+      <UniqueIdentifier>{63c4a6c2-0f96-4347-9ec5-715baa74a32c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\01. Field">
+      <UniqueIdentifier>{a49cc957-ea05-4d4b-9f44-04c162661947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\02. Ending">
+      <UniqueIdentifier>{74fa8138-29d9-444e-9554-ce4c9821785e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\03. Edit">
+      <UniqueIdentifier>{b06f6d24-34a6-4e98-b133-d083c6766682}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -123,6 +135,18 @@
     <ClInclude Include="MyBmp.h">
       <Filter>98. Design\BmpMgr\MyBmp</Filter>
     </ClInclude>
+    <ClInclude Include="MyMenu.h">
+      <Filter>02. Scene\00. Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>02. Scene\01. Field</Filter>
+    </ClInclude>
+    <ClInclude Include="Ending.h">
+      <Filter>02. Scene\02. Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="MyEdit.h">
+      <Filter>02. Scene\03. Edit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -166,6 +190,18 @@
     </ClCompile>
     <ClCompile Include="MyBmp.cpp">
       <Filter>98. Design\BmpMgr\MyBmp</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMenu.cpp">
+      <Filter>02. Scene\00. Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>02. Scene\01. Field</Filter>
+    </ClCompile>
+    <ClCompile Include="Ending.cpp">
+      <Filter>02. Scene\02. Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="MyEdit.cpp">
+      <Filter>02. Scene\03. Edit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

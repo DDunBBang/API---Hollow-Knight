@@ -15,8 +15,9 @@ void CBullet::Initialize(void)
 {
 }
 
-void CBullet::Update(void)
+int CBullet::Update(void)
 {
+	return 0;
 }
 
 void CBullet::Render(HDC hDC)

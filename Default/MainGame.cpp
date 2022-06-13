@@ -1,9 +1,14 @@
 #include "stdafx.h"
 #include "MainGame.h"
+//#include "AbstractFactory.h"
+#include "ObjMgr.h"
+#include "KeyMgr.h"
+//#include "ScrollMgr.h"
+#include "BmpMgr.h"
+#include "SceneMgr.h"
 
 
 CMainGame::CMainGame()
-	: m_pPlayer(nullptr)
 {
 }
 
@@ -16,26 +21,36 @@ void CMainGame::Initialize(void)
 {
 	m_hDC = GetDC(g_hWnd);
 
-	if (!m_pPlayer)
-	{
-		m_pPlayer = new CPlayer;
-		m_pPlayer->Initialize();
-	}
+	CSceneMgr::Get_Instance()->Scene_Change(SC_MENU);
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Back.bmp", L"Back");
 }
 
 void CMainGame::Update(void)
 {
-	m_pPlayer->Update();
+	CSceneMgr::Get_Instance()->Update();
+}
+
+void CMainGame::Late_Update(void)
+{
+	CSceneMgr::Get_Instance()->Late_Update();
 }
 
 void CMainGame::Render(void)
 {
-	Rectangle(m_hDC, 0, 0, WINCX, WINCY);
-	m_pPlayer->Render(m_hDC);
+	HDC hBackDC = CBmpMgr::Get_Instance()->Find_Image(L"Back");
+	CSceneMgr::Get_Instance()->Render(hBackDC);
+
+	BitBlt(m_hDC, 0, 0, WINCX, WINCY, hBackDC, 0, 0, SRCCOPY);
 }
 
 void CMainGame::Release(void)
 {
-	Safe_Delete<CObj*>(m_pPlayer);
+	CSceneMgr::Get_Instance()->Destroy_Instance();
+	CBmpMgr::Get_Instance()->Destroy_Instance();
+//	CScrollMgr::Get_Instance()->Destroy_Instance();
+	CKeyMgr::Get_Instance()->Destroy_Instance();
+//	CLineMgr::Get_Instance()->Destroy_Instance();
+	CObjMgr::Get_Instance()->Destroy_Instance();
+
 	ReleaseDC(g_hWnd, m_hDC);
 }

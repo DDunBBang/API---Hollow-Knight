@@ -17,10 +17,12 @@ void CPlayer::Initialize(void)
 	m_fSpeed = 10.f;
 }
 
-void CPlayer::Update(void)
+int CPlayer::Update(void)
 {
 	Key_Input();
 	Update_Rect();
+
+	return 0;
 }
 
 void CPlayer::Render(HDC hDC)
