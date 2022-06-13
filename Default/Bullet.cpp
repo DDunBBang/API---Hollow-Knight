@@ -20,6 +20,10 @@ int CBullet::Update(void)
 	return 0;
 }
 
+void CBullet::Late_Update(void)
+{
+}
+
 void CBullet::Render(HDC hDC)
 {
 }

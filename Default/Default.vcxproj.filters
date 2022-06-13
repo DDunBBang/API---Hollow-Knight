@@ -25,9 +25,6 @@
     <Filter Include="01. Obj\00. Player">
       <UniqueIdentifier>{86254cf4-7c1c-4a57-a648-f484c80cba50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\01. Bullet">
-      <UniqueIdentifier>{cb354089-a3ec-4072-9787-d3188e847d88}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Obj\02.Block">
       <UniqueIdentifier>{b0fb3429-a809-4f41-a5b5-e66a4b091b0e}</UniqueIdentifier>
     </Filter>
@@ -67,6 +64,24 @@
     <Filter Include="02. Scene\03. Edit">
       <UniqueIdentifier>{b06f6d24-34a6-4e98-b133-d083c6766682}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98. Design\AbstractFactory">
+      <UniqueIdentifier>{53786f04-92d9-4371-8c7f-b60e4529ea52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\TileMgr">
+      <UniqueIdentifier>{6b2cb2b7-8df3-4477-9dd5-a4c90e62f2a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\04. Tile">
+      <UniqueIdentifier>{b2609a62-af5d-4544-a6dd-554e8314c3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\ScrollMgr">
+      <UniqueIdentifier>{7ebfa542-e0d3-4985-9702-e4a440c8bc90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\CollisionMgr">
+      <UniqueIdentifier>{dab1f885-cd60-4830-846a-5e58fe06132c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\01. Blade">
+      <UniqueIdentifier>{897e18cc-99e5-47f8-a901-4bc5a39cd58e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -104,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="Function.h">
       <Filter>99. Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>01. Obj\01. Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Enum.h">
       <Filter>99. Header</Filter>
@@ -147,6 +159,24 @@
     <ClInclude Include="MyEdit.h">
       <Filter>02. Scene\03. Edit</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractFactory.h">
+      <Filter>98. Design\AbstractFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMgr.h">
+      <Filter>98. Design\TileMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>01. Obj\04. Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollMgr.h">
+      <Filter>98. Design\ScrollMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMgr.h">
+      <Filter>98. Design\CollisionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Blade.h">
+      <Filter>01. Obj\01. Blade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -163,9 +193,6 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>01. Obj\00. Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>01. Obj\01. Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
       <Filter>01. Obj\02.Block</Filter>
@@ -202,6 +229,21 @@
     </ClCompile>
     <ClCompile Include="MyEdit.cpp">
       <Filter>02. Scene\03. Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMgr.cpp">
+      <Filter>98. Design\TileMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>01. Obj\04. Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollMgr.cpp">
+      <Filter>98. Design\ScrollMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMgr.cpp">
+      <Filter>98. Design\CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Blade.cpp">
+      <Filter>01. Obj\01. Blade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

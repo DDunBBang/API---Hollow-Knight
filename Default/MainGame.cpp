@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "MainGame.h"
-//#include "AbstractFactory.h"
+#include "AbstractFactory.h"
 #include "ObjMgr.h"
 #include "KeyMgr.h"
-//#include "ScrollMgr.h"
+#include "ScrollMgr.h"
 #include "BmpMgr.h"
 #include "SceneMgr.h"
 
@@ -33,6 +33,7 @@ void CMainGame::Update(void)
 void CMainGame::Late_Update(void)
 {
 	CSceneMgr::Get_Instance()->Late_Update();
+	CScrollMgr::Get_Instance()->Scroll_Lock();
 }
 
 void CMainGame::Render(void)
@@ -47,9 +48,8 @@ void CMainGame::Release(void)
 {
 	CSceneMgr::Get_Instance()->Destroy_Instance();
 	CBmpMgr::Get_Instance()->Destroy_Instance();
-//	CScrollMgr::Get_Instance()->Destroy_Instance();
+	CScrollMgr::Get_Instance()->Destroy_Instance();
 	CKeyMgr::Get_Instance()->Destroy_Instance();
-//	CLineMgr::Get_Instance()->Destroy_Instance();
 	CObjMgr::Get_Instance()->Destroy_Instance();
 
 	ReleaseDC(g_hWnd, m_hDC);
