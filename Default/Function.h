@@ -50,16 +50,20 @@ public:
 
 class CTag_Finder
 {
+private:
+	const TCHAR*		m_pTag;
+
 public:
-	CTag_Finder(char* pTag) : m_pTag(pTag) {}
+	CTag_Finder(const TCHAR* pTag) : m_pTag(pTag) {}
 
 public:
 	template<typename T>
-	bool operator()(T& Pair)
+	bool	operator()(T& Pair)
 	{
-		return !strcmp(Pair.first, m_pTag);
+		if (!lstrcmp(m_pTag, Pair.first))
+			return true;
+
+		return false;
 	}
 
-private:
-	char*		m_pTag;
 };

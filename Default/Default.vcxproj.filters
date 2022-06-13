@@ -28,6 +28,33 @@
     <Filter Include="01. Obj\01. Bullet">
       <UniqueIdentifier>{cb354089-a3ec-4072-9787-d3188e847d88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\02.Block">
+      <UniqueIdentifier>{b0fb3429-a809-4f41-a5b5-e66a4b091b0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Monster">
+      <UniqueIdentifier>{8bb14015-b890-4b92-a50d-3c4e2c36f485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design">
+      <UniqueIdentifier>{b5fb12fe-0897-4586-8449-025f0001644f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\ObjMgr">
+      <UniqueIdentifier>{03ee5884-6134-42b0-8b38-07b1c608c22f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\SceneMgr">
+      <UniqueIdentifier>{976c48a9-a37a-4973-85b8-8c4cc8edb8e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene">
+      <UniqueIdentifier>{08cae6e1-7159-4288-81eb-2f928a773dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\KeyMgr">
+      <UniqueIdentifier>{2847cd3b-05c1-48be-95d9-44000089b181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\BmpMgr">
+      <UniqueIdentifier>{0108867d-afef-4dc9-8a25-a914267a2aa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\BmpMgr\MyBmp">
+      <UniqueIdentifier>{97e2e941-9be3-4079-8815-ffd91ccbd1a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -72,6 +99,30 @@
     <ClInclude Include="Enum.h">
       <Filter>99. Header</Filter>
     </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>01. Obj\02.Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>01. Obj\03.Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>98. Design\SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjMgr.h">
+      <Filter>98. Design\ObjMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>02. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyMgr.h">
+      <Filter>98. Design\KeyMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="BmpMgr.h">
+      <Filter>98. Design\BmpMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBmp.h">
+      <Filter>98. Design\BmpMgr\MyBmp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -91,6 +142,30 @@
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>01. Obj\01. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>01. Obj\02.Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>01. Obj\03.Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>98. Design\SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjMgr.cpp">
+      <Filter>98. Design\ObjMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>02. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMgr.cpp">
+      <Filter>98. Design\KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="BmpMgr.cpp">
+      <Filter>98. Design\BmpMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBmp.cpp">
+      <Filter>98. Design\BmpMgr\MyBmp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
