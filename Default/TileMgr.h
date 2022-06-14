@@ -16,7 +16,7 @@ public:
 	void Release(void);
 
 public:
-	void Picking_Tile(POINT& _pt, int _iDrawID, int _iOption);
+	void Picking_Tile(POINT& _pt);
 	void Save_Tile(void);
 	void Load_Tile(void);
 

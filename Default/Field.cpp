@@ -8,7 +8,6 @@
 #include "AbstractFactory.h"
 #include "Player.h"
 #include "ScrollMgr.h"
-#include "Block.h"
 #include "Bottom.h"
 #include "Wall_L.h"
 #include "Wall_R.h"
@@ -29,12 +28,6 @@ void CField::Initialize(void)
 {
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bg/Field.bmp", L"Field");
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
-	CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(400.f, 650.f));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CBottom>::Create(464.f, 650.f));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CTop>::Create(528.f, 650.f));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CWall_L>::Create(592.f, 650.f));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CWall_R>::Create(656.f, 650.f));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(729.f, 650.f));
 }
 
 int CField::Update(void)

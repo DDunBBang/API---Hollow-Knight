@@ -19,10 +19,7 @@ void CTile::Initialize(void)
 	m_tInfo.fCX = TILECX;
 	m_tInfo.fCY = TILECY;
 
-	m_iDrawID = 0;
-	m_iOption = 0;
-
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bg/Field.bmp", L"Tile");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/Tile.bmp", L"Tile");
 }
 
 int CTile::Update(void)
@@ -51,10 +48,10 @@ void CTile::Render(HDC hDC)
 		int(m_tInfo.fCX),
 		int(m_tInfo.fCY),
 		hMemDC,
-		TILECX * m_iDrawID,
 		0,
-		909,
-		507,
+		0,
+		101,
+		101,
 		RGB(255, 0, 0));
 }
 

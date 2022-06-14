@@ -97,6 +97,15 @@
     <Filter Include="01. Obj\02.Block\Top">
       <UniqueIdentifier>{ae112871-b89d-4d85-ae07-d9b0dce2bdf7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\06. Trap">
+      <UniqueIdentifier>{dc795cfc-735f-42c5-9795-e97198a59c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\06. Trap\Spear">
+      <UniqueIdentifier>{314f258f-49f7-40a2-ad16-927c868043b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\06. Trap\Trap">
+      <UniqueIdentifier>{7d93d832-f0d9-4e8b-974f-6d3acca8ce37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -137,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="Enum.h">
       <Filter>99. Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>01. Obj\02.Block</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>01. Obj\03.Monster</Filter>
@@ -207,6 +213,18 @@
     <ClInclude Include="Wall_L.h">
       <Filter>01. Obj\02.Block\Wall</Filter>
     </ClInclude>
+    <ClInclude Include="Trap.h">
+      <Filter>01. Obj\06. Trap\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="Spear.h">
+      <Filter>01. Obj\06. Trap\Spear</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap_L.h">
+      <Filter>01. Obj\06. Trap\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap_R.h">
+      <Filter>01. Obj\06. Trap\Trap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -223,9 +241,6 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>01. Obj\00. Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>01. Obj\02.Block</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>01. Obj\03.Monster</Filter>
@@ -289,6 +304,18 @@
     </ClCompile>
     <ClCompile Include="Wall_L.cpp">
       <Filter>01. Obj\02.Block\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap.cpp">
+      <Filter>01. Obj\06. Trap\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="Spear.cpp">
+      <Filter>01. Obj\06. Trap\Spear</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap_L.cpp">
+      <Filter>01. Obj\06. Trap\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap_R.cpp">
+      <Filter>01. Obj\06. Trap\Trap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

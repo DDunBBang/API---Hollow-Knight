@@ -1,18 +1,17 @@
 #pragma once
 #include "Obj.h"
-class CTile :
+class CTrap :
 	public CObj
 {
 public:
-	CTile();
-	virtual ~CTile();
+	CTrap();
+	virtual ~CTrap();
 
 public:
 	virtual void Initialize(void) override;
-	virtual int Update(void) override;
-	virtual void Late_Update(void) override;
+	virtual int  Update(void) override;
+	virtual	void Late_Update(void);
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
-
 };
 
