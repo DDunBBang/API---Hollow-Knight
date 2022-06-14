@@ -82,6 +82,12 @@
     <Filter Include="01. Obj\01. Blade">
       <UniqueIdentifier>{897e18cc-99e5-47f8-a901-4bc5a39cd58e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\05. Effect">
+      <UniqueIdentifier>{2bcd18bc-d57e-4d26-8551-d4148e8e7181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\05. Effect\Dash">
+      <UniqueIdentifier>{a52e2a1d-437d-4311-be60-d9f72dfff7c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -177,6 +183,9 @@
     <ClInclude Include="Blade.h">
       <Filter>01. Obj\01. Blade</Filter>
     </ClInclude>
+    <ClInclude Include="Dash.h">
+      <Filter>01. Obj\05. Effect\Dash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -244,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="Blade.cpp">
       <Filter>01. Obj\01. Blade</Filter>
+    </ClCompile>
+    <ClCompile Include="Dash.cpp">
+      <Filter>01. Obj\05. Effect\Dash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

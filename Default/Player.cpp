@@ -6,6 +6,7 @@
 #include "Blade.h"
 #include "AbstractFactory.h"
 #include "ObjMgr.h"
+#include "Dash.h"
 
 CPlayer::CPlayer()
 	: m_bJump(false), m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_bLand(false),
@@ -39,8 +40,8 @@ void CPlayer::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/jump_down.bmp", L"Player_DOWN");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/jump_land.bmp", L"Player_LAND");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/jump_start.bmp", L"Player_JUMP");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/dash/Dash_L.bmp", L"Player_Dash_L");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/dash/Dash_R.bmp", L"Player_Dash_R");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/dash/Dash.bmp", L"Player_Dash");
+
 
 	m_tFrame.iFrameStart = 0;
 	m_tFrame.iFrameEnd = 7;
@@ -61,8 +62,8 @@ int CPlayer::Update(void)
 		Dash();
 	else
 	{
-		Jumping();
 		Key_Input();
+		Jumping();	
 	}
 	Update_Rect();
 
@@ -141,7 +142,7 @@ void CPlayer::Key_Input(void)
 		{
 			if (m_dwAttackTime + 150 < GetTickCount())
 			{
-				if (m_ePreState != DASH && CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 				{
 					if(DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY - 80, DIR_LT));
@@ -158,7 +159,7 @@ void CPlayer::Key_Input(void)
 		}
 		else if (m_dwAttackTime + 200 < GetTickCount())
 		{
-			if (m_ePreState != DASH && CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+			if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 			{
 				if (DIR_LEFT == m_eDir)
 					CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX - 80, m_tInfo.fY, m_eDir));
@@ -189,7 +190,7 @@ void CPlayer::Key_Input(void)
 		{
 			if (m_dwAttackTime + 150 < GetTickCount())
 			{
-				if (m_ePreState != DASH && CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 				{
 					if(DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY + 80, DIR_LD));
@@ -208,7 +209,7 @@ void CPlayer::Key_Input(void)
 		{
 			if (m_dwAttackTime + 150 < GetTickCount())
 			{
-				if (m_ePreState != DASH && CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 				{
 					if (DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY - 80, DIR_LT));
@@ -223,7 +224,7 @@ void CPlayer::Key_Input(void)
 					m_dwAttackTime = GetTickCount();
 			}
 		}
-		else if (m_ePreState != DASH && m_dwAttackTime + 150 < GetTickCount())
+		else if (m_dwAttackTime + 150 < GetTickCount())
 		{
 			if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 			{
@@ -243,6 +244,7 @@ void CPlayer::Key_Input(void)
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_LSHIFT))
 	{
 		m_bDash = true;
+		CObjMgr::Get_Instance()->Add_Object(OBJ_DASH, CAbstractFactory<CDash>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
 		m_dwDashTime = GetTickCount();
 	}
 }
@@ -265,19 +267,15 @@ void CPlayer::Jumping(void)
 void CPlayer::Dash(void)
 {
 	m_eCurState = DASH;
+	m_pFrameKey = L"Player_Dash";
 	if (DIR_LEFT == m_eDir)
-	{
-		m_pFrameKey = L"Player_Dash_L";
 		m_tInfo.fX -= m_fSpeed*4.f;
-	}
-	else if (DIR_RIGHT == m_eDir)
-	{
-		m_pFrameKey = L"Player_Dash_R";
+	if (DIR_RIGHT == m_eDir)
 		m_tInfo.fX += m_fSpeed*4.f;
-	}
 	if (m_dwDashTime + 150 < GetTickCount())
 	{
 		m_bDash = false;
+		CObjMgr::Get_Instance()->Delete_ID(OBJ_DASH);
 	}
 }
 
