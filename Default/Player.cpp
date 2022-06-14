@@ -9,7 +9,7 @@
 
 CPlayer::CPlayer()
 	: m_bJump(false), m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_bLand(false),
-	m_dwAttackTime(GetTickCount()), m_fJumpPower(0.f), m_fTime(0.f)
+	m_dwAttackTime(GetTickCount()), m_fJumpPower(0.f), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount())
 {
 
 }
@@ -24,7 +24,7 @@ void CPlayer::Initialize(void)
 {
 	m_tInfo = { 400.f, 600.f, 180.f, 90.f };
 	m_fSpeed = 7.f;
-	m_fJumpPower = 10.f;
+	m_fJumpPower = 12.f;
 	m_eDir = DIR_RIGHT;
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/Player.bmp", L"Player");
@@ -39,6 +39,8 @@ void CPlayer::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/jump_down.bmp", L"Player_DOWN");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/jump_land.bmp", L"Player_LAND");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/jump_start.bmp", L"Player_JUMP");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/dash/Dash_L.bmp", L"Player_Dash_L");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/dash/Dash_R.bmp", L"Player_Dash_R");
 
 	m_tFrame.iFrameStart = 0;
 	m_tFrame.iFrameEnd = 7;
@@ -54,9 +56,14 @@ int CPlayer::Update(void)
 {
 	if (m_bDead)
 		return OBJ_DEAD;
-	Key_Input();
 	Offset();
-	Jumping();
+	if (m_bDash)
+		Dash();
+	else
+	{
+		Jumping();
+		Key_Input();
+	}
 	Update_Rect();
 
 	return OBJ_NOEVENT;
@@ -134,7 +141,7 @@ void CPlayer::Key_Input(void)
 		{
 			if (m_dwAttackTime + 150 < GetTickCount())
 			{
-				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (m_ePreState != DASH && CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 				{
 					if(DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY - 80, DIR_LT));
@@ -145,11 +152,13 @@ void CPlayer::Key_Input(void)
 					if (4 == m_tFrame.iFrameStart)
 						m_dwAttackTime = GetTickCount();
 				}
+				if(CKeyMgr::Get_Instance()->Key_Up('Z'))
+					m_dwAttackTime = GetTickCount();
 			}
 		}
 		else if (m_dwAttackTime + 200 < GetTickCount())
 		{
-			if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+			if (m_ePreState != DASH && CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 			{
 				if (DIR_LEFT == m_eDir)
 					CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX - 80, m_tInfo.fY, m_eDir));
@@ -160,6 +169,8 @@ void CPlayer::Key_Input(void)
 				if (4 == m_tFrame.iFrameStart)
 					m_dwAttackTime = GetTickCount();
 			}
+			if (CKeyMgr::Get_Instance()->Key_Up('Z'))
+				m_dwAttackTime = GetTickCount();
 		}
 	}
 	else
@@ -178,7 +189,7 @@ void CPlayer::Key_Input(void)
 		{
 			if (m_dwAttackTime + 150 < GetTickCount())
 			{
-				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (m_ePreState != DASH && CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 				{
 					if(DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY + 80, DIR_LD));
@@ -189,13 +200,15 @@ void CPlayer::Key_Input(void)
 					if (4 == m_tFrame.iFrameStart)
 						m_dwAttackTime = GetTickCount();
 				}
+				if (CKeyMgr::Get_Instance()->Key_Up('Z'))
+					m_dwAttackTime = GetTickCount();
 			}
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
 			if (m_dwAttackTime + 150 < GetTickCount())
 			{
-				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (m_ePreState != DASH && CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 				{
 					if (DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY - 80, DIR_LT));
@@ -206,9 +219,11 @@ void CPlayer::Key_Input(void)
 					if (4 == m_tFrame.iFrameStart)
 						m_dwAttackTime = GetTickCount();
 				}
+				if (CKeyMgr::Get_Instance()->Key_Up('Z'))
+					m_dwAttackTime = GetTickCount();
 			}
 		}
-		else if (m_dwAttackTime + 150 < GetTickCount())
+		else if (m_ePreState != DASH && m_dwAttackTime + 150 < GetTickCount())
 		{
 			if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
 			{
@@ -221,9 +236,15 @@ void CPlayer::Key_Input(void)
 				if (4 == m_tFrame.iFrameStart)
 					m_dwAttackTime = GetTickCount();
 			}
+			if (CKeyMgr::Get_Instance()->Key_Up('Z'))
+				m_dwAttackTime = GetTickCount();
 		}
 	}
-
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_LSHIFT))
+	{
+		m_bDash = true;
+		m_dwDashTime = GetTickCount();
+	}
 }
 
 void CPlayer::Jumping(void)
@@ -231,7 +252,33 @@ void CPlayer::Jumping(void)
 	if (m_bJump)
 		m_tInfo.fY -= m_fJumpPower;
 	else
+	{
 		m_tInfo.fY += m_fJumpPower*1.2;
+		if (!m_bLand)
+		{
+			m_eCurState = DOWN;
+			m_pFrameKey = L"Player_DOWN";
+		}
+	}
+}
+
+void CPlayer::Dash(void)
+{
+	m_eCurState = DASH;
+	if (DIR_LEFT == m_eDir)
+	{
+		m_pFrameKey = L"Player_Dash_L";
+		m_tInfo.fX -= m_fSpeed*4.f;
+	}
+	else if (DIR_RIGHT == m_eDir)
+	{
+		m_pFrameKey = L"Player_Dash_R";
+		m_tInfo.fX += m_fSpeed*4.f;
+	}
+	if (m_dwDashTime + 150 < GetTickCount())
+	{
+		m_bDash = false;
+	}
 }
 
 void CPlayer::Offset(void)
@@ -283,6 +330,11 @@ void CPlayer::Motion_Change(void)
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::DASH:
+			m_tFrame.iFrameStart = 0;
+			m_tFrame.iFrameEnd = 0;
+
+			m_tFrame.dwFrameSpeed = 0;
+			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::JUMP:
 			m_tFrame.iFrameStart = 0;
@@ -302,7 +354,7 @@ void CPlayer::Motion_Change(void)
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 4;
 
-			m_tFrame.dwFrameSpeed = 30;
+			m_tFrame.dwFrameSpeed = 60;
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::HIT:

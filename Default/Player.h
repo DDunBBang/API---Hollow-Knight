@@ -21,17 +21,20 @@ public:
 private:
 	void		Key_Input(void);
 	void		Jumping(void);
+	void		Dash(void);
 	void		Offset(void);
 	void		Motion_Change(void);
 
 private:
 	bool				m_bJump;
 	bool				m_bLand;
+	bool				m_bDash;
 
 	float				m_fJumpPower;
 	float				m_fTime;
 	DWORD				m_dwJumpTime;
 	DWORD				m_dwAttackTime;
+	DWORD				m_dwDashTime;
 
 	STATE				m_ePreState;
 	STATE				m_eCurState;
