@@ -1,38 +1,37 @@
 #include "stdafx.h"
-#include "Block.h"
-#include "ScrollMgr.h"
+#include "Wall_R.h"
 #include "BmpMgr.h"
+#include "ScrollMgr.h"
 
-CBlock::CBlock()
+
+CWall_R::CWall_R()
 {
 }
 
 
-CBlock::~CBlock()
+CWall_R::~CWall_R()
 {
 }
 
-void CBlock::Initialize(void)
+void CWall_R::Initialize(void)
 {
 	m_tInfo.fCX = 64.f;
-	m_tInfo.fCY = 64.f;
-
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/Tile.bmp", L"Tile");
-
-	m_pFrameKey = L"Tile";
+	m_tInfo.fCY = 128.f;
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/wall_R.bmp", L"Wall_R");
+	m_pFrameKey = L"Wall_R";
 }
 
-int CBlock::Update(void)
+int CWall_R::Update(void)
 {
 	Update_Rect();
-	return OBJ_NOEVENT;
+	return 0;
 }
 
-void CBlock::Late_Update(void)
+void CWall_R::Late_Update(void)
 {
 }
 
-void CBlock::Render(HDC hDC)
+void CWall_R::Render(HDC hDC)
 {
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
@@ -47,11 +46,11 @@ void CBlock::Render(HDC hDC)
 		hMemDC,
 		0,
 		0,
-		100,
-		100,
+		202,
+		313,
 		RGB(255, 255, 255));
 }
 
-void CBlock::Release(void)
+void CWall_R::Release(void)
 {
 }

@@ -45,15 +45,6 @@ void CTile::Render(HDC hDC)
 
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(L"Tile");
 
-	/*BitBlt(hDC,
-		m_tRect.left + iScrollX,
-		m_tRect.top + iScrollY,
-		(int)m_tInfo.fCX,
-		(int)m_tInfo.fCY,
-		hMemDC,
-		TILECX * m_iDrawID,
-		0,
-		SRCCOPY);*/
 	GdiTransparentBlt(hDC,
 		int(m_tRect.left) + iScrollX,
 		int(m_tRect.top) + iScrollY,

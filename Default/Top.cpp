@@ -1,38 +1,38 @@
 #include "stdafx.h"
-#include "Block.h"
-#include "ScrollMgr.h"
+#include "Top.h"
 #include "BmpMgr.h"
+#include "ScrollMgr.h"
 
-CBlock::CBlock()
+
+CTop::CTop()
 {
 }
 
 
-CBlock::~CBlock()
+CTop::~CTop()
 {
 }
 
-void CBlock::Initialize(void)
+void CTop::Initialize(void)
 {
-	m_tInfo.fCX = 64.f;
+	m_tInfo.fCX = 128.f;
 	m_tInfo.fCY = 64.f;
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/Top.bmp", L"Top");
 
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/Tile.bmp", L"Tile");
-
-	m_pFrameKey = L"Tile";
+	m_pFrameKey = L"Top";
 }
 
-int CBlock::Update(void)
+int CTop::Update(void)
 {
 	Update_Rect();
-	return OBJ_NOEVENT;
+	return 0;
 }
 
-void CBlock::Late_Update(void)
+void CTop::Late_Update(void)
 {
 }
 
-void CBlock::Render(HDC hDC)
+void CTop::Render(HDC hDC)
 {
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
@@ -47,11 +47,11 @@ void CBlock::Render(HDC hDC)
 		hMemDC,
 		0,
 		0,
-		100,
-		100,
+		313,
+		202,
 		RGB(255, 255, 255));
 }
 
-void CBlock::Release(void)
+void CTop::Release(void)
 {
 }

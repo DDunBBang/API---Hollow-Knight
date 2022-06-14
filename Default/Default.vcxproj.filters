@@ -88,6 +88,15 @@
     <Filter Include="01. Obj\05. Effect\Dash">
       <UniqueIdentifier>{a52e2a1d-437d-4311-be60-d9f72dfff7c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\02.Block\Bottom">
+      <UniqueIdentifier>{f34c57d7-b5e3-44a2-8268-8a3594745d3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\Wall">
+      <UniqueIdentifier>{a3cca7ba-cb4d-43d7-94e3-f2869233ad3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02.Block\Top">
+      <UniqueIdentifier>{ae112871-b89d-4d85-ae07-d9b0dce2bdf7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -186,6 +195,18 @@
     <ClInclude Include="Dash.h">
       <Filter>01. Obj\05. Effect\Dash</Filter>
     </ClInclude>
+    <ClInclude Include="Bottom.h">
+      <Filter>01. Obj\02.Block\Bottom</Filter>
+    </ClInclude>
+    <ClInclude Include="Top.h">
+      <Filter>01. Obj\02.Block\Top</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall_R.h">
+      <Filter>01. Obj\02.Block\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall_L.h">
+      <Filter>01. Obj\02.Block\Wall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -256,6 +277,18 @@
     </ClCompile>
     <ClCompile Include="Dash.cpp">
       <Filter>01. Obj\05. Effect\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="Bottom.cpp">
+      <Filter>01. Obj\02.Block\Bottom</Filter>
+    </ClCompile>
+    <ClCompile Include="Top.cpp">
+      <Filter>01. Obj\02.Block\Top</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall_R.cpp">
+      <Filter>01. Obj\02.Block\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall_L.cpp">
+      <Filter>01. Obj\02.Block\Wall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

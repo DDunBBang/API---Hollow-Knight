@@ -1,39 +1,41 @@
 #include "stdafx.h"
-#include "Block.h"
-#include "ScrollMgr.h"
+#include "Bottom.h"
 #include "BmpMgr.h"
+#include "ScrollMgr.h"
 
-CBlock::CBlock()
+CBottom::CBottom()
 {
 }
 
 
-CBlock::~CBlock()
+CBottom::~CBottom()
 {
 }
 
-void CBlock::Initialize(void)
+void CBottom::Initialize(void)
 {
-	m_tInfo.fCX = 64.f;
+	m_tInfo.fCX = 128.f;
 	m_tInfo.fCY = 64.f;
 
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/Tile.bmp", L"Tile");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bottom.bmp", L"Bottom");
 
-	m_pFrameKey = L"Tile";
+	m_pFrameKey = L"Bottom";
 }
 
-int CBlock::Update(void)
+int CBottom::Update(void)
 {
+
 	Update_Rect();
-	return OBJ_NOEVENT;
+	return 0;
 }
 
-void CBlock::Late_Update(void)
+void CBottom::Late_Update(void)
 {
 }
 
-void CBlock::Render(HDC hDC)
+void CBottom::Render(HDC hDC)
 {
+
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
 
@@ -47,11 +49,11 @@ void CBlock::Render(HDC hDC)
 		hMemDC,
 		0,
 		0,
-		100,
-		100,
+		313,
+		202,
 		RGB(255, 255, 255));
 }
 
-void CBlock::Release(void)
+void CBottom::Release(void)
 {
 }

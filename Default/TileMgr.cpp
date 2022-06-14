@@ -18,17 +18,17 @@ CTileMgr::~CTileMgr()
 
 void CTileMgr::Initialize(void)
 {
-	for (int i = 0; i < TILEY; ++i)
-	{
-		for (int j = 0; j < TILEX; ++j)
-		{
-			float	fX = (float)(TILECX * j) + (TILECX >> 1);
-			float	fY = (float)(TILECY * i) + (TILECY >> 1);
+	//for (int i = 0; i < TILEY; ++i)
+	//{
+	//	for (int j = 0; j < TILEX; ++j)
+	//	{
+	//		float	fX = (float)(TILECX * j) + (TILECX >> 1);
+	//		float	fY = (float)(TILECY * i) + (TILECY >> 1);
 
-			CObj* pTile = CAbstractFactory<CTile>::Create(fX, fY);
-			m_vecTile.push_back(pTile);
-		}
-	}
+	//		CObj* pTile = CAbstractFactory<CTile>::Create(fX, fY);
+	//		m_vecTile.push_back(pTile);
+	//	}
+	//}
 }
 
 void CTileMgr::Update(void)

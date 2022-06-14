@@ -149,6 +149,7 @@
     <ClInclude Include="Blade.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BmpMgr.h" />
+    <ClInclude Include="Bottom.h" />
     <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="Dash.h" />
     <ClInclude Include="Default.h" />
@@ -176,11 +177,15 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMgr.h" />
+    <ClInclude Include="Top.h" />
+    <ClInclude Include="Wall_L.h" />
+    <ClInclude Include="Wall_R.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blade.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BmpMgr.cpp" />
+    <ClCompile Include="Bottom.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Dash.cpp" />
     <ClCompile Include="Default.cpp" />
@@ -206,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMgr.cpp" />
+    <ClCompile Include="Top.cpp" />
+    <ClCompile Include="Wall_L.cpp" />
+    <ClCompile Include="Wall_R.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Default.rc" />
