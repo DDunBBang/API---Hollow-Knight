@@ -106,8 +106,20 @@
     <Filter Include="01. Obj\06. Trap\Trap">
       <UniqueIdentifier>{7d93d832-f0d9-4e8b-974f-6d3acca8ce37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\07. UI">
-      <UniqueIdentifier>{8fd20064-9d0b-46cc-8d96-7d177b3059f5}</UniqueIdentifier>
+    <Filter Include="03. UI">
+      <UniqueIdentifier>{a8c55f3d-4d9a-472d-a6d4-d87f96eb4b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\00. Soul">
+      <UniqueIdentifier>{7439a726-678e-458d-a236-63e42effe857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\01. Soul_Base">
+      <UniqueIdentifier>{a20de8a4-7250-4ac9-9aca-361105d572b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\02. HP">
+      <UniqueIdentifier>{20ffab00-75f5-4a91-8d58-7eaf8d4207fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\UIMgr">
+      <UniqueIdentifier>{f1746727-7c0b-42ec-b217-9a587f335406}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +240,21 @@
     <ClInclude Include="Trap_R.h">
       <Filter>01. Obj\06. Trap\Trap</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>03. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Soul.h">
+      <Filter>03. UI\00. Soul</Filter>
+    </ClInclude>
+    <ClInclude Include="Soul_Base.h">
+      <Filter>03. UI\01. Soul_Base</Filter>
+    </ClInclude>
+    <ClInclude Include="HP.h">
+      <Filter>03. UI\02. HP</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMgr.h">
+      <Filter>98. Design\UIMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -319,6 +346,21 @@
     </ClCompile>
     <ClCompile Include="Trap_R.cpp">
       <Filter>01. Obj\06. Trap\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>03. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Soul.cpp">
+      <Filter>03. UI\00. Soul</Filter>
+    </ClCompile>
+    <ClCompile Include="Soul_Base.cpp">
+      <Filter>03. UI\01. Soul_Base</Filter>
+    </ClCompile>
+    <ClCompile Include="HP.cpp">
+      <Filter>03. UI\02. HP</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMgr.cpp">
+      <Filter>98. Design\UIMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

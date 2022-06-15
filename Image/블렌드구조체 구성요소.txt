@@ -1,0 +1,8 @@
+BYTE BlendOp
+: 원본 혼합 방식 지정. 현재는 원본 이미지와 대상 이미지를 섞는다는 의미인 AC_SRC_OVER만 사용한다.
+BYTE BlendFlags
+: 0이어야 함
+BYTE SourceConstantAlpha
+전체 소스 비트맵에 사용되는 알파 투명도 값 지정함. SourceConstantAlpha는 임의의 픽셀당 알파값과 결합. 0(투명) ~ 255(불투명) 사이의 값 지원해서 그 사이 값 입력하면 반투명 지원하는 것. 그렇기 때문에 AlphtBlend 함수는 TransparentBlt 함수처럼 특정 색을 투명하게 하는게 아니라 Source DC에 있는 픽셀과 Destination DC에 있는 픽셀을 혼합해서 색을 만드는 것
+BYTE AlphaFormat
+: 원본과 destination 비트맵들이 해석되는 방식을 조절한다. 32비트맵인 경우 AC_SRC_ALPHA로 설정하고 그 외에는 0으로 설정.

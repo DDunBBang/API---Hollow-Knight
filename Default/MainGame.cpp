@@ -6,6 +6,7 @@
 #include "ScrollMgr.h"
 #include "BmpMgr.h"
 #include "SceneMgr.h"
+#include "UIMgr.h"
 
 
 CMainGame::CMainGame()
@@ -51,6 +52,7 @@ void CMainGame::Release(void)
 	CScrollMgr::Get_Instance()->Destroy_Instance();
 	CKeyMgr::Get_Instance()->Destroy_Instance();
 	CObjMgr::Get_Instance()->Destroy_Instance();
+	CUIMgr::Get_Instance()->Destroy_Instance();
 
 	ReleaseDC(g_hWnd, m_hDC);
 }

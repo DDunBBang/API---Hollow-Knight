@@ -2,6 +2,7 @@
 #include "MyMenu.h"
 #include "BmpMgr.h"
 #include "ObjMgr.h"
+#include "UIMgr.h"
 #include "KeyMgr.h"
 #include "SceneMgr.h"
 #include "Field.h"
@@ -17,6 +18,7 @@
 #include "Trap_R.h"
 #include "Spear.h"
 #include "TileMgr.h"
+#include "Soul_Base.h"
 
 
 CField::CField()
@@ -35,17 +37,20 @@ void CField::Initialize(void)
 	Load_File();
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bg/Field.bmp", L"Field");
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
+	CUIMgr::Get_Instance()->Add_UI(UI_SOUL_BASE, CAbstractFactory<CSoul_Base>::Create_UI());
 }
 
 int CField::Update(void)
 {
 	CObjMgr::Get_Instance()->Update();
+	CUIMgr::Get_Instance()->Update();
 	return 0;
 }
 
 void CField::Late_Update(void)
 {
 	CObjMgr::Get_Instance()->Late_Update();
+	CUIMgr::Get_Instance()->Late_Update();
 }
 
 void CField::Render(HDC hDC)
@@ -56,6 +61,7 @@ void CField::Render(HDC hDC)
 
 	BitBlt(hDC, iScrollX, iScrollY, 6400, 1664, hField, 0, 0, SRCCOPY);
 	CObjMgr::Get_Instance()->Render(hDC);
+	CUIMgr::Get_Instance()->Render(hDC);
 }
 
 void CField::Release(void)

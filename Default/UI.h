@@ -2,11 +2,11 @@
 
 #include "Include.h"
 
-class CObj
+class CUI
 {
 public:
-	CObj();
-	virtual ~CObj();
+	CUI();
+	virtual ~CUI();
 
 public:
 	void		Set_Pos(float _fX, float _fY)
@@ -17,16 +17,11 @@ public:
 
 	void		Set_PosX(float _fX) { m_tInfo.fX += _fX; }
 	void		Set_PosY(float _fY) { m_tInfo.fY += _fY; }
-
-
 	void		Set_Dir(DIRECTION eDir) { m_eDir = eDir; }
 	void		Set_Dead(void) { m_bDead = true; }
-	void		Set_Angle(float _fAngle) { m_fAngle = _fAngle; }
-	void		Set_Target(CObj* _pTarget) { m_pTarget = _pTarget; }
 	void		Set_FrameKey(TCHAR* _pFrameKey) { m_pFrameKey = _pFrameKey; }
 
 	bool		Get_Dead(void) { return m_bDead; }
-	const float Get_Speed(void) const { return m_fSpeed; }
 
 	const RECT&		Get_Rect(void) const { return m_tRect; }
 	const INFO&		Get_Info(void) const { return m_tInfo; }
@@ -48,13 +43,10 @@ protected:
 	DIRECTION	m_eDir;
 	FRAME		m_tFrame;
 
-	float		m_fSpeed;
 	bool		m_bDead;
-	float		m_fAngle;
-	float		m_fDistance;
 
 	TCHAR*		m_pFrameKey;
-	CObj*		m_pTarget;
 
 	BLENDFUNCTION m_bf;
 };
+
