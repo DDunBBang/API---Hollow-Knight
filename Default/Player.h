@@ -12,6 +12,10 @@ public:
 	virtual ~CPlayer();
 
 public:
+	void Set_Land(bool _bLand) { m_bLand = _bLand; }
+	void Set_Jump(bool _bJump) { m_bJump = _bJump; }
+
+public:
 	virtual void Initialize(void) override;
 	virtual int  Update(void) override;
 	virtual	void Late_Update(void);

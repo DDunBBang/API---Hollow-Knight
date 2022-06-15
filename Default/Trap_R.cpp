@@ -18,12 +18,16 @@ void CTrap_R::Initialize(void)
 	m_pFrameKey = L"Trap_R";
 	m_tInfo.fCX = 64.f;
 	m_tInfo.fCY = 64.f;
+	m_tInfo.eSave = EDIT_TRAP_R;
 }
 
 int CTrap_R::Update(void)
 {
+	if (m_bDead)
+		return OBJ_DEAD;
+
 	Update_Rect();
-	return 0;
+	return OBJ_NOEVENT;
 }
 
 void CTrap_R::Late_Update(void)

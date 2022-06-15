@@ -13,5 +13,8 @@ public:
 	virtual		void	Late_Update(void);
 	virtual		void	Render(HDC hDC);
 	virtual		void	Release(void);
+
+private:
+	void Load_File();
 };
 

@@ -14,9 +14,9 @@ CBottom::~CBottom()
 
 void CBottom::Initialize(void)
 {
-	m_tInfo.fCX = 128.f;
+	m_tInfo.fCX = 64.f;
 	m_tInfo.fCY = 64.f;
-
+	m_tInfo.eSave = EDIT_BOTTOM;
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bottom.bmp", L"Bottom");
 
 	m_pFrameKey = L"Bottom";
@@ -24,9 +24,11 @@ void CBottom::Initialize(void)
 
 int CBottom::Update(void)
 {
+	if (m_bDead)
+		return OBJ_DEAD;
 
 	Update_Rect();
-	return 0;
+	return OBJ_NOEVENT;
 }
 
 void CBottom::Late_Update(void)
@@ -49,8 +51,8 @@ void CBottom::Render(HDC hDC)
 		hMemDC,
 		0,
 		0,
-		313,
-		202,
+		64,
+		64,
 		RGB(255, 255, 255));
 }
 

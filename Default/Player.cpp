@@ -7,6 +7,7 @@
 #include "AbstractFactory.h"
 #include "ObjMgr.h"
 #include "Dash.h"
+#include "CollisionMgr.h"
 
 CPlayer::CPlayer()
 	: m_bJump(false), m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_bLand(false),
@@ -23,7 +24,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	m_tInfo = { 400.f, 600.f, 180.f, 90.f };
+	m_tInfo = { 400.f, 600.f, 35.f, 75.f };
 	m_fSpeed = 7.f;
 	m_fJumpPower = 12.f;
 	m_eDir = DIR_RIGHT;
@@ -55,6 +56,7 @@ void CPlayer::Initialize(void)
 
 int CPlayer::Update(void)
 {
+	Update_Rect();
 	if (m_bDead)
 		return OBJ_DEAD;
 	Offset();
@@ -65,18 +67,11 @@ int CPlayer::Update(void)
 		Key_Input();
 		Jumping();	
 	}
-	Update_Rect();
-
 	return OBJ_NOEVENT;
 }
 
 void CPlayer::Late_Update(void)
 {
-	if (m_tInfo.fY >= 680)
-	{
-		m_bLand = true;
-		m_tInfo.fY = 680.f;
-	}
 	if (m_dwJumpTime + 300 < GetTickCount())
 		m_bJump = false;
 	Motion_Change();
@@ -88,13 +83,14 @@ void CPlayer::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
 
+	//Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(hDC,
-		int(m_tRect.left) + iScrollX,
-		int(m_tRect.top) + iScrollY,
-		int(m_tInfo.fCX),
-		int(m_tInfo.fCY),
+		int(m_tInfo.fX-90) + iScrollX,
+		int(m_tInfo.fY-50) + iScrollY,
+		180,
+		90,
 		hMemDC,	
 		m_tFrame.iMotion * 256,
 		m_tFrame.iFrameStart * 128,
@@ -251,16 +247,39 @@ void CPlayer::Key_Input(void)
 
 void CPlayer::Jumping(void)
 {
+	//if (m_bJump)
+	//	m_tInfo.fY -= m_fJumpPower;
+	//else
+	//{
+	//	if (!m_bLand)
+	//	{
+	//		m_tInfo.fY += m_fJumpPower*1.2;
+	//		m_eCurState = DOWN;
+	//		m_pFrameKey = L"Player_DOWN";
+	//	}
+	//}
+	float fY = 0.f;
+
+	bool bLineCol = CCollisionMgr::Collision_Line(this, CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK), &fY);
+
 	if (m_bJump)
-		m_tInfo.fY -= m_fJumpPower;
-	else
 	{
-		m_tInfo.fY += m_fJumpPower*1.2;
-		if (!m_bLand)
+		m_tInfo.fY -= m_fJumpPower;
+
+	}
+	else if (m_tRect.bottom < fY - 3 || !bLineCol)
+	{
+		m_tInfo.fY += m_fSpeed * 2;
+		if (0 == m_tFrame.iFrameStart)
 		{
 			m_eCurState = DOWN;
 			m_pFrameKey = L"Player_DOWN";
 		}
+	}
+	else if (bLineCol)
+	{
+		m_tInfo.fY = fY - m_tInfo.fCY*0.5;
+		m_bLand = true;
 	}
 }
 
@@ -281,11 +300,11 @@ void CPlayer::Dash(void)
 
 void CPlayer::Offset(void)
 {
-	int iOffsetMinX = 100.f;
-	int iOffsetMaxX = 860.f;
+	int iOffsetMinX = 465.f;
+	int iOffsetMaxX = 485.f;
 
-	int iOffsetMinY = 100.f;
-	int iOffsetMaxY = 620.f;
+	int iOffsetMinY = 355.f;
+	int iOffsetMaxY = 365.f;
 
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();

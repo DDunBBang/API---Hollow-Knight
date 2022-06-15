@@ -22,8 +22,9 @@ void CSpear::Initialize(void)
 
 	m_pFrameKey = L"Spear";
 
-	m_tInfo.fCX = 39.f;
-	m_tInfo.fCY = 105.f;
+	m_tInfo.fCX = 64.f;
+	m_tInfo.fCY = 128.f;
+	m_tInfo.eSave = EDIT_SPEAR;
 }
 
 int CSpear::Update(void)

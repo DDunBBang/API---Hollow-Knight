@@ -1,4 +1,5 @@
 #pragma once
+#include "Enum.h"
 
 typedef struct tagInfo
 {
@@ -6,6 +7,7 @@ typedef struct tagInfo
 	float	fY;
 	float	fCX;	// 가로 사이즈
 	float	fCY;	// 세로 사이즈
+	EDIT	eSave;
 }INFO;
 
 

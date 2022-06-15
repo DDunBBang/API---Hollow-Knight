@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ObjMgr.h"
 #include "Obj.h"
+#include "CollisionMgr.h"
+#include "Player.h"
 
 CObjMgr*		CObjMgr::m_pInstance = nullptr;
 
@@ -61,7 +63,7 @@ void CObjMgr::Delete_ID(OBJID eID)
 int CObjMgr::Update(void)
 {
 	int	iEvent = 0;
-
+	CCollisionMgr::Collision_Rect_Ex(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BLOCK]);
 	for (size_t i = 0; i < OBJ_END; ++i)
 	{
 		for (auto& iter = m_ObjList[i].begin();
@@ -89,7 +91,6 @@ void CObjMgr::Late_Update(void)
 		for (auto& iter : m_ObjList[i])
 		{
 			iter->Late_Update();
-
 			if (m_ObjList[i].empty())
 				break;
 		}

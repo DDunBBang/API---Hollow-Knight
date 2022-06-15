@@ -16,15 +16,20 @@ CWall_R::~CWall_R()
 void CWall_R::Initialize(void)
 {
 	m_tInfo.fCX = 64.f;
-	m_tInfo.fCY = 128.f;
+	m_tInfo.fCY = 64.f;
+	m_tInfo.eSave = EDIT_WALL_R;
+
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/wall_R.bmp", L"Wall_R");
 	m_pFrameKey = L"Wall_R";
 }
 
 int CWall_R::Update(void)
 {
+	if (m_bDead)
+		return OBJ_DEAD;
+
 	Update_Rect();
-	return 0;
+	return OBJ_NOEVENT;
 }
 
 void CWall_R::Late_Update(void)
@@ -46,8 +51,8 @@ void CWall_R::Render(HDC hDC)
 		hMemDC,
 		0,
 		0,
-		202,
-		313,
+		64,
+		64,
 		RGB(255, 255, 255));
 }
 

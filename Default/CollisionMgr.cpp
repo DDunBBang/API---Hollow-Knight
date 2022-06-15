@@ -11,7 +11,7 @@ CCollisionMgr::~CCollisionMgr()
 {
 }
 
-void CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
+bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 {
 	RECT		rc{};
 
@@ -22,16 +22,15 @@ void CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 		{
 			if (IntersectRect(&rc, &(Dest->Get_Rect()), &(Sour->Get_Rect())))
 			{
-				Dest->Set_Dead();
-				Sour->Set_Dead();
+				return true;
 			}
 		}
 	}
-
+	return false;
 
 }
 
-void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour)
+int CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour)
 {
 	for (auto& Dest : _Dest)
 	{
@@ -49,11 +48,13 @@ void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour)
 					if (Dest->Get_Info().fY < Sour->Get_Info().fY)
 					{
 						Dest->Set_PosY(-fHeight);
+						return 1;
 					}
 					// 하 충돌
 					else
 					{
 						Dest->Set_PosY(fHeight);
+						return 2;
 					}
 				}
 
@@ -64,17 +65,49 @@ void CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour)
 					if (Dest->Get_Info().fX < Sour->Get_Info().fX)
 					{
 						Dest->Set_PosX(-fWidth);
+						return 3;
 					}
 					// 우 충돌
 					else
 					{
 						Dest->Set_PosX(fWidth);
+						return 4;
 					}
 				}
 
 			}
 		}
 	}
+	return 0;
+}
+
+bool CCollisionMgr::Collision_Line(CObj* _pObj, list<CObj*>* _Sour, float* _pY)
+{
+
+	CObj* pTarget = nullptr;
+
+	float fMin = 3000.f;
+
+	for (auto& iter : *_Sour)
+	{
+		if (_pObj->Get_Rect().right > iter->Get_Rect().left &&
+			_pObj->Get_Rect().left < iter->Get_Rect().right &&
+			_pObj->Get_Rect().bottom <= iter->Get_Rect().top + _pObj->Get_Speed()*2.f)
+		{
+			if ((iter->Get_Rect().top) - (_pObj->Get_Rect().bottom) < fMin)
+			{
+				pTarget = iter;
+				fMin = (iter->Get_Rect().top) - (_pObj->Get_Rect().bottom);
+			}
+		}
+	}
+
+	if (!pTarget)
+		return false;
+
+	*_pY = pTarget->Get_Rect().top;
+
+	return true;
 }
 
 void CCollisionMgr::Collision_Sphere(list<CObj*> _Dest, list<CObj*> _Sour)
@@ -88,6 +121,18 @@ void CCollisionMgr::Collision_Sphere(list<CObj*> _Dest, list<CObj*> _Sour)
 				Dest->Set_Dead();
 				Sour->Set_Dead();
 			}
+		}
+	}
+}
+
+void CCollisionMgr::Collision_Erase(RECT _Dest, list<CObj*> _Sour)
+{
+	RECT rc{};
+	for (auto& Sour : _Sour)
+	{
+		if (IntersectRect(&rc, &_Dest, &(Sour->Get_Rect())))
+		{
+			Sour->Set_Dead();
 		}
 	}
 }

@@ -12,6 +12,7 @@ private:
 public:
 	CObj*		Get_Player() { return m_ObjList[OBJ_PLAYER].front(); }
 	CObj*		Get_Target(OBJID eID, CObj* pObj);
+	list<CObj*>* Get_ObjList(int _iID) { return &m_ObjList[_iID]; }
 
 public:
 	void		Add_Object(OBJID eID, CObj* pObj);

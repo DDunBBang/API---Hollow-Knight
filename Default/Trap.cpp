@@ -20,12 +20,16 @@ void CTrap::Initialize(void)
 
 	m_tInfo.fCX = 64.f;
 	m_tInfo.fCY = 64.f;
+	m_tInfo.eSave = EDIT_TRAP;
 }
 
 int CTrap::Update(void)
 {
+	if (m_bDead)
+		return OBJ_DEAD;
+
 	Update_Rect();
-	return 0;
+	return OBJ_NOEVENT;
 }
 
 void CTrap::Late_Update(void)

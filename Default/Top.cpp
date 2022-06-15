@@ -15,8 +15,10 @@ CTop::~CTop()
 
 void CTop::Initialize(void)
 {
-	m_tInfo.fCX = 128.f;
+	m_tInfo.fCX = 64.f;
 	m_tInfo.fCY = 64.f;
+	m_tInfo.eSave = EDIT_TOP;
+
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/Top.bmp", L"Top");
 
 	m_pFrameKey = L"Top";
@@ -24,8 +26,11 @@ void CTop::Initialize(void)
 
 int CTop::Update(void)
 {
+	if (m_bDead)
+		return OBJ_DEAD;
+
 	Update_Rect();
-	return 0;
+	return OBJ_NOEVENT;
 }
 
 void CTop::Late_Update(void)
@@ -47,8 +52,8 @@ void CTop::Render(HDC hDC)
 		hMemDC,
 		0,
 		0,
-		313,
-		202,
+		64,
+		64,
 		RGB(255, 255, 255));
 }
 

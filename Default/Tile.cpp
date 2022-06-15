@@ -24,9 +24,10 @@ void CTile::Initialize(void)
 
 int CTile::Update(void)
 {
+	if (m_bDead)
+		return OBJ_DEAD;
 
 	Update_Rect();
-
 	return OBJ_NOEVENT;
 }
 

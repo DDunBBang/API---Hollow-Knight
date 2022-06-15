@@ -106,6 +106,9 @@
     <Filter Include="01. Obj\06. Trap\Trap">
       <UniqueIdentifier>{7d93d832-f0d9-4e8b-974f-6d3acca8ce37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\07. UI">
+      <UniqueIdentifier>{8fd20064-9d0b-46cc-8d96-7d177b3059f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
