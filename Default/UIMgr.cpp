@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "UIMgr.h"
 #include "UI.h"
+#include "KeyMgr.h"
+#include "HP.h"
 
 CUIMgr* CUIMgr::m_pInstance = nullptr;
 
@@ -48,6 +50,10 @@ int CUIMgr::Update(void)
 				++iter;
 		}
 	}
+	for (auto& iter : m_vecHP)
+	{
+		iter->Update();
+	}
 
 	return iEvent;
 }
@@ -63,6 +69,33 @@ void CUIMgr::Late_Update(void)
 				break;
 		}
 	}
+	for (auto& iter : m_vecHP)
+	{
+		iter->Late_Update();
+	}
+	if (CKeyMgr::Get_Instance()->Key_Down('D'))
+	{
+		for (int i = 4; i >= 0; --i)
+		{
+			if (!dynamic_cast<CHP*>(m_vecHP[i])->Get_Destroy())
+			{
+				dynamic_cast<CHP*>(m_vecHP[i])->Set_Destroy(true);
+				break;
+			}
+
+		}
+	}
+	/*if (CKeyMgr::Get_Instance()->Key_Pressing('A'))
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			if (dynamic_cast<CHP*>(m_vecHP[i])->Get_Destroy())
+			{
+				dynamic_cast<CHP*>(m_vecHP[i])->Set_Destroy(false);
+				break;
+			}
+		}
+	}*/
 }
 
 void CUIMgr::Render(HDC hDC)
@@ -71,6 +104,11 @@ void CUIMgr::Render(HDC hDC)
 	{
 		for (auto& iter : m_UIList[i])
 			iter->Render(hDC);
+	}
+
+	for (auto& iter : m_vecHP)
+	{
+		iter->Render(hDC);
 	}
 }
 
@@ -83,4 +121,6 @@ void CUIMgr::Release(void)
 
 		m_UIList[i].clear();
 	}
+	for_each(m_vecHP.begin(), m_vecHP.end(), CDeleteObj());
+	m_vecHP.clear();
 }

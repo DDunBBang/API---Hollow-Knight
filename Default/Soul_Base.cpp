@@ -19,8 +19,8 @@ void CSoul_Base::Initialize(void)
 	
 	m_tInfo.fX = 50.f;
 	m_tInfo.fY = 30.f;
-	m_tInfo.fCX = 200.f;
-	m_tInfo.fCY = 100.f;
+	m_tInfo.fCX = 210.f;
+	m_tInfo.fCY = 130.f;
 }
 
 int CSoul_Base::Update(void)
@@ -38,9 +38,6 @@ void CSoul_Base::Late_Update(void)
 
 void CSoul_Base::Render(HDC hDC)
 {
-	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
-	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
-
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(hDC,

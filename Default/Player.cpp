@@ -7,11 +7,15 @@
 #include "AbstractFactory.h"
 #include "ObjMgr.h"
 #include "Dash.h"
+#include "Charge.h"
 #include "CollisionMgr.h"
+#include "HP.h"
+#include "UIMgr.h"
+#include "Soul.h"
 
 CPlayer::CPlayer()
-	: m_bJump(false), m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_bLand(false),
-	m_dwAttackTime(GetTickCount()), m_fJumpPower(0.f), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount())
+	: m_bJump(false), m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_bLand(false), m_dwHealTime(GetTickCount()),
+	m_dwAttackTime(GetTickCount()), m_fJumpPower(0.f), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false)
 {
 
 }
@@ -42,6 +46,7 @@ void CPlayer::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/jump_land.bmp", L"Player_LAND");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/jump_start.bmp", L"Player_JUMP");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/dash/Dash.bmp", L"Player_Dash");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/Charge.bmp", L"Player_Charge");
 
 
 	m_tFrame.iFrameStart = 0;
@@ -62,6 +67,8 @@ int CPlayer::Update(void)
 	Offset();
 	if (m_bDash)
 		Dash();
+	else if (m_bHeal)
+		Heal();
 	else
 	{
 		Key_Input();
@@ -106,7 +113,17 @@ void CPlayer::Release(void)
 void CPlayer::Key_Input(void)
 {
 	if (m_bLand)
-	{
+	{		
+		if (3 <= *(dynamic_cast<CSoul*>(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL)->front())->Get_Gauge())
+			&& dynamic_cast<CHP*>(CUIMgr::Get_Instance()->Get_HP()->back())->Get_Destroy())
+		{
+			if (CKeyMgr::Get_Instance()->Key_Down('A'))
+			{
+				CObjMgr::Get_Instance()->Add_Object(OBJ_CHARGE, CAbstractFactory<CCharge>::Create(m_tInfo.fX, m_tInfo.fY - 12.f));
+				m_dwHealTime = GetTickCount();
+				m_bHeal = true;
+			}
+		}
 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
 		{
 			m_tInfo.fX += m_fSpeed;
@@ -243,21 +260,11 @@ void CPlayer::Key_Input(void)
 		CObjMgr::Get_Instance()->Add_Object(OBJ_DASH, CAbstractFactory<CDash>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
 		m_dwDashTime = GetTickCount();
 	}
+
 }
 
 void CPlayer::Jumping(void)
 {
-	//if (m_bJump)
-	//	m_tInfo.fY -= m_fJumpPower;
-	//else
-	//{
-	//	if (!m_bLand)
-	//	{
-	//		m_tInfo.fY += m_fJumpPower*1.2;
-	//		m_eCurState = DOWN;
-	//		m_pFrameKey = L"Player_DOWN";
-	//	}
-	//}
 	float fY = 0.f;
 
 	bool bLineCol = CCollisionMgr::Collision_Line(this, CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK), &fY);
@@ -278,7 +285,7 @@ void CPlayer::Jumping(void)
 	}
 	else if (bLineCol)
 	{
-		m_tInfo.fY = fY - m_tInfo.fCY*0.5;
+		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		m_bLand = true;
 	}
 }
@@ -298,13 +305,49 @@ void CPlayer::Dash(void)
 	}
 }
 
+void CPlayer::Heal(void)
+{
+	if (3 <= *(dynamic_cast<CSoul*>(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL)->front())->Get_Gauge()))
+	{
+
+		if (CKeyMgr::Get_Instance()->Key_Pressing('A'))
+		{
+			m_eCurState = CHARGE;
+			m_pFrameKey = L"Player_Charge";
+			if (m_dwHealTime + 900 < GetTickCount())
+			{
+				for (auto& iter : *(CUIMgr::Get_Instance()->Get_HP()))
+				{
+					if (dynamic_cast<CHP*>(iter)->Get_Destroy())
+					{
+						dynamic_cast<CHP*>(iter)->Set_Destroy(false);
+						dynamic_cast<CSoul*>(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL)->front())->Set_Gauge(-3);
+						break;
+					}
+				}
+				m_dwHealTime = GetTickCount();
+			}
+		}
+	}
+	else
+	{
+		m_bHeal = false;
+		CObjMgr::Get_Instance()->Delete_ID(OBJ_CHARGE);
+	}
+	if (CKeyMgr::Get_Instance()->Key_Up('A'))
+	{
+		m_bHeal = false;
+		CObjMgr::Get_Instance()->Delete_ID(OBJ_CHARGE);
+	}
+}
+
 void CPlayer::Offset(void)
 {
-	int iOffsetMinX = 465.f;
-	int iOffsetMaxX = 485.f;
+	int iOffsetMinX = 465;
+	int iOffsetMaxX = 485;
 
-	int iOffsetMinY = 355.f;
-	int iOffsetMaxY = 365.f;
+	int iOffsetMinY = 355;
+	int iOffsetMaxY = 365;
 
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
@@ -371,7 +414,7 @@ void CPlayer::Motion_Change(void)
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 4;
 
-			m_tFrame.dwFrameSpeed = 60;
+			m_tFrame.dwFrameSpeed = 30;
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::HIT:
@@ -381,6 +424,11 @@ void CPlayer::Motion_Change(void)
 		case CPlayer::FIRE:
 			break;
 		case CPlayer::CHARGE:
+			m_tFrame.iFrameStart = 0;
+			m_tFrame.iFrameEnd = 2;
+
+			m_tFrame.dwFrameSpeed = 60;
+			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::END:
 			break;

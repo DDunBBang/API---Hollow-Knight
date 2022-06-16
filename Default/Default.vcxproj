@@ -149,12 +149,14 @@
     <ClInclude Include="Blade.h" />
     <ClInclude Include="BmpMgr.h" />
     <ClInclude Include="Bottom.h" />
+    <ClInclude Include="Charge.h" />
     <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="Dash.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Ending.h" />
     <ClInclude Include="Enum.h" />
+    <ClInclude Include="FalseKnight.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="HP.h" />
@@ -193,10 +195,12 @@
     <ClCompile Include="Blade.cpp" />
     <ClCompile Include="BmpMgr.cpp" />
     <ClCompile Include="Bottom.cpp" />
+    <ClCompile Include="Charge.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Dash.cpp" />
     <ClCompile Include="Default.cpp" />
     <ClCompile Include="Ending.cpp" />
+    <ClCompile Include="FalseKnight.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="HP.cpp" />
     <ClCompile Include="KeyMgr.cpp" />

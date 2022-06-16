@@ -26,6 +26,7 @@ private:
 	void		Key_Input(void);
 	void		Jumping(void);
 	void		Dash(void);
+	void		Heal(void);
 	void		Offset(void);
 	void		Motion_Change(void);
 
@@ -33,12 +34,14 @@ private:
 	bool				m_bJump;
 	bool				m_bLand;
 	bool				m_bDash;
+	bool				m_bHeal;
 
 	float				m_fJumpPower;
 	float				m_fTime;
 	DWORD				m_dwJumpTime;
 	DWORD				m_dwAttackTime;
 	DWORD				m_dwDashTime;
+	DWORD				m_dwHealTime;
 
 	STATE				m_ePreState;
 	STATE				m_eCurState;

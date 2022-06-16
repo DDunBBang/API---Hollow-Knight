@@ -19,6 +19,9 @@
 #include "Spear.h"
 #include "TileMgr.h"
 #include "Soul_Base.h"
+#include "Soul.h"
+#include "HP.h"
+#include "FalseKnight.h"
 
 
 CField::CField()
@@ -37,7 +40,13 @@ void CField::Initialize(void)
 	Load_File();
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bg/Field.bmp", L"Field");
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create());
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL_BASE, CAbstractFactory<CSoul_Base>::Create_UI());
+	CUIMgr::Get_Instance()->Add_UI(UI_SOUL, CAbstractFactory<CSoul>::Create_UI());
+	for (size_t i = 0; i < 5; ++i)
+	{
+		CUIMgr::Get_Instance()->Get_HP()->push_back(CAbstractFactory<CHP>::Create_UI(165.f+(i*50), 15.f));
+	}
 }
 
 int CField::Update(void)

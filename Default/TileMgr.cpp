@@ -65,8 +65,8 @@ void CTileMgr::Release(void)
 
 void CTileMgr::Picking_Tile(POINT& _pt)
 {
-	int	iX = _pt.x - (_pt.x%TILECX) + TILECX * 0.5;
-	int	iY = _pt.y - (_pt.y%TILECY) + TILECY * 0.5;
+	int	iX = (int)(_pt.x - (_pt.x%TILECX) + TILECX * 0.5);
+	int	iY = (int)(_pt.y - (_pt.y%TILECY) + TILECY * 0.5);
 
 	CObj* pTile = CAbstractFactory<CTile>::Create((float)iX, (float)iY);
 	m_vecTile.push_back(pTile);
