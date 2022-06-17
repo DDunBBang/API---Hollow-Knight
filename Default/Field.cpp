@@ -43,6 +43,7 @@ void CField::Initialize(void)
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create());
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL_BASE, CAbstractFactory<CSoul_Base>::Create_UI());
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL, CAbstractFactory<CSoul>::Create_UI());
+
 	for (size_t i = 0; i < 5; ++i)
 	{
 		CUIMgr::Get_Instance()->Get_HP()->push_back(CAbstractFactory<CHP>::Create_UI(165.f+(i*50), 15.f));
@@ -68,7 +69,13 @@ void CField::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
 
-	BitBlt(hDC, iScrollX, iScrollY, 6400, 1664, hField, 0, 0, SRCCOPY);
+	int iMoveX = abs((int)CScrollMgr::Get_Instance()->Get_ScrollX()) - 2;
+	int iMoveY = abs((int)CScrollMgr::Get_Instance()->Get_ScrollY()) - 2;
+
+	int iCullCX = iMoveX + WINCX + 2;
+	int iCullCY = iMoveY + WINCY + 2;
+
+	BitBlt(hDC, iScrollX, iScrollY, iCullCX, iCullCY, hField, 0, 0, SRCCOPY);
 	CObjMgr::Get_Instance()->Render(hDC);
 	CUIMgr::Get_Instance()->Render(hDC);
 }

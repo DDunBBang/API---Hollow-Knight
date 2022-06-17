@@ -31,19 +31,16 @@ private:
 	void		Motion_Change(void);
 
 private:
-	bool				m_bJump;
-	bool				m_bLand;
-	bool				m_bDash;
-	bool				m_bHeal;
+	bool		m_bDash;
+	bool		m_bHeal;
 
-	float				m_fJumpPower;
-	float				m_fTime;
-	DWORD				m_dwJumpTime;
-	DWORD				m_dwAttackTime;
-	DWORD				m_dwDashTime;
-	DWORD				m_dwHealTime;
+	float		m_fTime;
+	DWORD		m_dwJumpTime;
+	DWORD		m_dwAttackTime;
+	DWORD		m_dwDashTime;
+	DWORD		m_dwHealTime;
 
-	STATE				m_ePreState;
-	STATE				m_eCurState;
+	STATE		m_ePreState;
+	STATE		m_eCurState;
 };
 

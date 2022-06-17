@@ -49,9 +49,13 @@ protected:
 	FRAME		m_tFrame;
 
 	float		m_fSpeed;
-	bool		m_bDead;
+	float		m_fJumpPower;
 	float		m_fAngle;
 	float		m_fDistance;
+
+	bool		m_bDead;
+	bool		m_bLand;
+	bool		m_bJump;
 
 	TCHAR*		m_pFrameKey;
 	CObj*		m_pTarget;

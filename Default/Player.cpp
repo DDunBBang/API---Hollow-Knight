@@ -14,8 +14,8 @@
 #include "Soul.h"
 
 CPlayer::CPlayer()
-	: m_bJump(false), m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_bLand(false), m_dwHealTime(GetTickCount()),
-	m_dwAttackTime(GetTickCount()), m_fJumpPower(0.f), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false)
+	: m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_dwHealTime(GetTickCount()),
+	m_dwAttackTime(GetTickCount()), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false)
 {
 
 }

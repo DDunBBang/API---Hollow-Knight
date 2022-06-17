@@ -15,5 +15,14 @@ public:
 	virtual		void	Late_Update(void);
 	virtual		void	Render(HDC hDC);
 	virtual		void	Release(void);
+
+private:
+	void Motion_Change();
+	void Jumping();
+	void Pattern();
+
+private:
+	STATE m_eCurState;
+	STATE m_ePreState;
 };
 
