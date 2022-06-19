@@ -27,18 +27,23 @@ private:
 	void		Jumping(void);
 	void		Dash(void);
 	void		Heal(void);
+	void		Hit(void);
 	void		Offset(void);
 	void		Motion_Change(void);
 
 private:
 	bool		m_bDash;
 	bool		m_bHeal;
+	bool		m_bHit;
+	bool		m_bImu;
 
 	float		m_fTime;
 	DWORD		m_dwJumpTime;
 	DWORD		m_dwAttackTime;
 	DWORD		m_dwDashTime;
 	DWORD		m_dwHealTime;
+	DWORD		m_dwHitTime;
+	DWORD		m_dwImuTime;
 
 	STATE		m_ePreState;
 	STATE		m_eCurState;

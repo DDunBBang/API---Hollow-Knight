@@ -127,6 +127,9 @@
     <Filter Include="01. Obj\03.Monster\FalseKnight">
       <UniqueIdentifier>{3a67a9dc-52bd-4018-8353-2e70a26d8c7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\05. Effect\Hit">
+      <UniqueIdentifier>{aeda87fd-e7ba-4d5b-bf72-8cc0dd75035d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -267,6 +270,9 @@
     <ClInclude Include="FalseKnight.h">
       <Filter>01. Obj\03.Monster\FalseKnight</Filter>
     </ClInclude>
+    <ClInclude Include="Hit.h">
+      <Filter>01. Obj\05. Effect\Hit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -379,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="FalseKnight.cpp">
       <Filter>01. Obj\03.Monster\FalseKnight</Filter>
+    </ClCompile>
+    <ClCompile Include="Hit.cpp">
+      <Filter>01. Obj\05. Effect\Hit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

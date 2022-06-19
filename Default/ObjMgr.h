@@ -47,10 +47,4 @@ public:
 
 private:
 	static		CObjMgr*		m_pInstance;
-
-private:
-	DWORD		m_dwHitTime;
-
-	bool		m_bHit;
-
 };

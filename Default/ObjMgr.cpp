@@ -9,7 +9,6 @@
 CObjMgr*		CObjMgr::m_pInstance = nullptr;
 
 CObjMgr::CObjMgr()
-	: m_bHit(false), m_dwHitTime(GetTickCount())
 {
 }
 
@@ -66,25 +65,6 @@ void CObjMgr::Delete_ID(OBJID eID)
 int CObjMgr::Update(void)
 {
 	int	iEvent = 0;
-	CCollisionMgr::Collision_Rect_Ex(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BLOCK]);
-	if (!m_bHit)
-	{
-		if (CCollisionMgr::Collision_Rect(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_MONSTER]))
-		{
-			m_bHit = true;
-			m_dwHitTime = GetTickCount();
-			for (int i = 4; i>=0; --i)
-			{
-				if (!dynamic_cast<CHP*>((*(CUIMgr::Get_Instance()->Get_HP()))[i])->Get_Destroy())
-				{
-					dynamic_cast<CHP*>((*(CUIMgr::Get_Instance()->Get_HP()))[i])->Set_Destroy(true);
-					break;
-				}
-			}
-		}
-	}
-	if (m_dwHitTime + 1000 < GetTickCount())
-		m_bHit = false;
 
 	for (size_t i = 0; i < OBJ_END; ++i)
 	{

@@ -8,6 +8,7 @@
 #include "ObjMgr.h"
 #include "Dash.h"
 #include "Charge.h"
+#include "Hit.h"
 #include "CollisionMgr.h"
 #include "HP.h"
 #include "UIMgr.h"
@@ -15,7 +16,8 @@
 
 CPlayer::CPlayer()
 	: m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_dwHealTime(GetTickCount()),
-	m_dwAttackTime(GetTickCount()), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false)
+	m_dwAttackTime(GetTickCount()), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false),
+	m_bHit(false), m_dwHitTime(GetTickCount()), m_bImu(false), m_dwImuTime(GetTickCount())
 {
 
 }
@@ -61,11 +63,38 @@ void CPlayer::Initialize(void)
 
 int CPlayer::Update(void)
 {
+	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
+	if (!m_bHit && !m_bImu)
+	{
+		if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))))
+		{
+			CObjMgr::Get_Instance()->Add_Object(OBJ_HIT, CAbstractFactory<CHit>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
+			m_eCurState = HIT;
+			m_pFrameKey = L"Player_HIT";
+			m_bHit = true;
+			m_dwHitTime = GetTickCount();
+			for (int i = 4; i >= 0; --i)
+			{
+				if (!dynamic_cast<CHP*>((*(CUIMgr::Get_Instance()->Get_HP()))[i])->Get_Destroy())
+				{
+					dynamic_cast<CHP*>((*(CUIMgr::Get_Instance()->Get_HP()))[i])->Set_Destroy(true);
+					break;
+				}
+			}
+		}
+	}
+	if (m_bHit && m_dwHitTime + 1000 < GetTickCount())
+	{
+		m_bHit = false;
+	}
+
 	Update_Rect();
 	if (m_bDead)
 		return OBJ_DEAD;
 	Offset();
-	if (m_bDash)
+	if (m_bHit && m_dwHitTime + 300 > GetTickCount())
+		Hit();
+	else if (m_bDash)
 		Dash();
 	else if (m_bHeal)
 		Heal();
@@ -256,6 +285,7 @@ void CPlayer::Key_Input(void)
 	}
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_LSHIFT))
 	{
+		m_dwImuTime = GetTickCount();
 		m_bDash = true;
 		CObjMgr::Get_Instance()->Add_Object(OBJ_DASH, CAbstractFactory<CDash>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
 		m_dwDashTime = GetTickCount();
@@ -292,14 +322,16 @@ void CPlayer::Jumping(void)
 
 void CPlayer::Dash(void)
 {
+	m_bImu = true;
 	m_eCurState = DASH;
 	m_pFrameKey = L"Player_Dash";
 	if (DIR_LEFT == m_eDir)
 		m_tInfo.fX -= m_fSpeed*4.f;
 	if (DIR_RIGHT == m_eDir)
 		m_tInfo.fX += m_fSpeed*4.f;
-	if (m_dwDashTime + 150 < GetTickCount())
+	if (m_dwDashTime + 200 < GetTickCount())
 	{
+		m_bImu = false;
 		m_bDash = false;
 		CObjMgr::Get_Instance()->Delete_ID(OBJ_DASH);
 	}
@@ -339,6 +371,40 @@ void CPlayer::Heal(void)
 		m_bHeal = false;
 		CObjMgr::Get_Instance()->Delete_ID(OBJ_CHARGE);
 	}
+}
+
+void CPlayer::Hit(void)
+{
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
+
+	switch (m_tFrame.iFrameStart)
+	{
+	case 0:
+		CScrollMgr::Get_Instance()->Set_ScrollX(8);
+		CScrollMgr::Get_Instance()->Set_ScrollY(8);
+		break;
+	case 1:
+		CScrollMgr::Get_Instance()->Set_ScrollX(-8);
+		CScrollMgr::Get_Instance()->Set_ScrollY(-8);
+		break;
+	case 2:
+		CScrollMgr::Get_Instance()->Set_ScrollX(-8);
+		break;
+	case 3:
+		CScrollMgr::Get_Instance()->Set_ScrollX(8);
+		break;
+	case 4:
+		CScrollMgr::Get_Instance()->Set_ScrollY(8);
+		break;
+	case 5:
+		CScrollMgr::Get_Instance()->Set_ScrollY(-8);
+		break;
+	}
+	if (DIR_LEFT == m_eDir)
+		m_tInfo.fX += m_fSpeed;
+	else
+		m_tInfo.fX -= m_fSpeed;
 }
 
 void CPlayer::Offset(void)
@@ -418,6 +484,11 @@ void CPlayer::Motion_Change(void)
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::HIT:
+			m_tFrame.iFrameStart = 0;
+			m_tFrame.iFrameEnd = 5;
+
+			m_tFrame.dwFrameSpeed = 50;
+			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::DEAD:
 			break;

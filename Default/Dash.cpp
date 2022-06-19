@@ -28,7 +28,7 @@ void CDash::Initialize(void)
 	else
 		m_tFrame.iMotion = 1;
 
-	m_tFrame.dwFrameSpeed = 30;
+	m_tFrame.dwFrameSpeed = 40;
 	m_tFrame.dwFrameTime = GetTickCount();
 }
 
