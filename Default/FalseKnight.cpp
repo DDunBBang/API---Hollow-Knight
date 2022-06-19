@@ -6,7 +6,8 @@
 #include "ObjMgr.h"
 
 CFalseKnight::CFalseKnight()
-	:m_iPattern(0), m_dwJumpTime(GetTickCount()), m_dwPatternTime(GetTickCount()), m_bPattern(false)
+	:m_iPattern(0), m_dwJumpTime(GetTickCount()), m_dwPatternTime(GetTickCount()), m_bPattern(false), m_dwSelectPattern(GetTickCount()),
+	m_bJumpAttack(false), m_bWave(false), m_bSwing(false)
 {
 }
 
@@ -46,7 +47,15 @@ int CFalseKnight::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	Jumping();
+	if (m_bJumpAttack)
+		Jump_Attack();
+	else if (m_bSwing)
+		Swing();
+	else if (m_bWave)
+		Wave();
+	else
+		Jumping();
+	
 	Update_Rect();
 	return OBJ_NOEVENT;
 }
@@ -55,8 +64,8 @@ void CFalseKnight::Late_Update(void)
 {
 	if (m_dwJumpTime + 400 < GetTickCount())
 		m_bJump = false;
-	if(m_dwPatternTime + 2000 < GetTickCount())
-		SellectPattern();
+	if(m_dwSelectPattern + 2000 < GetTickCount())
+		SelectPattern();
 	Move_Frame();
 	Motion_Change();
 }
@@ -119,12 +128,14 @@ void CFalseKnight::Motion_Change()
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 3;
 			m_tFrame.dwFrameTime = GetTickCount();
+			m_bJumpAttack = true;
 			break;
 		case CFalseKnight::WAVE:
 			m_tFrame.dwFrameSpeed = 150;
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 5;
 			m_tFrame.dwFrameTime = GetTickCount();
+			m_bWave = true;
 			break;
 		case CFalseKnight::SWING:
 			m_tFrame.dwFrameSpeed = 90;
@@ -132,6 +143,7 @@ void CFalseKnight::Motion_Change()
 			m_tFrame.iFrameEnd = 9;
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwFrameTime = GetTickCount();
+			m_bSwing = true;
 			break;
 		case CFalseKnight::GROGGY:
 			m_tFrame.dwFrameSpeed = 150;
@@ -177,7 +189,7 @@ void CFalseKnight::Jumping()
 	}
 }
 
-void CFalseKnight::SellectPattern()
+void CFalseKnight::SelectPattern()
 {
 	m_iPattern = rand() % 11 + 1;
 	if (4 >= m_iPattern)
@@ -200,7 +212,7 @@ void CFalseKnight::SellectPattern()
 		m_eCurState = SWING;
 		m_pFrameKey = L"Swing";
 	}
-	m_dwPatternTime = GetTickCount();
+	m_dwSelectPattern = GetTickCount();
 }
 
 void CFalseKnight::Jump_Attack()

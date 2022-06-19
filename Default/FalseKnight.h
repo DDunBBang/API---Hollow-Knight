@@ -19,7 +19,7 @@ public:
 private:
 	void Motion_Change();
 	void Jumping();
-	void SellectPattern();
+	void SelectPattern();
 	void Jump_Attack();
 	void Wave();
 	void Swing();
@@ -31,8 +31,12 @@ private:
 	int		m_iPattern;
 
 	bool	m_bPattern;
+	bool	m_bJumpAttack;
+	bool	m_bWave;
+	bool	m_bSwing;
 
 	DWORD	m_dwJumpTime;
 	DWORD	m_dwPatternTime;
+	DWORD	m_dwSelectPattern;
 };
 
