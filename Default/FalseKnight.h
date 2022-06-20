@@ -29,11 +29,16 @@ private:
 	STATE	m_ePreState;
 
 	int		m_iPattern;
+	int		m_iLoop;
+	int		m_iWave;
+	int		m_iSwingL;
+	int		m_iSwingR;
 
-	bool	m_bPattern;
 	bool	m_bJumpAttack;
 	bool	m_bWave;
 	bool	m_bSwing;
+	bool	m_bLoop;
+	bool	m_bPattern;
 
 	DWORD	m_dwJumpTime;
 	DWORD	m_dwPatternTime;

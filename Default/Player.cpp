@@ -63,10 +63,20 @@ void CPlayer::Initialize(void)
 
 int CPlayer::Update(void)
 {
+	//블럭충돌
 	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
+
+	//공격판정
+	if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))))
+	{
+		dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
+	}
+
+	//히트판정
 	if (!m_bHit && !m_bImu)
 	{
-		if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))))
+		if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))) ||
+			CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MATTACK))))
 		{
 			CObjMgr::Get_Instance()->Add_Object(OBJ_HIT, CAbstractFactory<CHit>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
 			m_eCurState = HIT;

@@ -4,10 +4,13 @@
 #include "ScrollMgr.h"
 #include "CollisionMgr.h"
 #include "ObjMgr.h"
+#include "AbstractFactory.h"
+#include "Wave.h"
+#include "Attack.h"
 
 CFalseKnight::CFalseKnight()
-	:m_iPattern(0), m_dwJumpTime(GetTickCount()), m_dwPatternTime(GetTickCount()), m_bPattern(false), m_dwSelectPattern(GetTickCount()),
-	m_bJumpAttack(false), m_bWave(false), m_bSwing(false)
+	:m_iPattern(0), m_dwJumpTime(GetTickCount()), m_dwPatternTime(GetTickCount()), m_bLoop(false), m_dwSelectPattern(GetTickCount()),
+	m_bJumpAttack(false), m_bWave(false), m_iWave(1), m_bSwing(false), m_iSwingL(1), m_iSwingR(1), m_iLoop(0), m_bPattern(false)
 {
 }
 
@@ -18,7 +21,7 @@ CFalseKnight::~CFalseKnight()
 
 void CFalseKnight::Initialize(void)
 {
-	m_tInfo = { 700.f, 1000.f, 170.f, 200.f };
+	m_tInfo = { 700.f, 1000.f, 160.f, 300.f };
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Idle.bmp", L"Idle");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Jump.bmp", L"Jump");
@@ -44,6 +47,10 @@ void CFalseKnight::Initialize(void)
 
 int CFalseKnight::Update(void)
 {
+	float	fWidth = fabs(CObjMgr::Get_Instance()->Get_Player()->Get_Info().fX - m_tInfo.fX);
+	float	fHeight = fabs(CObjMgr::Get_Instance()->Get_Player()->Get_Info().fY - m_tInfo.fY);
+	float	fDiagonal = sqrtf(fWidth * fWidth + fHeight * fHeight);
+	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
 	if (m_bDead)
 		return OBJ_DEAD;
 
@@ -55,7 +62,7 @@ int CFalseKnight::Update(void)
 		Wave();
 	else
 		Jumping();
-	
+
 	Update_Rect();
 	return OBJ_NOEVENT;
 }
@@ -64,7 +71,7 @@ void CFalseKnight::Late_Update(void)
 {
 	if (m_dwJumpTime + 400 < GetTickCount())
 		m_bJump = false;
-	if(m_dwSelectPattern + 2000 < GetTickCount())
+	if (m_dwSelectPattern + 2500 < GetTickCount() && !m_bPattern)
 		SelectPattern();
 	Move_Frame();
 	Motion_Change();
@@ -75,14 +82,14 @@ void CFalseKnight::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
 
-	//Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
+	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(hDC,
 		int(m_tInfo.fX-325.f) + iScrollX,
-		int(m_tInfo.fY-260.f) + iScrollY,
+		int(m_tInfo.fY-400.f) + iScrollY,
 		650,
-		390,
+		600,
 		hMemDC,
 		m_tFrame.iFrameStart * 650,
 		m_tFrame.iMotion * 390,
@@ -176,22 +183,40 @@ void CFalseKnight::Jumping()
 
 	if (m_bJump)
 	{
+		if (1 == m_tFrame.iMotion)
+			m_tInfo.fX -= m_fSpeed;
+		else
+			m_tInfo.fX += m_fSpeed;
 		m_tInfo.fY -= m_fJumpPower;
+
+		if (1 == m_tFrame.iFrameStart)
+			m_tFrame.dwFrameTime = GetTickCount();
 	}
 	else if (m_tRect.bottom < fY - 3 || !bLineCol)
 	{
+		if (1 == m_tFrame.iMotion)
+			m_tInfo.fX -= m_fSpeed;
+		else
+			m_tInfo.fX += m_fSpeed;
 		m_tInfo.fY += m_fSpeed * 2;
+		m_bPattern = false;
+		m_dwSelectPattern = GetTickCount();
+
+		if (1 == m_tFrame.iFrameStart)
+			m_tFrame.dwFrameTime = GetTickCount();
 	}
 	else if (bLineCol)
 	{
+		m_eCurState = IDLE;
+		m_pFrameKey = L"Idle";
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
-		m_bLand = true;
 	}
 }
 
 void CFalseKnight::SelectPattern()
 {
-	m_iPattern = rand() % 11 + 1;
+	m_iPattern = rand() % 12 + 1;
+	//m_iPattern = 12;
 	if (4 >= m_iPattern)
 	{
 		m_eCurState = JUMP;
@@ -212,6 +237,8 @@ void CFalseKnight::SelectPattern()
 		m_eCurState = SWING;
 		m_pFrameKey = L"Swing";
 	}
+	m_iLoop = 0;
+	m_bPattern = true;
 	m_dwSelectPattern = GetTickCount();
 }
 
@@ -221,9 +248,64 @@ void CFalseKnight::Jump_Attack()
 
 void CFalseKnight::Wave()
 {
+	if (m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
+	{
+		m_bLoop = true;
+	}
+	if (0 == m_tFrame.iFrameStart && m_bLoop)
+	{
+		m_eCurState = IDLE;
+		m_pFrameKey = L"Idle";
+		m_dwSelectPattern = GetTickCount();
+		m_bWave = false;
+		m_bLoop = false;
+		m_bPattern = false;
+		m_iWave = 1;
+	}
+	if (1 == m_iWave && 4 == m_tFrame.iFrameStart)
+	{
+		--m_iWave;
+		if (1 == m_tFrame.iMotion)
+		{
+			CObjMgr::Get_Instance()->Add_Object(OBJ_MATTACK, CAbstractFactory<CWave>::Create(m_tInfo.fX - 130.f, m_tInfo.fY + 120, DIR_LEFT));
+		}
+		else
+		{
+			CObjMgr::Get_Instance()->Add_Object(OBJ_MATTACK, CAbstractFactory<CWave>::Create(m_tInfo.fX + 130.f, m_tInfo.fY + 120, DIR_RIGHT));
+		}
+	}
 }
 
 void CFalseKnight::Swing()
 {
+	if (m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
+	{
+		m_bLoop = true;
+	}
+	if (0 == m_tFrame.iFrameStart && m_bLoop)
+	{
+		++m_iLoop;
+		m_bLoop = false;
+	}
+	if (4 == m_iLoop)
+	{
+		m_eCurState = IDLE;
+		m_pFrameKey = L"Idle";
+		m_dwSelectPattern = GetTickCount();
+		m_bSwing = false;
+		m_bPattern = false;
+	}
+	if (1 == m_iSwingL && 3 == m_tFrame.iFrameStart)
+	{
+		--m_iSwingL;
+		m_iSwingR = 1;
+		CObjMgr::Get_Instance()->Add_Object(OBJ_MATTACK, CAbstractFactory<CAttack>::Create(m_tInfo.fX - 170.f, m_tInfo.fY + 120));
+	}
+	if (1 == m_iSwingR && 8 == m_tFrame.iFrameStart)
+	{
+		--m_iSwingR;
+		m_iSwingL = 1;
+		CObjMgr::Get_Instance()->Add_Object(OBJ_MATTACK, CAbstractFactory<CAttack>::Create(m_tInfo.fX + 170.f, m_tInfo.fY + 120));
+	}
 }
 

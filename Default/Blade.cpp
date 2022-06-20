@@ -113,7 +113,7 @@ void CBlade::Render(HDC hDC)
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
 
 	HDC hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
-
+	//Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
 	if (!lstrcmp(m_pFrameKey, L"RL_Attack"))
 	{
 		GdiTransparentBlt(hDC,

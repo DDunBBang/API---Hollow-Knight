@@ -130,6 +130,12 @@
     <Filter Include="01. Obj\05. Effect\Hit">
       <UniqueIdentifier>{aeda87fd-e7ba-4d5b-bf72-8cc0dd75035d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\03.Monster\FalseKnight\Wave">
+      <UniqueIdentifier>{75519dbc-2810-40c5-81c7-f94a64a4f4bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Monster\FalseKnight\Attack">
+      <UniqueIdentifier>{016c1989-9f5e-4dd0-9353-fa7a82b6c925}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -273,6 +279,12 @@
     <ClInclude Include="Hit.h">
       <Filter>01. Obj\05. Effect\Hit</Filter>
     </ClInclude>
+    <ClInclude Include="Wave.h">
+      <Filter>01. Obj\03.Monster\FalseKnight\Wave</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.h">
+      <Filter>01. Obj\03.Monster\FalseKnight\Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -388,6 +400,12 @@
     </ClCompile>
     <ClCompile Include="Hit.cpp">
       <Filter>01. Obj\05. Effect\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="Wave.cpp">
+      <Filter>01. Obj\03.Monster\FalseKnight\Wave</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>01. Obj\03.Monster\FalseKnight\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
