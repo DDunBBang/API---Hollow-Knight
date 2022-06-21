@@ -16,6 +16,7 @@
 #include "Spear.h"
 #include "AbstractFactory.h"
 #include "CollisionMgr.h"
+#include "FalseKnight.h"
 
 CMyEdit::CMyEdit()
 	:m_bTrue(false), m_etype(EDIT_END)
@@ -274,6 +275,7 @@ void CMyEdit::Load_File()
 			CObjMgr::Get_Instance()->Add_Object(OBJ_TRAP, CAbstractFactory<CSpear>::Create(tInfo.fX, tInfo.fY));
 			break;
 		case EDIT_BOSS:
+			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create(tInfo.fX, tInfo.fY));
 			break;
 		}
 	}
@@ -361,6 +363,10 @@ void CMyEdit::Key_Input(void)
 				CObjMgr::Get_Instance()->Add_Object(OBJ_TRAP, CAbstractFactory<CSpear>::Create((float)iX, (float)iY));
 			break;
 		case EDIT_BOSS:
+			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
+			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create((float)iX, (float)iY));
 			break;
 		}
 	}

@@ -69,7 +69,11 @@ int CPlayer::Update(void)
 	//공격판정
 	if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))))
 	{
-		dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
+		if (dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Attack())
+		{
+			dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
+			dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Set_Attack(false);
+		}
 	}
 
 	//히트판정
@@ -122,6 +126,11 @@ void CPlayer::Late_Update(void)
 		m_bJump = false;
 	Motion_Change();
 	Move_Frame();
+
+	if (m_ePreState == ATTACK && m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
+	{
+
+	}
 }
 
 void CPlayer::Render(HDC hDC)

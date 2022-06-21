@@ -21,7 +21,10 @@ CFalseKnight::~CFalseKnight()
 
 void CFalseKnight::Initialize(void)
 {
-	m_tInfo = { 700.f, 1000.f, 160.f, 300.f };
+	m_tInfo.eSave = EDIT_BOSS;
+	//m_tInfo = { 700.f, 1000.f, 160.f, 300.f };
+	m_tInfo.fCX = 160.f;
+	m_tInfo.fCY = 300.f;
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Idle.bmp", L"Idle");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Jump.bmp", L"Jump");

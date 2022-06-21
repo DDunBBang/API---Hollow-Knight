@@ -5,6 +5,7 @@
 
 
 CBlade::CBlade()
+	:m_bAttack(true)
 {
 }
 
