@@ -136,6 +136,12 @@
     <Filter Include="01. Obj\03.Monster\FalseKnight\Attack">
       <UniqueIdentifier>{016c1989-9f5e-4dd0-9353-fa7a82b6c925}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\05. Effect\AttackEffect">
+      <UniqueIdentifier>{562174d7-8079-4cf4-b02e-845aa7b67c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. UI\03. Inven">
+      <UniqueIdentifier>{eff60997-017d-401f-8230-d7393cd9a8c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -285,6 +291,12 @@
     <ClInclude Include="Attack.h">
       <Filter>01. Obj\03.Monster\FalseKnight\Attack</Filter>
     </ClInclude>
+    <ClInclude Include="AttackEffect.h">
+      <Filter>01. Obj\05. Effect\AttackEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Inven.h">
+      <Filter>03. UI\03. Inven</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -406,6 +418,12 @@
     </ClCompile>
     <ClCompile Include="Attack.cpp">
       <Filter>01. Obj\03.Monster\FalseKnight\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackEffect.cpp">
+      <Filter>01. Obj\05. Effect\AttackEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Inven.cpp">
+      <Filter>03. UI\03. Inven</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

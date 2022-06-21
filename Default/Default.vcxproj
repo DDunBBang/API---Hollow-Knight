@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractFactory.h" />
     <ClInclude Include="Attack.h" />
+    <ClInclude Include="AttackEffect.h" />
     <ClInclude Include="Blade.h" />
     <ClInclude Include="BmpMgr.h" />
     <ClInclude Include="Bottom.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Hit.h" />
     <ClInclude Include="HP.h" />
     <ClInclude Include="Include.h" />
+    <ClInclude Include="Inven.h" />
     <ClInclude Include="KeyMgr.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Monster.h" />
@@ -196,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="AttackEffect.cpp" />
     <ClCompile Include="Blade.cpp" />
     <ClCompile Include="BmpMgr.cpp" />
     <ClCompile Include="Bottom.cpp" />
@@ -208,6 +211,7 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Hit.cpp" />
     <ClCompile Include="HP.cpp" />
+    <ClCompile Include="Inven.cpp" />
     <ClCompile Include="KeyMgr.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Monster.cpp" />

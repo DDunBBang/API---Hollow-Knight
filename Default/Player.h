@@ -36,6 +36,10 @@ private:
 	bool		m_bHeal;
 	bool		m_bHit;
 	bool		m_bImu;
+	bool		m_bDownAttack;
+	bool		m_bUpAttack;
+	bool		m_bInven;
+	bool		m_bAttack;
 
 	float		m_fTime;
 	DWORD		m_dwJumpTime;

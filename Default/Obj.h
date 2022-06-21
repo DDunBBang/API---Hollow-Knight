@@ -24,6 +24,7 @@ public:
 	void		Set_Angle(float _fAngle) { m_fAngle = _fAngle; }
 	void		Set_Target(CObj* _pTarget) { m_pTarget = _pTarget; }
 	void		Set_FrameKey(TCHAR* _pFrameKey) { m_pFrameKey = _pFrameKey; }
+	void Set_HP(int _iHP) { m_iHP -= _iHP; }
 
 	bool		Get_Dead(void) { return m_bDead; }
 	const float Get_Speed(void) const { return m_fSpeed; }
@@ -47,6 +48,8 @@ protected:
 	RECT		m_tRect;
 	DIRECTION	m_eDir;
 	FRAME		m_tFrame;
+
+	int			m_iHP;
 
 	float		m_fSpeed;
 	float		m_fJumpPower;

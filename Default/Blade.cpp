@@ -29,10 +29,11 @@ void CBlade::Initialize(void)
 		m_tFrame.iFrameEnd = 1;
 		m_tFrame.iMotion = 0;
 
-		m_tFrame.dwFrameSpeed = 100;
+		m_tFrame.dwFrameSpeed = 50;
 		m_tFrame.dwFrameTime = GetTickCount();
-		m_tInfo.fCX = 256.f;
+		m_tInfo.fCX = 200.f;
 		m_tInfo.fCY = 128.f;
+		m_tInfo.fX -= 30.f;
 		break;
 	case DIR_RIGHT:
 		m_pFrameKey = L"RL_Attack";
@@ -40,10 +41,11 @@ void CBlade::Initialize(void)
 		m_tFrame.iFrameEnd = 1;
 		m_tFrame.iMotion = 1;
 
-		m_tFrame.dwFrameSpeed = 100;
+		m_tFrame.dwFrameSpeed = 50;
 		m_tFrame.dwFrameTime = GetTickCount();
-		m_tInfo.fCX = 256.f;
+		m_tInfo.fCX = 200.f;
 		m_tInfo.fCY = 128.f;
+		m_tInfo.fX += 30.f;
 		break;
 	case DIR_LT:
 		m_pFrameKey = L"U_Attack";
@@ -51,10 +53,10 @@ void CBlade::Initialize(void)
 		m_tFrame.iFrameEnd = 1;
 		m_tFrame.iMotion = 0;
 
-		m_tFrame.dwFrameSpeed = 100;
+		m_tFrame.dwFrameSpeed = 50;
 		m_tFrame.dwFrameTime = GetTickCount();
-		m_tInfo.fCX = 256.f;
-		m_tInfo.fCY = 256.f;
+		m_tInfo.fCX = 200.f;
+		m_tInfo.fCY = 180.f;
 		break;
 	case DIR_RT:
 		m_pFrameKey = L"U_Attack";
@@ -62,10 +64,10 @@ void CBlade::Initialize(void)
 		m_tFrame.iFrameEnd = 1;
 		m_tFrame.iMotion = 1;
 
-		m_tFrame.dwFrameSpeed = 100;
+		m_tFrame.dwFrameSpeed = 50;
 		m_tFrame.dwFrameTime = GetTickCount();
-		m_tInfo.fCX = 256.f;
-		m_tInfo.fCY = 256.f;
+		m_tInfo.fCX = 200.f;
+		m_tInfo.fCY = 190.f;
 		break;
 	case DIR_LD:
 		m_pFrameKey = L"D_Attack";
@@ -73,10 +75,11 @@ void CBlade::Initialize(void)
 		m_tFrame.iFrameEnd = 1;
 		m_tFrame.iMotion = 0;
 
-		m_tFrame.dwFrameSpeed = 100;
+		m_tFrame.dwFrameSpeed = 50;
 		m_tFrame.dwFrameTime = GetTickCount();
-		m_tInfo.fCX = 256.f;
-		m_tInfo.fCY = 256.f;
+		m_tInfo.fCX = 200.f;
+		m_tInfo.fCY = 200.f;
+		m_tInfo.fY += 10.f;
 		break;
 	case DIR_RD:
 		m_pFrameKey = L"D_Attack";
@@ -84,10 +87,11 @@ void CBlade::Initialize(void)
 		m_tFrame.iFrameEnd = 1;
 		m_tFrame.iMotion = 1;
 
-		m_tFrame.dwFrameSpeed = 100;
+		m_tFrame.dwFrameSpeed = 50;
 		m_tFrame.dwFrameTime = GetTickCount();
-		m_tInfo.fCX = 256.f;
-		m_tInfo.fCY = 256.f;
+		m_tInfo.fCX = 200.f;
+		m_tInfo.fCY = 200.f;
+		m_tInfo.fY += 10.f;
 		break;
 	}
 }
@@ -104,7 +108,7 @@ int CBlade::Update(void)
 void CBlade::Late_Update(void)
 {
 	Move_Frame();
-	if (m_tFrame.iFrameStart == 0)
+	if (m_tFrame.iFrameStart == m_tFrame.iFrameEnd)
 		m_bDead = true;
 }
 
@@ -118,10 +122,10 @@ void CBlade::Render(HDC hDC)
 	if (!lstrcmp(m_pFrameKey, L"RL_Attack"))
 	{
 		GdiTransparentBlt(hDC,
-			int(m_tRect.left) + iScrollX,
-			int(m_tRect.top) + iScrollY,
-			int(m_tInfo.fCX),
-			int(m_tInfo.fCY),
+			int(m_tInfo.fX - 128.f) + iScrollX,
+			int(m_tInfo.fY - 64.f) + iScrollY,
+			256,
+			128,
 			hMemDC,
 			m_tFrame.iMotion * 256,
 			m_tFrame.iFrameStart * 128,
@@ -132,10 +136,10 @@ void CBlade::Render(HDC hDC)
 	else
 	{
 		GdiTransparentBlt(hDC,
-			int(m_tRect.left) + iScrollX,
-			int(m_tRect.top) + iScrollY,
-			int(m_tInfo.fCX),
-			int(m_tInfo.fCY),
+			int(m_tInfo.fX - 128.f) + iScrollX,
+			int(m_tInfo.fY - 128.f) + iScrollY,
+			256,
+			256,
 			hMemDC,
 			m_tFrame.iMotion * 256,
 			m_tFrame.iFrameStart * 256,

@@ -9,8 +9,8 @@
 #include "Attack.h"
 
 CFalseKnight::CFalseKnight()
-	:m_iPattern(0), m_dwJumpTime(GetTickCount()), m_dwPatternTime(GetTickCount()), m_bLoop(false), m_dwSelectPattern(GetTickCount()),
-	m_bJumpAttack(false), m_bWave(false), m_iWave(1), m_bSwing(false), m_iSwingL(1), m_iSwingR(1), m_iLoop(0), m_bPattern(false)
+	:m_iPattern(0), m_dwJumpTime(GetTickCount()), m_dwPatternTime(GetTickCount()), m_bLoop(false), m_dwSelectPattern(GetTickCount()), m_bTarget(false),
+	m_bJumpAttack(false), m_bWave(false), m_iWave(1), m_bSwing(false), m_iSwingL(1), m_iSwingR(1), m_iLoop(0), m_bPattern(false), m_bGroggy(false)
 {
 }
 
@@ -22,9 +22,10 @@ CFalseKnight::~CFalseKnight()
 void CFalseKnight::Initialize(void)
 {
 	m_tInfo.eSave = EDIT_BOSS;
-	//m_tInfo = { 700.f, 1000.f, 160.f, 300.f };
+	m_tInfo = { 3000.f, 1000.f, 160.f, 300.f };
 	m_tInfo.fCX = 160.f;
 	m_tInfo.fCY = 300.f;
+	m_iHP = 5;
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Idle.bmp", L"Idle");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Jump.bmp", L"Jump");
@@ -53,18 +54,24 @@ int CFalseKnight::Update(void)
 	float	fWidth = fabs(CObjMgr::Get_Instance()->Get_Player()->Get_Info().fX - m_tInfo.fX);
 	float	fHeight = fabs(CObjMgr::Get_Instance()->Get_Player()->Get_Info().fY - m_tInfo.fY);
 	float	fDiagonal = sqrtf(fWidth * fWidth + fHeight * fHeight);
+
+	if (450 > fDiagonal)
+		m_bTarget = true;
 	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	if (m_bJumpAttack)
-		Jump_Attack();
-	else if (m_bSwing)
-		Swing();
-	else if (m_bWave)
-		Wave();
-	else
-		Jumping();
+	if (!m_bGroggy)
+	{
+		if (m_bJumpAttack)
+			Jump_Attack();
+		else if (m_bSwing)
+			Swing();
+		else if (m_bWave)
+			Wave();
+		else
+			Jumping();
+	}
 
 	Update_Rect();
 	return OBJ_NOEVENT;
@@ -72,12 +79,40 @@ int CFalseKnight::Update(void)
 
 void CFalseKnight::Late_Update(void)
 {
+	if (0 == m_iHP)
+	{
+		m_eCurState = GROGGY;
+		m_pFrameKey = L"Groggy";
+		m_tInfo.fCX = 0.f;
+		m_tInfo.fCY = 0.f;
+	}
 	if (m_dwJumpTime + 400 < GetTickCount())
 		m_bJump = false;
-	if (m_dwSelectPattern + 2500 < GetTickCount() && !m_bPattern)
-		SelectPattern();
+	if (m_bTarget)
+	{
+		if (m_dwSelectPattern + 2500 < GetTickCount() && !m_bPattern)
+			SelectPattern();
+	}
 	Move_Frame();
 	Motion_Change();
+	if(m_bGroggy)
+	{
+		if (m_tFrame.iFrameStart == m_tFrame.iFrameEnd)
+		{
+			m_tFrame.dwFrameTime = GetTickCount();
+		}
+		else
+		{
+			if (1 == m_tFrame.iMotion)
+			{
+				m_tInfo.fX -= 5;
+			}
+			else
+			{
+				m_tInfo.fX += 5;
+			}
+		}
+	}
 }
 
 void CFalseKnight::Render(HDC hDC)
@@ -156,10 +191,16 @@ void CFalseKnight::Motion_Change()
 			m_bSwing = true;
 			break;
 		case CFalseKnight::GROGGY:
-			m_tFrame.dwFrameSpeed = 150;
+			m_tFrame.dwFrameSpeed = 80;
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 9;
 			m_tFrame.dwFrameTime = GetTickCount();
+			m_tInfo.fY += 70.f;
+			if (1 == m_tFrame.iMotion)
+				m_tFrame.iMotion = 0;
+			else
+				m_tFrame.iMotion = 1;
+			m_bGroggy = true;
 			break;
 		case CFalseKnight::STAND:
 			m_tFrame.dwFrameSpeed = 150;

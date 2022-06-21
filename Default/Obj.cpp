@@ -2,13 +2,16 @@
 #include "Obj.h"
 
 
-CObj::CObj() 
+CObj::CObj()
 	: m_fSpeed(0.f), m_eDir(DIR_END), m_bDead(false), m_fAngle(0.f), m_fDistance(0.f), m_bLand(false),
-	m_pTarget(nullptr), m_pFrameKey(L""), m_fJumpPower(0.f), m_bJump(false)
+	m_pTarget(nullptr), m_pFrameKey(L""), m_fJumpPower(0.f), m_bJump(false), m_iHP(0)
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
 	ZeroMemory(&m_tFrame, sizeof(FRAME));
+	m_bf.BlendOp = AC_SRC_OVER;
+	m_bf.AlphaFormat = 0;
+	m_bf.BlendFlags = 0;
 }
 
 CObj::~CObj()

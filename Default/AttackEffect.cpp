@@ -1,36 +1,36 @@
 #include "stdafx.h"
-#include "Hit.h"
+#include "AttackEffect.h"
 #include "BmpMgr.h"
 #include "ScrollMgr.h"
 
-CHit::CHit()
+CAttackEffect::CAttackEffect()
 {
 }
 
 
-CHit::~CHit()
+CAttackEffect::~CAttackEffect()
 {
 }
 
-void CHit::Initialize(void)
+void CAttackEffect::Initialize(void)
 {
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/Effect/DamageEffect.bmp", L"Damage");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Character/Effect/Attack_Effect.bmp", L"Attack_Effect");
 
-	m_tInfo.fCX = 500.f;
-	m_tInfo.fCY = 300.f;
-	m_pFrameKey = L"Damage";
+	m_tInfo.fCX = 300.f;
+	m_tInfo.fCY = 150.f;
+	m_pFrameKey = L"Attack_Effect";
 	m_tFrame.iFrameStart = 0;
-	m_tFrame.iFrameEnd = 1;
+	m_tFrame.iFrameEnd = 3;
 	if (m_eDir == DIR_LEFT)
 		m_tFrame.iMotion = 1;
 	else
 		m_tFrame.iMotion = 0;
 
-	m_tFrame.dwFrameSpeed = 150;
+	m_tFrame.dwFrameSpeed = 30;
 	m_tFrame.dwFrameTime = GetTickCount();
 }
 
-int CHit::Update(void)
+int CAttackEffect::Update(void)
 {
 	if (m_bDead)
 		return OBJ_DEAD;
@@ -39,14 +39,14 @@ int CHit::Update(void)
 	return OBJ_NOEVENT;
 }
 
-void CHit::Late_Update(void)
+void CAttackEffect::Late_Update(void)
 {
 	if (m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
 		m_bDead = true;
 	Move_Frame();
 }
 
-void CHit::Render(HDC hDC)
+void CAttackEffect::Render(HDC hDC)
 {
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
@@ -59,13 +59,13 @@ void CHit::Render(HDC hDC)
 		int(m_tInfo.fCX),
 		int(m_tInfo.fCY),
 		hMemDC,
-		m_tFrame.iFrameStart * 800,
-		m_tFrame.iMotion * 300,
-		800,
-		300,
-		RGB(0, 0, 0));
+		m_tFrame.iFrameStart * 280,
+		m_tFrame.iMotion * 200,
+		280,
+		200,
+		RGB(23, 23, 21));
 }
 
-void CHit::Release(void)
+void CAttackEffect::Release(void)
 {
 }

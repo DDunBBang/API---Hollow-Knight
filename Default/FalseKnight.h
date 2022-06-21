@@ -34,11 +34,13 @@ private:
 	int		m_iSwingL;
 	int		m_iSwingR;
 
+	bool	m_bTarget;
 	bool	m_bJumpAttack;
 	bool	m_bWave;
 	bool	m_bSwing;
 	bool	m_bLoop;
 	bool	m_bPattern;
+	bool	m_bGroggy;
 
 	DWORD	m_dwJumpTime;
 	DWORD	m_dwPatternTime;

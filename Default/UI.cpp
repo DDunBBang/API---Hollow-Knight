@@ -8,6 +8,9 @@ CUI::CUI()
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
 	ZeroMemory(&m_tFrame, sizeof(FRAME));
+	m_bf.BlendOp = AC_SRC_OVER;
+	m_bf.AlphaFormat = 0;
+	m_bf.BlendFlags = 0;
 }
 
 

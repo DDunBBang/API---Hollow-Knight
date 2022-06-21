@@ -22,6 +22,7 @@
 #include "Soul.h"
 #include "HP.h"
 #include "FalseKnight.h"
+#include "Inven.h"
 
 
 CField::CField()
@@ -43,6 +44,7 @@ void CField::Initialize(void)
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create());
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL_BASE, CAbstractFactory<CSoul_Base>::Create_UI());
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL, CAbstractFactory<CSoul>::Create_UI());
+	CUIMgr::Get_Instance()->Add_UI(UI_INVEN, CAbstractFactory<CInven>::Create_UI());
 
 	for (size_t i = 0; i < 5; ++i)
 	{

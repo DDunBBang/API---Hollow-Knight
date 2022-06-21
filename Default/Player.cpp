@@ -13,11 +13,15 @@
 #include "HP.h"
 #include "UIMgr.h"
 #include "Soul.h"
+#include "Inven.h"
+#include "FalseKnight.h"
+#include "AttackEffect.h"
 
 CPlayer::CPlayer()
 	: m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_dwHealTime(GetTickCount()),
 	m_dwAttackTime(GetTickCount()), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false),
-	m_bHit(false), m_dwHitTime(GetTickCount()), m_bImu(false), m_dwImuTime(GetTickCount())
+	m_bHit(false), m_dwHitTime(GetTickCount()), m_bImu(false), m_dwImuTime(GetTickCount()), m_bDownAttack(false),
+	m_bUpAttack(false), m_bInven(false), m_bAttack(false)
 {
 
 }
@@ -31,7 +35,7 @@ CPlayer::~CPlayer()
 void CPlayer::Initialize(void)
 {
 	m_tInfo = { 400.f, 1000.f, 35.f, 75.f };
-	m_fSpeed = 7.f;
+	m_fSpeed = 8.f;
 	m_fJumpPower = 12.f;
 	m_eDir = DIR_RIGHT;
 
@@ -66,13 +70,32 @@ int CPlayer::Update(void)
 	//블럭충돌
 	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
 
-	//공격판정
-	if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))))
+	//대못공격판정
+	if (CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)->begin() != CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)->end())
 	{
 		if (dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Attack())
 		{
-			dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
-			dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Set_Attack(false);
+			if (CCollisionMgr::Collision_Attack_Monster(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))))
+			{
+				if (m_bDownAttack)
+				{
+					m_bJump = true;
+					m_dwJumpTime = GetTickCount() - 50;
+				}
+				else if (!m_bUpAttack)
+				{
+					if (DIR_RIGHT == m_eDir)
+						m_tInfo.fX -= 70;
+					else
+						m_tInfo.fX += 70;
+				}
+				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
+				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ATTACK_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
+				dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
+				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
+			}
+			m_bDownAttack = false;
 		}
 	}
 
@@ -106,6 +129,8 @@ int CPlayer::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 	Offset();
+
+
 	if (m_bHit && m_dwHitTime + 300 > GetTickCount())
 		Hit();
 	else if (m_bDash)
@@ -124,12 +149,17 @@ void CPlayer::Late_Update(void)
 {
 	if (m_dwJumpTime + 300 < GetTickCount())
 		m_bJump = false;
-	Motion_Change();
-	Move_Frame();
+
+	if (!m_bAttack)
+	{
+		Motion_Change();
+	}
+ 	Move_Frame();
 
 	if (m_ePreState == ATTACK && m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
 	{
-
+		m_bAttack = false;
+		m_dwAttackTime = GetTickCount();
 	}
 }
 
@@ -177,19 +207,16 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX += m_fSpeed;
 			m_eCurState = WALK;
 			m_eDir = DIR_RIGHT;
-			m_pFrameKey = L"Player_MOVE";
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
 		{
 			m_tInfo.fX -= m_fSpeed;
-			m_pFrameKey = L"Player_MOVE";
 			m_eCurState = WALK;
 			m_eDir = DIR_LEFT;
 		}
 		else
 		{
 			m_eCurState = IDLE;
-			m_pFrameKey = L"Player_IDLE";
 		}
 		if (CKeyMgr::Get_Instance()->Key_Down('X'))
 		{
@@ -197,30 +224,26 @@ void CPlayer::Key_Input(void)
 			m_bJump = true;
 			m_bLand = false;
 			m_eCurState = JUMP;
-			m_pFrameKey = L"Player_JUMP";
 		}
 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
-			if (m_dwAttackTime + 150 < GetTickCount())
+			if (m_dwAttackTime + 100 < GetTickCount())
 			{
-				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (CKeyMgr::Get_Instance()->Key_Down('Z'))
 				{
-					if(DIR_LEFT == m_eDir)
+					m_bUpAttack = true;
+					if (DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY - 80, DIR_LT));
 					else
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY - 80, DIR_RT));
 					m_eCurState = ATTACK;
 					m_pFrameKey = L"Player_ATTACK_TOP";
-					if (4 == m_tFrame.iFrameStart)
-						m_dwAttackTime = GetTickCount();
 				}
-				if(CKeyMgr::Get_Instance()->Key_Up('Z'))
-					m_dwAttackTime = GetTickCount();
 			}
 		}
-		else if (m_dwAttackTime + 200 < GetTickCount())
+		else if (m_dwAttackTime + 100 < GetTickCount())
 		{
-			if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+			if (CKeyMgr::Get_Instance()->Key_Down('Z'))
 			{
 				if (DIR_LEFT == m_eDir)
 					CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX - 80, m_tInfo.fY, m_eDir));
@@ -228,11 +251,7 @@ void CPlayer::Key_Input(void)
 					CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX + 80, m_tInfo.fY, m_eDir));
 				m_eCurState = ATTACK;
 				m_pFrameKey = L"Player_ATTACK1";
-				if (4 == m_tFrame.iFrameStart)
-					m_dwAttackTime = GetTickCount();
 			}
-			if (CKeyMgr::Get_Instance()->Key_Up('Z'))
-				m_dwAttackTime = GetTickCount();
 		}
 	}
 	else
@@ -249,45 +268,39 @@ void CPlayer::Key_Input(void)
 		}
 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 		{
-			if (m_dwAttackTime + 150 < GetTickCount())
+			if (m_dwAttackTime + 100 < GetTickCount())
 			{
-				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (CKeyMgr::Get_Instance()->Key_Down('Z'))
 				{
-					if(DIR_LEFT == m_eDir)
+					m_bDownAttack = true;
+					if (DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY + 80, DIR_LD));
 					else
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY + 80, DIR_RD));
 					m_eCurState = ATTACK;
 					m_pFrameKey = L"Player_ATTACK_DOWN";
-					if (4 == m_tFrame.iFrameStart)
-						m_dwAttackTime = GetTickCount();
 				}
-				if (CKeyMgr::Get_Instance()->Key_Up('Z'))
-					m_dwAttackTime = GetTickCount();
 			}
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
-			if (m_dwAttackTime + 150 < GetTickCount())
+			if (m_dwAttackTime + 100 < GetTickCount())
 			{
-				if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+				if (CKeyMgr::Get_Instance()->Key_Down('Z'))
 				{
+					m_bUpAttack = true;
 					if (DIR_LEFT == m_eDir)
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY - 80, DIR_LT));
 					else
 						CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX, m_tInfo.fY - 80, DIR_RT));
 					m_eCurState = ATTACK;
 					m_pFrameKey = L"Player_ATTACK_TOP";
-					if (4 == m_tFrame.iFrameStart)
-						m_dwAttackTime = GetTickCount();
 				}
-				if (CKeyMgr::Get_Instance()->Key_Up('Z'))
-					m_dwAttackTime = GetTickCount();
 			}
 		}
-		else if (m_dwAttackTime + 150 < GetTickCount())
+		else if (m_dwAttackTime + 100 < GetTickCount())
 		{
-			if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+			if (CKeyMgr::Get_Instance()->Key_Down('Z'))
 			{
 				if (DIR_LEFT == m_eDir)
 					CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX - 80, m_tInfo.fY, m_eDir));
@@ -295,11 +308,7 @@ void CPlayer::Key_Input(void)
 					CObjMgr::Get_Instance()->Add_Object(OBJ_BLADE, CAbstractFactory<CBlade>::Create(m_tInfo.fX + 80, m_tInfo.fY, m_eDir));
 				m_eCurState = ATTACK;
 				m_pFrameKey = L"Player_ATTACK1";
-				if (4 == m_tFrame.iFrameStart)
-					m_dwAttackTime = GetTickCount();
 			}
-			if (CKeyMgr::Get_Instance()->Key_Up('Z'))
-				m_dwAttackTime = GetTickCount();
 		}
 	}
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_LSHIFT))
@@ -309,7 +318,14 @@ void CPlayer::Key_Input(void)
 		CObjMgr::Get_Instance()->Add_Object(OBJ_DASH, CAbstractFactory<CDash>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
 		m_dwDashTime = GetTickCount();
 	}
-
+	if (CKeyMgr::Get_Instance()->Key_Down('I'))
+	{
+		if (m_bInven)
+			m_bInven = false;
+		else
+			m_bInven = true;
+		dynamic_cast<CInven*>(CUIMgr::Get_Instance()->Get_UIList(UI_INVEN)->front())->Set_On(m_bInven);
+	}
 }
 
 void CPlayer::Jumping(void)
@@ -463,14 +479,14 @@ void CPlayer::Motion_Change(void)
 		case CPlayer::IDLE:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 7;
-
+			m_pFrameKey = L"Player_IDLE";
 			m_tFrame.dwFrameSpeed = 200;
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::WALK:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 6;
-
+			m_pFrameKey = L"Player_MOVE";
 			m_tFrame.dwFrameSpeed = 100;
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
@@ -484,7 +500,7 @@ void CPlayer::Motion_Change(void)
 		case CPlayer::JUMP:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 4;
-
+			m_pFrameKey = L"Player_JUMP";
 			m_tFrame.dwFrameSpeed = 80;
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
@@ -499,8 +515,9 @@ void CPlayer::Motion_Change(void)
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 4;
 
-			m_tFrame.dwFrameSpeed = 30;
+			m_tFrame.dwFrameSpeed = 20;
 			m_tFrame.dwFrameTime = GetTickCount();
+			m_bAttack = true;
 			break;
 		case CPlayer::HIT:
 			m_tFrame.iFrameStart = 0;

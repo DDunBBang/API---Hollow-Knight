@@ -81,6 +81,24 @@ int CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour)
 	return 0;
 }
 
+bool CCollisionMgr::Collision_Attack_Monster(list<CObj*> _Dest, list<CObj*> _Sour)
+{
+	RECT		rc{};
+
+	for (auto& Dest : _Dest)
+	{
+		for (auto& Sour : _Sour)
+		{
+			if (IntersectRect(&rc, &(Dest->Get_Rect()), &(Sour->Get_Rect())))
+			{
+				Sour->Set_HP(1);
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 bool CCollisionMgr::Collision_Line(CObj* _pObj, list<CObj*>* _Sour, float* _pY)
 {
 

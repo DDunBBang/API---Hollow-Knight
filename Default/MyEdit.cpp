@@ -373,25 +373,25 @@ void CMyEdit::Key_Input(void)
 
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
 	{
-		CScrollMgr::Get_Instance()->Set_ScrollX(5.f);
+		CScrollMgr::Get_Instance()->Set_ScrollX(15.f);
 	}
 
 
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
 	{
-		CScrollMgr::Get_Instance()->Set_ScrollX(-5.f);
+		CScrollMgr::Get_Instance()->Set_ScrollX(-15.f);
 	}
 
 
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 	{
-		CScrollMgr::Get_Instance()->Set_ScrollY(5.f);
+		CScrollMgr::Get_Instance()->Set_ScrollY(15.f);
 	}
 
 
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 	{
-		CScrollMgr::Get_Instance()->Set_ScrollY(-5.f);
+		CScrollMgr::Get_Instance()->Set_ScrollY(-15.f);
 	}
 
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
