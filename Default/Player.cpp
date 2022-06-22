@@ -75,7 +75,7 @@ int CPlayer::Update(void)
 	{
 		if (dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Attack())
 		{
-			if (CCollisionMgr::Collision_Attack_Monster(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))))
+			if (CCollisionMgr::Collision_Attack_Monster(this, *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))))
 			{
 				if (m_bDownAttack)
 				{
@@ -95,24 +95,27 @@ int CPlayer::Update(void)
 				dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
 				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
-			if (CCollisionMgr::Collision_Attack_Monster(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_TRAP))))
+			if (dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Attack())
 			{
-				if (m_bDownAttack)
+				if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_TRAP))))
 				{
-					m_bJump = true;
-					m_fJumpHeight = 50.f;
+					if (m_bDownAttack)
+					{
+						m_bJump = true;
+						m_fJumpHeight = 50.f;
+					}
+					else if (!m_bUpAttack)
+					{
+						if (DIR_RIGHT == m_eDir)
+							m_tInfo.fX -= 40;
+						else
+							m_tInfo.fX += 40;
+					}
+					float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
+					float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
+					CObjMgr::Get_Instance()->Add_Object(OBJ_ATTACK_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
+					dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 				}
-				else if (!m_bUpAttack)
-				{
-					if (DIR_RIGHT == m_eDir)
-						m_tInfo.fX -= 70;
-					else
-						m_tInfo.fX += 70;
-				}
-				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
-				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
-				CObjMgr::Get_Instance()->Add_Object(OBJ_ATTACK_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
-				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
 			m_bDownAttack = false;
 		}

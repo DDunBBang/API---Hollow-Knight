@@ -81,7 +81,7 @@ int CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour)
 	return 0;
 }
 
-bool CCollisionMgr::Collision_Attack_Monster(list<CObj*> _Dest, list<CObj*> _Sour)
+bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, list<CObj*> _Sour)
 {
 	RECT		rc{};
 
@@ -94,7 +94,7 @@ bool CCollisionMgr::Collision_Attack_Monster(list<CObj*> _Dest, list<CObj*> _Sou
 				Sour->Set_HP(1);
 				if (CMonster::NOMAL == dynamic_cast<CMonster*>(Sour)->Get_Type())
 				{
-					if (Dest->Get_Info().fX < Sour->Get_Info().fX)
+					if (_Temp->Get_Info().fX < Sour->Get_Info().fX)
 						Sour->Set_PosX(50.f);
 					else
 						Sour->Set_PosX(-50.f);
@@ -117,7 +117,7 @@ bool CCollisionMgr::Collision_Line(CObj* _pObj, list<CObj*>* _Sour, float* _pY)
 	{
 		if (_pObj->Get_Rect().right > iter->Get_Rect().left &&
 			_pObj->Get_Rect().left < iter->Get_Rect().right &&
-			_pObj->Get_Rect().bottom <= iter->Get_Rect().top + _pObj->Get_Speed()*2.f)
+			_pObj->Get_Rect().bottom <= iter->Get_Rect().top + 64.f)
 		{
 			if ((iter->Get_Rect().top) - (_pObj->Get_Rect().bottom) < fMin)
 			{

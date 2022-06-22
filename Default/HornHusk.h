@@ -31,5 +31,6 @@ private:
 	DWORD	m_dwMoveTime;
 	DWORD	m_dwAttackTime;
 	DWORD	m_dwCoolTime;
+	DWORD	m_dwDeadTime;
 };
 

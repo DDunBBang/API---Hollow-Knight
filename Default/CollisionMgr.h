@@ -9,7 +9,7 @@ public:
 public:
 	static bool	Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour);
 	static int	Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour);
-	static bool	Collision_Attack_Monster(list<CObj*> _Dest, list<CObj*> _Sour);
+	static bool	Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, list<CObj*> _Sour);
 
 	static bool Collision_Line(CObj * _pObj, list<CObj*>* _Sour, float * _pY);
 

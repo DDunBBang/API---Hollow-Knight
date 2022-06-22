@@ -8,7 +8,7 @@
 
 CHornHusk::CHornHusk()
 	:m_bTarget(false), m_ePreState(END), m_eCurState(IDLE), m_dwMoveTime(GetTickCount()), m_dwAttackTime(GetTickCount()),
-	m_dwCoolTime(GetTickCount())
+	m_dwCoolTime(GetTickCount()), m_dwDeadTime(GetTickCount())
 {
 }
 
@@ -70,9 +70,6 @@ int CHornHusk::Update(void)
 		else
 			m_tInfo.fX += m_fSpeed;
 		m_tInfo.fY += m_fSpeed * 2;
-
-		if (1 == m_tFrame.iFrameStart)
-			m_tFrame.dwFrameTime = GetTickCount();
 	}
 	else if (bLineCol)
 	{
@@ -85,13 +82,25 @@ int CHornHusk::Update(void)
 
 void CHornHusk::Late_Update(void)
 {
+	if (0 >= m_iHP)
+	{
+		m_tInfo.fCX = 0.f;
+		m_tInfo.fCY = 0.f;
+		m_eCurState = DEAD;
+	}
+
 	Motion_Change();
 	Move_Frame();
 
-	if (m_bTarget)
-		Attack();
+	if (m_eCurState != DEAD)
+	{
+		if (m_bTarget)
+			Attack();
+		else
+			Move();
+	}
 	else
-		Move();
+		Dead();
 }
 
 void CHornHusk::Render(HDC hDC)
@@ -154,6 +163,7 @@ void CHornHusk::Motion_Change()
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 3;
 			m_pFrameKey = L"HornHusk_Dead";
+			m_dwDeadTime = GetTickCount();
 			break;
 		}
 		m_ePreState = m_eCurState;
@@ -205,4 +215,9 @@ void CHornHusk::Attack()
 
 void CHornHusk::Dead()
 {
+	if (m_dwDeadTime + 10000 < GetTickCount())
+		m_bDead = true;
+
+	if (m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
+		m_tFrame.dwFrameTime = GetTickCount();
 }

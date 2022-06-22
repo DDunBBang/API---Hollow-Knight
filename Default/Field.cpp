@@ -25,6 +25,7 @@
 #include "Inven.h"
 #include "Plat.h"
 #include "HornHusk.h"
+#include "Leapinghusk.h"
 #include "SoundMgr.h"
 
 
@@ -47,6 +48,7 @@ void CField::Initialize(void)
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create());
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 1500.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(3000.f, 1500.f));
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL_BASE, CAbstractFactory<CSoul_Base>::Create_UI());
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL, CAbstractFactory<CSoul>::Create_UI());
 	CUIMgr::Get_Instance()->Add_UI(UI_INVEN, CAbstractFactory<CInven>::Create_UI());

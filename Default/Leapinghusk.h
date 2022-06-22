@@ -26,11 +26,14 @@ private:
 private:
 	bool	m_bTarget;
 
+	float	m_fJumpHeight;
+
 	STATE	m_eCurState;
 	STATE	m_ePreState;
 
 	DWORD	m_dwMoveTime;
 	DWORD	m_dwAttackTime;
 	DWORD	m_dwCoolTime;
+	DWORD	m_dwDeadTime;
 };
 
