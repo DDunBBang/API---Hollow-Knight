@@ -211,7 +211,7 @@ void CLeapinghusk::Attack()
 	if (m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
 		m_tFrame.dwFrameTime = GetTickCount();
 
-	if (200 <= m_fJumpHeight)
+	if (250 <= m_fJumpHeight)
 	{
 		m_tFrame.iFrameStart = 0;
 		m_bTarget = false;
