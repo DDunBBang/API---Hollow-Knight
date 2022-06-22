@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "HP.h"
 #include "UIMgr.h"
+#include "ScrollMgr.h"
 
 CObjMgr*		CObjMgr::m_pInstance = nullptr;
 
@@ -101,10 +102,27 @@ void CObjMgr::Late_Update(void)
 
 void CObjMgr::Render(HDC hDC)
 {
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
+	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
+
+	int iMoveX = abs((int)CScrollMgr::Get_Instance()->Get_ScrollX()) - 200;
+	int iMoveY = abs((int)CScrollMgr::Get_Instance()->Get_ScrollY()) - 200;
+
+	int iCullCX = iMoveX + WINCX + 400;
+	int iCullCY = iMoveY + WINCY + 400;
+
 	for (size_t i = 0; i < OBJ_END; ++i)
 	{
 		for (auto& iter : m_ObjList[i])
-			iter->Render(hDC);
+		{
+			if (iter->Get_Info().fX >= iMoveX &&
+				iter->Get_Info().fX <= iCullCX &&
+				iter->Get_Info().fY >= iMoveY &&
+				iter->Get_Info().fY <= iCullCY)
+			{
+				iter->Render(hDC);
+			}
+		}
 	}
 
 }

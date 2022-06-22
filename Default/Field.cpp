@@ -23,6 +23,7 @@
 #include "HP.h"
 #include "FalseKnight.h"
 #include "Inven.h"
+#include "Plat.h"
 
 
 CField::CField()
@@ -78,6 +79,7 @@ void CField::Render(HDC hDC)
 	int iCullCY = iMoveY + WINCY + 2;
 
 	BitBlt(hDC, iScrollX, iScrollY, iCullCX, iCullCY, hField, 0, 0, SRCCOPY);
+
 	CObjMgr::Get_Instance()->Render(hDC);
 	CUIMgr::Get_Instance()->Render(hDC);
 }
@@ -143,7 +145,8 @@ void CField::Load_File()
 		case EDIT_SPEAR:
 			CObjMgr::Get_Instance()->Add_Object(OBJ_TRAP, CAbstractFactory<CSpear>::Create(tInfo.fX, tInfo.fY));
 			break;
-		case EDIT_BOSS:
+		case EDIT_PLAT:
+			CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CPlat>::Create(tInfo.fX, tInfo.fY));
 			break;
 		}
 	}

@@ -20,7 +20,7 @@ void CInven::Initialize(void)
 	m_tInfo.fX = WINCX >> 1;
 	m_tInfo.fY = WINCY >> 1;
 
-	//m_bf.SourceConstantAlpha = 150;
+	m_bf.SourceConstantAlpha = 240;
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/UI/Inven/Inven_Base.bmp", L"Base");
 	m_pFrameKey = L"Base";
@@ -47,7 +47,18 @@ void CInven::Render(HDC hDC)
 
 	if (m_bOn)
 	{
-		BitBlt(hDC, 0, 0, m_tInfo.fCX, m_tInfo.fCY, hMemDC, 0, 0, SRCCOPY);
+		//BitBlt(hDC, 0, 0, m_tInfo.fCX, m_tInfo.fCY, hMemDC, 0, 0, SRCCOPY);
+		GdiAlphaBlend(hDC,
+			0,
+			0,
+			WINCX,
+			WINCY,
+			hMemDC,
+			0,
+			0,
+			960,
+			720,
+			m_bf);
 	}
 	Rectangle(hMemDC, 100, 100, 100, 100);
 }

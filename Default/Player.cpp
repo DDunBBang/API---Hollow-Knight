@@ -18,10 +18,10 @@
 #include "AttackEffect.h"
 
 CPlayer::CPlayer()
-	: m_dwJumpTime(GetTickCount()), m_ePreState(END), m_eCurState(IDLE), m_dwHealTime(GetTickCount()),
+	: m_ePreState(END), m_eCurState(IDLE), m_dwHealTime(GetTickCount()),
 	m_dwAttackTime(GetTickCount()), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false),
 	m_bHit(false), m_dwHitTime(GetTickCount()), m_bImu(false), m_dwImuTime(GetTickCount()), m_bDownAttack(false),
-	m_bUpAttack(false), m_bInven(false), m_bAttack(false)
+	m_bUpAttack(false), m_bInven(false), m_bAttack(false), m_fJumpHeight(0)
 {
 
 }
@@ -34,7 +34,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	m_tInfo = { 400.f, 1000.f, 35.f, 75.f };
+	m_tInfo = { 400.f, 900.f, 35.f, 75.f };
 	m_fSpeed = 8.f;
 	m_fJumpPower = 12.f;
 	m_eDir = DIR_RIGHT;
@@ -80,7 +80,7 @@ int CPlayer::Update(void)
 				if (m_bDownAttack)
 				{
 					m_bJump = true;
-					m_dwJumpTime = GetTickCount() - 50;
+					m_fJumpHeight = 50.f;
 				}
 				else if (!m_bUpAttack)
 				{
@@ -95,6 +95,25 @@ int CPlayer::Update(void)
 				dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
 				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
+			if (CCollisionMgr::Collision_Attack_Monster(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_TRAP))))
+			{
+				if (m_bDownAttack)
+				{
+					m_bJump = true;
+					m_fJumpHeight = 50.f;
+				}
+				else if (!m_bUpAttack)
+				{
+					if (DIR_RIGHT == m_eDir)
+						m_tInfo.fX -= 70;
+					else
+						m_tInfo.fX += 70;
+				}
+				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
+				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ATTACK_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
+				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
+			}
 			m_bDownAttack = false;
 		}
 	}
@@ -103,7 +122,8 @@ int CPlayer::Update(void)
 	if (!m_bHit && !m_bImu)
 	{
 		if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))) ||
-			CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MATTACK))))
+			CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MATTACK))) ||
+			CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_TRAP))))
 		{
 			CObjMgr::Get_Instance()->Add_Object(OBJ_HIT, CAbstractFactory<CHit>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
 			m_eCurState = HIT;
@@ -147,8 +167,11 @@ int CPlayer::Update(void)
 
 void CPlayer::Late_Update(void)
 {
-	if (m_dwJumpTime + 300 < GetTickCount())
+	if (m_fJumpHeight > 250.f)
+	{
 		m_bJump = false;
+		m_fJumpHeight = 0.f;
+	}
 
 	if (!m_bAttack)
 	{
@@ -220,7 +243,6 @@ void CPlayer::Key_Input(void)
 		}
 		if (CKeyMgr::Get_Instance()->Key_Down('X'))
 		{
-			m_dwJumpTime = GetTickCount();
 			m_bJump = true;
 			m_bLand = false;
 			m_eCurState = JUMP;
@@ -336,6 +358,7 @@ void CPlayer::Jumping(void)
 
 	if (m_bJump)
 	{
+		m_fJumpHeight += m_fJumpPower;
 		m_tInfo.fY -= m_fJumpPower;
 
 	}

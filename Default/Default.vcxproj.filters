@@ -142,6 +142,9 @@
     <Filter Include="03. UI\03. Inven">
       <UniqueIdentifier>{eff60997-017d-401f-8230-d7393cd9a8c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\02.Block\Plat">
+      <UniqueIdentifier>{72a92573-ac87-426b-a53d-b8872178e871}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -297,6 +300,9 @@
     <ClInclude Include="Inven.h">
       <Filter>03. UI\03. Inven</Filter>
     </ClInclude>
+    <ClInclude Include="Plat.h">
+      <Filter>01. Obj\02.Block\Plat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -424,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="Inven.cpp">
       <Filter>03. UI\03. Inven</Filter>
+    </ClCompile>
+    <ClCompile Include="Plat.cpp">
+      <Filter>01. Obj\02.Block\Plat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

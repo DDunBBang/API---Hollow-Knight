@@ -42,7 +42,8 @@ private:
 	bool		m_bAttack;
 
 	float		m_fTime;
-	DWORD		m_dwJumpTime;
+	float		m_fJumpHeight;
+
 	DWORD		m_dwAttackTime;
 	DWORD		m_dwDashTime;
 	DWORD		m_dwHealTime;

@@ -16,7 +16,7 @@
 #include "Spear.h"
 #include "AbstractFactory.h"
 #include "CollisionMgr.h"
-#include "FalseKnight.h"
+#include "Plat.h"
 
 CMyEdit::CMyEdit()
 	:m_bTrue(false), m_etype(EDIT_END)
@@ -40,10 +40,10 @@ void CMyEdit::Initialize(void)
 
 	for (int i = 0; i < 9; ++i)
 	{
-		m_tInfo.fX = 30;
-		m_tInfo.fY = 50 * (i + 1);
-		m_tInfo.fCX = 40;
-		m_tInfo.fCY = 40;
+		m_tInfo.fX = 30.f;
+		m_tInfo.fY = float(50 * (i + 1));
+		m_tInfo.fCX = 40.f;
+		m_tInfo.fCY = 40.f;
 
 		rc[i].left = int(m_tInfo.fX - (m_tInfo.fCX * 0.5f));
 		rc[i].right = int(m_tInfo.fX + (m_tInfo.fCX * 0.5f));
@@ -80,6 +80,8 @@ void CMyEdit::Render(HDC hDC)
 	CObjMgr::Get_Instance()->Render(hDC);
 	CTileMgr::Get_Instance()->Render(hDC);
 
+	CObjMgr::Get_Instance()->Render(hDC);
+
 	TCHAR szTitle[9][32];
 
 	swprintf_s(szTitle[0], L"¹Ù´Ú");
@@ -90,7 +92,7 @@ void CMyEdit::Render(HDC hDC)
 	swprintf_s(szTitle[5], L"¿Þ°¡½Ã");
 	swprintf_s(szTitle[6], L"¿À¸¥°¡½Ã");
 	swprintf_s(szTitle[7], L"µ¹¼Û°÷");
-	swprintf_s(szTitle[8], L"º¸½º");
+	swprintf_s(szTitle[8], L"ÇÃ·§");
 
 	if (m_etype != EDIT_END)
 		DrawText(hDC, szTitle[m_etype], lstrlen(szTitle[m_etype]), &m_Mouse, DT_CENTER);
@@ -99,8 +101,6 @@ void CMyEdit::Render(HDC hDC)
 		Rectangle(hDC, rc[i].left, rc[i].top, rc[i].right, rc[i].bottom);
 		DrawText(hDC, szTitle[i], lstrlen(szTitle[i]), &rc[i], DT_CENTER);
 	}
-
-	CObjMgr::Get_Instance()->Render(hDC);
 
 }
 
@@ -183,7 +183,7 @@ void CMyEdit::Select(void)
 			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
 			{
 				m_bTrue = true;
-				m_etype = EDIT_BOSS;
+				m_etype = EDIT_PLAT;
 			}
 		}
 	}
@@ -274,8 +274,8 @@ void CMyEdit::Load_File()
 		case EDIT_SPEAR:
 			CObjMgr::Get_Instance()->Add_Object(OBJ_TRAP, CAbstractFactory<CSpear>::Create(tInfo.fX, tInfo.fY));
 			break;
-		case EDIT_BOSS:
-			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create(tInfo.fX, tInfo.fY));
+		case EDIT_PLAT:
+			CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CPlat>::Create(tInfo.fX, tInfo.fY));
 			break;
 		}
 	}
@@ -317,56 +317,56 @@ void CMyEdit::Key_Input(void)
 		case EDIT_BOTTOM:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CBottom>::Create((float)iX, (float)iY));
 			break;
 		case EDIT_TOP:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CTop>::Create((float)iX, (float)iY));
 			break;
 		case EDIT_WALL_L:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CWall_L>::Create((float)iX, (float)iY));
 			break;
 		case EDIT_WALL_R:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CWall_R>::Create((float)iX, (float)iY));
 			break;
 		case EDIT_TRAP:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_TRAP, CAbstractFactory<CTrap>::Create((float)iX, (float)iY));
 			break;
 		case EDIT_TRAP_L:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_TRAP, CAbstractFactory<CTrap_L>::Create((float)iX, (float)iY));
 			break;
 		case EDIT_TRAP_R:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_TRAP, CAbstractFactory<CTrap_R>::Create((float)iX, (float)iY));
 			break;
 		case EDIT_SPEAR:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_TRAP, CAbstractFactory<CSpear>::Create((float)iX, (float)iY));
 			break;
-		case EDIT_BOSS:
+		case EDIT_PLAT:
 			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
-			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
-				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create((float)iX, (float)iY));
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+				CObjMgr::Get_Instance()->Add_Object(OBJ_BLOCK, CAbstractFactory<CPlat>::Create((float)iX, (float)iY));
 			break;
 		}
 	}
@@ -394,10 +394,10 @@ void CMyEdit::Key_Input(void)
 		CScrollMgr::Get_Instance()->Set_ScrollY(-15.f);
 	}
 
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	/*if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 	{
 		CTileMgr::Get_Instance()->Picking_Tile(pt);
-	}
+	}*/
 
 	if (CKeyMgr::Get_Instance()->Key_Down('X'))
 	{

@@ -21,8 +21,7 @@ CFalseKnight::~CFalseKnight()
 
 void CFalseKnight::Initialize(void)
 {
-	m_tInfo.eSave = EDIT_BOSS;
-	m_tInfo = { 3000.f, 1000.f, 160.f, 300.f };
+	m_tInfo = { 6000.f, 450.f, 160.f, 300.f };
 	m_tInfo.fCX = 160.f;
 	m_tInfo.fCY = 300.f;
 	m_iHP = 5;
@@ -55,7 +54,7 @@ int CFalseKnight::Update(void)
 	float	fHeight = fabs(CObjMgr::Get_Instance()->Get_Player()->Get_Info().fY - m_tInfo.fY);
 	float	fDiagonal = sqrtf(fWidth * fWidth + fHeight * fHeight);
 
-	if (450 > fDiagonal)
+	if (300 > fDiagonal)
 		m_bTarget = true;
 	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
 	if (m_bDead)
@@ -120,7 +119,7 @@ void CFalseKnight::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
 
-	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
+	//Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(hDC,
