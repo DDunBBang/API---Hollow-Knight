@@ -34,7 +34,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	m_tInfo = { 400.f, 900.f, 35.f, 75.f };
+	m_tInfo = { 400.f, 1500.f, 35.f, 75.f };
 	m_fSpeed = 8.f;
 	m_fJumpPower = 12.f;
 	m_eDir = DIR_RIGHT;
@@ -85,9 +85,9 @@ int CPlayer::Update(void)
 				else if (!m_bUpAttack)
 				{
 					if (DIR_RIGHT == m_eDir)
-						m_tInfo.fX -= 70;
+						m_tInfo.fX -= 40;
 					else
-						m_tInfo.fX += 70;
+						m_tInfo.fX += 40;
 				}
 				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
 				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;

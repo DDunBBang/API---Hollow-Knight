@@ -26,16 +26,18 @@ void CFalseKnight::Initialize(void)
 	m_tInfo.fCY = 300.f;
 	m_iHP = 5;
 
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Idle.bmp", L"Idle");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Jump.bmp", L"Jump");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Jump_Attack.bmp", L"Jump_Attack");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Wave.bmp", L"Wave");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Swing.bmp", L"Swing");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Groggy.bmp", L"Groggy");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Stand.bmp", L"Stand");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Dead.bmp", L"Dead");
+	m_eType = BOSS;
 
-	m_pFrameKey = L"Idle";
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Idle.bmp", L"FalseKnight_Idle");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Jump.bmp", L"FalseKnight_Jump");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Jump_Attack.bmp", L"FalseKnight_Jump_Attack");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Wave.bmp", L"FalseKnight_Wave");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Swing.bmp", L"FalseKnight_Swing");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Groggy.bmp", L"FalseKnight_Groggy");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Stand.bmp", L"FalseKnight_Stand");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Dead.bmp", L"FalseKnight_Dead");
+
+	m_pFrameKey = L"FalseKnight_Idle";
 	m_tFrame.dwFrameSpeed = 150;
 	m_tFrame.iFrameStart = 0;
 	m_tFrame.iFrameEnd = 3;
@@ -81,7 +83,7 @@ void CFalseKnight::Late_Update(void)
 	if (0 == m_iHP)
 	{
 		m_eCurState = GROGGY;
-		m_pFrameKey = L"Groggy";
+		m_pFrameKey = L"FalseKnight_Groggy";
 		m_tInfo.fCX = 0.f;
 		m_tInfo.fCY = 0.f;
 	}
@@ -251,7 +253,7 @@ void CFalseKnight::Jumping()
 	else if (bLineCol)
 	{
 		m_eCurState = IDLE;
-		m_pFrameKey = L"Idle";
+		m_pFrameKey = L"FalseKnight_Idle";
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 	}
 }
@@ -263,22 +265,22 @@ void CFalseKnight::SelectPattern()
 	if (4 >= m_iPattern)
 	{
 		m_eCurState = JUMP;
-		m_pFrameKey = L"Jump";
+		m_pFrameKey = L"FalseKnight_Jump";
 	}
 	else if (7 >= m_iPattern)
 	{
 		m_eCurState = WAVE;
-		m_pFrameKey = L"Wave";
+		m_pFrameKey = L"FalseKnight_Wave";
 	}
 	else if (10 >= m_iPattern)
 	{
 		m_eCurState = WAVE;
-		m_pFrameKey = L"Wave";
+		m_pFrameKey = L"FalseKnight_Wave";
 	}
 	else
 	{
 		m_eCurState = SWING;
-		m_pFrameKey = L"Swing";
+		m_pFrameKey = L"FalseKnight_Swing";
 	}
 	m_iLoop = 0;
 	m_bPattern = true;
@@ -298,7 +300,7 @@ void CFalseKnight::Wave()
 	if (0 == m_tFrame.iFrameStart && m_bLoop)
 	{
 		m_eCurState = IDLE;
-		m_pFrameKey = L"Idle";
+		m_pFrameKey = L"FalseKnight_Idle";
 		m_dwSelectPattern = GetTickCount();
 		m_bWave = false;
 		m_bLoop = false;
@@ -333,7 +335,7 @@ void CFalseKnight::Swing()
 	if (4 == m_iLoop)
 	{
 		m_eCurState = IDLE;
-		m_pFrameKey = L"Idle";
+		m_pFrameKey = L"FalseKnight_Idle";
 		m_dwSelectPattern = GetTickCount();
 		m_bSwing = false;
 		m_bPattern = false;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CollisionMgr.h"
-
+#include "Monster.h"
 
 CCollisionMgr::CCollisionMgr()
 {
@@ -92,6 +92,13 @@ bool CCollisionMgr::Collision_Attack_Monster(list<CObj*> _Dest, list<CObj*> _Sou
 			if (IntersectRect(&rc, &(Dest->Get_Rect()), &(Sour->Get_Rect())))
 			{
 				Sour->Set_HP(1);
+				if (CMonster::NOMAL == dynamic_cast<CMonster*>(Sour)->Get_Type())
+				{
+					if (Dest->Get_Info().fX < Sour->Get_Info().fX)
+						Sour->Set_PosX(50.f);
+					else
+						Sour->Set_PosX(-50.f);
+				}
 				return true;
 			}
 		}

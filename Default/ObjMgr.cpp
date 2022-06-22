@@ -105,11 +105,11 @@ void CObjMgr::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
 
-	int iMoveX = abs((int)CScrollMgr::Get_Instance()->Get_ScrollX()) - 200;
-	int iMoveY = abs((int)CScrollMgr::Get_Instance()->Get_ScrollY()) - 200;
+	int iMoveX = abs((int)CScrollMgr::Get_Instance()->Get_ScrollX()) - 100;
+	int iMoveY = abs((int)CScrollMgr::Get_Instance()->Get_ScrollY()) - 100;
 
-	int iCullCX = iMoveX + WINCX + 400;
-	int iCullCY = iMoveY + WINCY + 400;
+	int iCullCX = iMoveX + WINCX + 200;
+	int iCullCY = iMoveY + WINCY + 200;
 
 	for (size_t i = 0; i < OBJ_END; ++i)
 	{

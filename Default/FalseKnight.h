@@ -1,7 +1,7 @@
 #pragma once
-#include "Obj.h"
+#include "Monster.h"
 class CFalseKnight :
-	public CObj
+	public CMonster
 {
 public:
 	enum STATE {IDLE, JUMP, JUMP_ATTACK, WAVE, SWING, GROGGY, STAND, DEAD, STATE_END };

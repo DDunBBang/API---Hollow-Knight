@@ -145,6 +145,15 @@
     <Filter Include="01. Obj\02.Block\Plat">
       <UniqueIdentifier>{72a92573-ac87-426b-a53d-b8872178e871}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\03.Monster\HornHusk">
+      <UniqueIdentifier>{2094c727-a4a0-496d-983c-0116df0da91c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Monster\LeapingHusk">
+      <UniqueIdentifier>{19ca76b7-f892-4d09-9841-c038cbe009b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\SoundMgr">
+      <UniqueIdentifier>{d82bc6db-cacf-4a96-bc6f-d4b1c8a95585}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -303,6 +312,15 @@
     <ClInclude Include="Plat.h">
       <Filter>01. Obj\02.Block\Plat</Filter>
     </ClInclude>
+    <ClInclude Include="HornHusk.h">
+      <Filter>01. Obj\03.Monster\HornHusk</Filter>
+    </ClInclude>
+    <ClInclude Include="Leapinghusk.h">
+      <Filter>01. Obj\03.Monster\LeapingHusk</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundMgr.h">
+      <Filter>98. Design\SoundMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -433,6 +451,15 @@
     </ClCompile>
     <ClCompile Include="Plat.cpp">
       <Filter>01. Obj\02.Block\Plat</Filter>
+    </ClCompile>
+    <ClCompile Include="HornHusk.cpp">
+      <Filter>01. Obj\03.Monster\HornHusk</Filter>
+    </ClCompile>
+    <ClCompile Include="Leapinghusk.cpp">
+      <Filter>01. Obj\03.Monster\LeapingHusk</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundMgr.cpp">
+      <Filter>98. Design\SoundMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

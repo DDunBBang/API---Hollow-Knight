@@ -10,6 +10,7 @@
 
 
 CMainGame::CMainGame()
+	:m_dwTime(GetTickCount())
 {
 }
 
@@ -39,6 +40,16 @@ void CMainGame::Late_Update(void)
 
 void CMainGame::Render(void)
 {
+	++m_iFPS;
+
+	if (m_dwTime + 1000 < GetTickCount())
+	{
+		swprintf_s(m_szFPS, L"FPS : %d", m_iFPS);
+		SetWindowText(g_hWnd, m_szFPS);
+
+		m_iFPS = 0;
+		m_dwTime = GetTickCount();
+	}
 	HDC hBackDC = CBmpMgr::Get_Instance()->Find_Image(L"Back");
 	CSceneMgr::Get_Instance()->Render(hBackDC);
 
