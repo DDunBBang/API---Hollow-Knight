@@ -2,10 +2,11 @@
 #include "Blade.h"
 #include "BmpMgr.h"
 #include "ScrollMgr.h"
+#include "SoundMgr.h"
 
 
 CBlade::CBlade()
-	:m_bAttack(true)
+	:m_bAttack(true), m_bSound(true)
 {
 }
 
@@ -102,6 +103,11 @@ int CBlade::Update(void)
 		return OBJ_DEAD;
 
 	Update_Rect();
+	if (m_bSound)
+	{
+		CSoundMgr::Get_Instance()->PlaySound(L"sword.wav", SOUND_EFFECT, 1);
+		m_bSound = false;
+	}
 	return OBJ_NOEVENT;
 }
 

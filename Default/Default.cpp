@@ -76,7 +76,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,				// 메모리에 할당되는 실체, 즉
 		}
 		else
 		{
-			if (dwTime + 10 < GetTickCount())
+			if (dwTime + 5 < GetTickCount())
 			{
 				pMainGame->Update();
 				pMainGame->Late_Update();

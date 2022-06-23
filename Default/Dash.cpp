@@ -2,9 +2,10 @@
 #include "Dash.h"
 #include "BmpMgr.h"
 #include "ScrollMgr.h"
-
+#include "SoundMgr.h"
 
 CDash::CDash()
+	:m_bSound(true)
 {
 }
 
@@ -38,6 +39,12 @@ int CDash::Update(void)
 		return OBJ_DEAD;
 
 	Update_Rect();
+
+	if (m_bSound)
+	{
+		CSoundMgr::Get_Instance()->PlaySound(L"hero_dash.wav", SOUND_EFFECT, 1);
+		m_bSound = false;
+	}
 	return OBJ_NOEVENT;
 }
 

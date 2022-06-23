@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CollisionMgr.h"
 #include "Monster.h"
+#include "SoundMgr.h"
 
 CCollisionMgr::CCollisionMgr()
 {
@@ -91,13 +92,62 @@ bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, lis
 		{
 			if (IntersectRect(&rc, &(Dest->Get_Rect()), &(Sour->Get_Rect())))
 			{
-				Sour->Set_HP(1);
+				if (CMonster::RARE == dynamic_cast<CMonster*>(Sour)->Get_Type())
+				{
+					if (Sour->Get_Parry())
+					{
+						if (_Temp->Get_Info().fX < Sour->Get_Info().fX)
+						{
+							if (Sour->Get_Dir() == DIR_LEFT)
+							{
+								_Temp->Set_Parry(true);
+								CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", SOUND_EFFECT, 1);
+								Sleep(200);
+							}
+							else
+							{
+								CSoundMgr::Get_Instance()->PlaySound(L"enemy_damage.wav", SOUND_EFFECT, 1);
+								Sour->Set_HP(1);
+							}
+						}
+						else
+						{
+							if (Sour->Get_Dir() == DIR_RIGHT)
+							{
+								_Temp->Set_Parry(true);
+								CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", SOUND_EFFECT, 1);
+								Sleep(200);
+							}
+							else
+							{
+								CSoundMgr::Get_Instance()->PlaySound(L"enemy_damage.wav", SOUND_EFFECT, 1);
+								Sour->Set_HP(1);
+							}
+						}
+					}
+					else
+					{
+						CSoundMgr::Get_Instance()->PlaySound(L"enemy_damage.wav", SOUND_EFFECT, 1);
+						if (_Temp->Get_Info().fX < Sour->Get_Info().fX)
+							Sour->Set_PosX(50.f);
+						else
+							Sour->Set_PosX(-50.f);
+						Sour->Set_HP(1);
+					}
+				}
 				if (CMonster::NOMAL == dynamic_cast<CMonster*>(Sour)->Get_Type())
 				{
+					CSoundMgr::Get_Instance()->PlaySound(L"enemy_damage.wav", SOUND_EFFECT, 1);
 					if (_Temp->Get_Info().fX < Sour->Get_Info().fX)
 						Sour->Set_PosX(50.f);
 					else
 						Sour->Set_PosX(-50.f);
+					Sour->Set_HP(1);
+				}
+				if (CMonster::BOSS == dynamic_cast<CMonster*>(Sour)->Get_Type())
+				{
+					CSoundMgr::Get_Instance()->PlaySound(L"false_knight_damage_armour.wav", SOUND_EFFECT, 1);
+					Sour->Set_HP(1);
 				}
 				return true;
 			}
@@ -117,7 +167,7 @@ bool CCollisionMgr::Collision_Line(CObj* _pObj, list<CObj*>* _Sour, float* _pY)
 	{
 		if (_pObj->Get_Rect().right > iter->Get_Rect().left &&
 			_pObj->Get_Rect().left < iter->Get_Rect().right &&
-			_pObj->Get_Rect().bottom <= iter->Get_Rect().top + 64.f)
+			_pObj->Get_Rect().bottom <= iter->Get_Rect().top + 20.f)
 		{
 			if ((iter->Get_Rect().top) - (_pObj->Get_Rect().bottom) < fMin)
 			{

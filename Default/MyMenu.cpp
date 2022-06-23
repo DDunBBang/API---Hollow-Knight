@@ -4,6 +4,7 @@
 #include "ObjMgr.h"
 #include "KeyMgr.h"
 #include "SceneMgr.h"
+#include "SoundMgr.h"
 
 
 CMyMenu::CMyMenu()
@@ -18,6 +19,7 @@ CMyMenu::~CMyMenu()
 
 void CMyMenu::Initialize(void)
 {
+	CSoundMgr::Get_Instance()->PlayBGM(L"menu_bgm.wav", 1);
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Menu/Menu.bmp", L"Menu");
 }
 

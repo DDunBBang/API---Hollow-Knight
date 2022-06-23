@@ -21,5 +21,6 @@ public:
 
 private:
 	bool		m_bAttack;
+	bool		m_bSound;
 };
 

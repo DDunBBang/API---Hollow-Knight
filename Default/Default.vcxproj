@@ -198,6 +198,7 @@
     <ClInclude Include="UIMgr.h" />
     <ClInclude Include="Wall_L.h" />
     <ClInclude Include="Wall_R.h" />
+    <ClInclude Include="WarriorHusk.h" />
     <ClInclude Include="Wave.h" />
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +252,7 @@
     <ClCompile Include="UIMgr.cpp" />
     <ClCompile Include="Wall_L.cpp" />
     <ClCompile Include="Wall_R.cpp" />
+    <ClCompile Include="WarriorHusk.cpp" />
     <ClCompile Include="Wave.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@
 #include "AbstractFactory.h"
 #include "Wave.h"
 #include "Attack.h"
+#include "SoundMgr.h"
 
 CFalseKnight::CFalseKnight()
 	:m_iPattern(0), m_dwJumpTime(GetTickCount()), m_dwPatternTime(GetTickCount()), m_bLoop(false), m_dwSelectPattern(GetTickCount()), m_bTarget(false),
@@ -25,7 +26,7 @@ void CFalseKnight::Initialize(void)
 	m_tInfo.fCX = 160.f;
 	m_tInfo.fCY = 300.f;
 	m_iHP = 5;
-
+	m_bLand = true;
 	m_eType = BOSS;
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Monster/FalseKnight/Idle.bmp", L"FalseKnight_Idle");
@@ -57,7 +58,14 @@ int CFalseKnight::Update(void)
 	float	fDiagonal = sqrtf(fWidth * fWidth + fHeight * fHeight);
 
 	if (300 > fDiagonal)
+	{
+		if(!m_bTarget)
+		{ 
+			CSoundMgr::Get_Instance()->StopSound(SOUND_BGM);
+			CSoundMgr::Get_Instance()->PlayBGM(L"boss_bgm.wav", 1);
+		}
 		m_bTarget = true;
+	}
 	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
 	if (m_bDead)
 		return OBJ_DEAD;
@@ -91,7 +99,7 @@ void CFalseKnight::Late_Update(void)
 		m_bJump = false;
 	if (m_bTarget)
 	{
-		if (m_dwSelectPattern + 2500 < GetTickCount() && !m_bPattern)
+		if (m_dwSelectPattern + 1500 < GetTickCount() && !m_bPattern)
 			SelectPattern();
 	}
 	Move_Frame();
@@ -167,6 +175,7 @@ void CFalseKnight::Motion_Change()
 			m_tFrame.iFrameEnd = 1;
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_bJump = true;
+			m_bLand = false;
 			m_dwJumpTime = GetTickCount();
 			break;
 		case CFalseKnight::JUMP_ATTACK:
@@ -252,6 +261,11 @@ void CFalseKnight::Jumping()
 	}
 	else if (bLineCol)
 	{
+		if (!m_bLand)
+		{
+			CSoundMgr::Get_Instance()->PlaySound(L"false_knight_land.wav", SOUND_EFFECT, 1);
+			m_bLand = true;
+		}
 		m_eCurState = IDLE;
 		m_pFrameKey = L"FalseKnight_Idle";
 		m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
@@ -264,21 +278,25 @@ void CFalseKnight::SelectPattern()
 	//m_iPattern = 12;
 	if (4 >= m_iPattern)
 	{
+		CSoundMgr::Get_Instance()->PlaySound(L"false_knight_jump.wav", SOUND_EFFECT, 1);
 		m_eCurState = JUMP;
 		m_pFrameKey = L"FalseKnight_Jump";
 	}
 	else if (7 >= m_iPattern)
 	{
+		CSoundMgr::Get_Instance()->PlaySound(L"false_knight_wave.wav", SOUND_EFFECT, 1);
 		m_eCurState = WAVE;
 		m_pFrameKey = L"FalseKnight_Wave";
 	}
 	else if (10 >= m_iPattern)
 	{
+		CSoundMgr::Get_Instance()->PlaySound(L"false_knight_wave.wav", SOUND_EFFECT, 1);
 		m_eCurState = WAVE;
 		m_pFrameKey = L"FalseKnight_Wave";
 	}
 	else
 	{
+		CSoundMgr::Get_Instance()->PlaySound(L"false_knight_wave.wav", SOUND_EFFECT, 1);
 		m_eCurState = SWING;
 		m_pFrameKey = L"FalseKnight_Swing";
 	}
@@ -312,10 +330,12 @@ void CFalseKnight::Wave()
 		--m_iWave;
 		if (1 == m_tFrame.iMotion)
 		{
+			CSoundMgr::Get_Instance()->PlaySound(L"false_knight_strike_ground.wav", SOUND_EFFECT, 1);
 			CObjMgr::Get_Instance()->Add_Object(OBJ_MATTACK, CAbstractFactory<CWave>::Create(m_tInfo.fX - 130.f, m_tInfo.fY + 120, DIR_LEFT));
 		}
 		else
 		{
+			CSoundMgr::Get_Instance()->PlaySound(L"false_knight_strike_ground.wav", SOUND_EFFECT, 1);
 			CObjMgr::Get_Instance()->Add_Object(OBJ_MATTACK, CAbstractFactory<CWave>::Create(m_tInfo.fX + 130.f, m_tInfo.fY + 120, DIR_RIGHT));
 		}
 	}
@@ -342,12 +362,14 @@ void CFalseKnight::Swing()
 	}
 	if (1 == m_iSwingL && 3 == m_tFrame.iFrameStart)
 	{
+		CSoundMgr::Get_Instance()->PlaySound(L"false_knight_strike_ground.wav", SOUND_EFFECT, 1);
 		--m_iSwingL;
 		m_iSwingR = 1;
 		CObjMgr::Get_Instance()->Add_Object(OBJ_MATTACK, CAbstractFactory<CAttack>::Create(m_tInfo.fX - 170.f, m_tInfo.fY + 120));
 	}
 	if (1 == m_iSwingR && 8 == m_tFrame.iFrameStart)
 	{
+		CSoundMgr::Get_Instance()->PlaySound(L"false_knight_strike_ground.wav", SOUND_EFFECT, 1);
 		--m_iSwingR;
 		m_iSwingL = 1;
 		CObjMgr::Get_Instance()->Add_Object(OBJ_MATTACK, CAbstractFactory<CAttack>::Create(m_tInfo.fX + 170.f, m_tInfo.fY + 120));

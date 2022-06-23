@@ -96,10 +96,9 @@ void CLeapinghusk::Late_Update(void)
 		else if (bLineCol)
 		{
 			m_eCurState = IDLE;
+			Move();
 			m_tInfo.fY = fY - m_tInfo.fCY*0.5f;
 		}
-		else
-			Move();
 	}
 	else
 		Dead();
@@ -110,7 +109,7 @@ void CLeapinghusk::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScrollY();
 
-	Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
+	//Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(hDC,

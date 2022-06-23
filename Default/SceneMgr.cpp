@@ -4,6 +4,7 @@
 #include "Field.h"
 #include "Ending.h"
 #include "MyEdit.h"
+#include "SoundMgr.h"
 
 CSceneMgr* CSceneMgr::m_pInstance = nullptr;
 
@@ -24,7 +25,8 @@ void CSceneMgr::Scene_Change(SCENEID eScene)
 
 	if (m_ePreScene != m_eCurScene)
 	{
-		Safe_Delete(m_pScene);		
+		Safe_Delete(m_pScene);
+		CSoundMgr::Get_Instance()->StopSound(SOUND_BGM);
 
 		switch (m_eCurScene)
 		{

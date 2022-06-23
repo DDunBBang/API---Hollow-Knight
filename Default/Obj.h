@@ -18,16 +18,18 @@ public:
 	void		Set_PosX(float _fX) { m_tInfo.fX += _fX; }
 	void		Set_PosY(float _fY) { m_tInfo.fY += _fY; }
 
-
 	void		Set_Dir(DIRECTION eDir) { m_eDir = eDir; }
 	void		Set_Dead(void) { m_bDead = true; }
 	void		Set_Angle(float _fAngle) { m_fAngle = _fAngle; }
 	void		Set_Target(CObj* _pTarget) { m_pTarget = _pTarget; }
 	void		Set_FrameKey(TCHAR* _pFrameKey) { m_pFrameKey = _pFrameKey; }
 	void Set_HP(int _iHP) { m_iHP -= _iHP; }
+	void		Set_Parry(bool _bParry) { m_bParry = _bParry; }
 
 	bool		Get_Dead(void) { return m_bDead; }
+	DIRECTION	Get_Dir() { return m_eDir; }
 	const float Get_Speed(void) const { return m_fSpeed; }
+	bool		Get_Parry() { return m_bParry; }
 
 	const RECT&		Get_Rect(void) const { return m_tRect; }
 	const INFO&		Get_Info(void) const { return m_tInfo; }
@@ -59,6 +61,7 @@ protected:
 	bool		m_bDead;
 	bool		m_bLand;
 	bool		m_bJump;
+	bool		m_bParry;
 
 	TCHAR*		m_pFrameKey;
 	CObj*		m_pTarget;

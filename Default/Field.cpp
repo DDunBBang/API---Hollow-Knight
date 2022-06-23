@@ -26,6 +26,7 @@
 #include "Plat.h"
 #include "HornHusk.h"
 #include "Leapinghusk.h"
+#include "WarriorHusk.h"
 #include "SoundMgr.h"
 
 
@@ -41,14 +42,22 @@ CField::~CField()
 
 void CField::Initialize(void)
 {
-	//CSoundMgr::Get_Instance()->PlayBGM(L"Success.wav", 1);
+	CScrollMgr::Get_Instance()->Reset_Scroll(0.f, -1400.f);
+	CSoundMgr::Get_Instance()->PlayBGM(L"field_bgm.wav", 1);
 	CTileMgr::Get_Instance()->Load_Tile();
 	Load_File();
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bg/Field.bmp", L"Field");
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create());
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 1500.f));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(3000.f, 1500.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 50.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 900.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(3500.f, 1500.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(400.f, 900.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(4500.f, 900.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(4000.f, 1500.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CWarriorHusk>::Create(3000.f, 1500.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CWarriorHusk>::Create(5500.f, 900.f));
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL_BASE, CAbstractFactory<CSoul_Base>::Create_UI());
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL, CAbstractFactory<CSoul>::Create_UI());
 	CUIMgr::Get_Instance()->Add_UI(UI_INVEN, CAbstractFactory<CInven>::Create_UI());

@@ -16,12 +16,13 @@
 #include "Inven.h"
 #include "FalseKnight.h"
 #include "AttackEffect.h"
+#include "SoundMgr.h"
 
 CPlayer::CPlayer()
 	: m_ePreState(END), m_eCurState(IDLE), m_dwHealTime(GetTickCount()),
 	m_dwAttackTime(GetTickCount()), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false),
 	m_bHit(false), m_dwHitTime(GetTickCount()), m_bImu(false), m_dwImuTime(GetTickCount()), m_bDownAttack(false),
-	m_bUpAttack(false), m_bInven(false), m_bAttack(false), m_fJumpHeight(0)
+	m_bUpAttack(false), m_bInven(false), m_bAttack(false), m_fJumpHeight(0), m_dwParryTime(GetTickCount())
 {
 
 }
@@ -68,7 +69,11 @@ void CPlayer::Initialize(void)
 int CPlayer::Update(void)
 {
 	//블럭충돌
-	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
+	if (2 == CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK))))
+	{
+		m_bJump = false;
+		m_fJumpHeight = 0.f;
+	}
 
 	//대못공격판정
 	if (CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)->begin() != CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)->end())
@@ -95,34 +100,36 @@ int CPlayer::Update(void)
 				dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
 				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
-			if (dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Attack())
+			if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_TRAP))))
 			{
-				if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_TRAP))))
+				CSoundMgr::Get_Instance()->PlaySound(L"sword_hit_reject.wav", SOUND_EFFECT, 1);
+				if (m_bDownAttack)
 				{
-					if (m_bDownAttack)
-					{
-						m_bJump = true;
-						m_fJumpHeight = 50.f;
-					}
-					else if (!m_bUpAttack)
-					{
-						if (DIR_RIGHT == m_eDir)
-							m_tInfo.fX -= 40;
-						else
-							m_tInfo.fX += 40;
-					}
-					float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
-					float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
-					CObjMgr::Get_Instance()->Add_Object(OBJ_ATTACK_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
-					dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
+					m_bJump = true;
+					m_fJumpHeight = 50.f;
 				}
+				else if (!m_bUpAttack)
+				{
+					if (DIR_RIGHT == m_eDir)
+						m_tInfo.fX -= 40;
+					else
+						m_tInfo.fX += 40;
+				}
+				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
+				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
+				CObjMgr::Get_Instance()->Add_Object(OBJ_ATTACK_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
+				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
 			m_bDownAttack = false;
+			m_bUpAttack = false;
+
+			if (m_bParry)
+				m_dwParryTime = GetTickCount();
 		}
 	}
 
 	//히트판정
-	if (!m_bHit && !m_bImu)
+	if (!m_bHit && !m_bImu && !m_bParry)
 	{
 		if (CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER))) ||
 			CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MATTACK))) ||
@@ -140,13 +147,22 @@ int CPlayer::Update(void)
 					dynamic_cast<CHP*>((*(CUIMgr::Get_Instance()->Get_HP()))[i])->Set_Destroy(true);
 					break;
 				}
+				if (0 == i)
+				{
+					m_eCurState = DEAD;
+					m_pFrameKey = L"Player_DEAD";
+					m_bImu = true;
+				}
 			}
 		}
 	}
 	if (m_bHit && m_dwHitTime + 1000 < GetTickCount())
 	{
+
 		m_bHit = false;
 	}
+	if (m_dwParryTime + 500 < GetTickCount())
+		m_bParry = false;
 
 	Update_Rect();
 	if (m_bDead)
@@ -154,23 +170,26 @@ int CPlayer::Update(void)
 	Offset();
 
 
-	if (m_bHit && m_dwHitTime + 300 > GetTickCount())
-		Hit();
-	else if (m_bDash)
-		Dash();
-	else if (m_bHeal)
-		Heal();
-	else
+	if (m_eCurState != DEAD)
 	{
-		Key_Input();
-		Jumping();	
+		if (m_bHit && m_dwHitTime + 300 > GetTickCount())
+			Hit();
+		else if (m_bDash)
+			Dash();
+		else if (m_bHeal)
+			Heal();
+		else
+		{
+			Key_Input();
+			Jumping();
+		}
 	}
 	return OBJ_NOEVENT;
 }
 
 void CPlayer::Late_Update(void)
 {
-	if (m_fJumpHeight > 250.f)
+	if (m_fJumpHeight > 270.f)
 	{
 		m_bJump = false;
 		m_fJumpHeight = 0.f;
@@ -180,12 +199,24 @@ void CPlayer::Late_Update(void)
 	{
 		Motion_Change();
 	}
- 	Move_Frame();
+	Move_Frame();
 
 	if (m_ePreState == ATTACK && m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
 	{
 		m_bAttack = false;
 		m_dwAttackTime = GetTickCount();
+	}
+
+	if (m_ePreState == DEAD)
+	{
+		if (m_tFrame.iFrameEnd == m_tFrame.iFrameStart)
+		{
+			CScrollMgr::Get_Instance()->Reset_Scroll(0.f, -1400.f);
+			Set_Pos(400.f, 1500.f);
+			m_eCurState = IDLE;
+			m_pFrameKey = L"Player_IDLE";
+			m_bImu = false;
+		}
 	}
 }
 
@@ -198,31 +229,32 @@ void CPlayer::Render(HDC hDC)
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(hDC,
-		int(m_tInfo.fX-90) + iScrollX,
-		int(m_tInfo.fY-50) + iScrollY,
+		int(m_tInfo.fX - 90) + iScrollX,
+		int(m_tInfo.fY - 50) + iScrollY,
 		180,
 		90,
-		hMemDC,	
+		hMemDC,
 		m_tFrame.iMotion * 256,
 		m_tFrame.iFrameStart * 128,
 		256,
 		128,
-		RGB(255,0,0));
+		RGB(255, 0, 0));
 }
 
 void CPlayer::Release(void)
-{	
+{
 }
 
 void CPlayer::Key_Input(void)
 {
 	if (m_bLand)
-	{		
+	{
 		if (3 <= *(dynamic_cast<CSoul*>(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL)->front())->Get_Gauge())
 			&& dynamic_cast<CHP*>(CUIMgr::Get_Instance()->Get_HP()->back())->Get_Destroy())
 		{
 			if (CKeyMgr::Get_Instance()->Key_Down('A'))
 			{
+				CSoundMgr::Get_Instance()->PlaySound(L"charge.wav", SOUND_EFFECT, 1);
 				CObjMgr::Get_Instance()->Add_Object(OBJ_CHARGE, CAbstractFactory<CCharge>::Create(m_tInfo.fX, m_tInfo.fY - 12.f));
 				m_dwHealTime = GetTickCount();
 				m_bHeal = true;
@@ -246,6 +278,7 @@ void CPlayer::Key_Input(void)
 		}
 		if (CKeyMgr::Get_Instance()->Key_Down('X'))
 		{
+			CSoundMgr::Get_Instance()->PlaySound(L"hero_jump.wav", SOUND_EFFECT, 1);
 			m_bJump = true;
 			m_bLand = false;
 			m_eCurState = JUMP;
@@ -387,13 +420,21 @@ void CPlayer::Dash(void)
 	m_eCurState = DASH;
 	m_pFrameKey = L"Player_Dash";
 	if (DIR_LEFT == m_eDir)
+	{
 		m_tInfo.fX -= m_fSpeed*4.f;
+		CScrollMgr::Get_Instance()->Set_ScrollX(m_fSpeed*4.f);
+	}
 	if (DIR_RIGHT == m_eDir)
+	{
 		m_tInfo.fX += m_fSpeed*4.f;
+		CScrollMgr::Get_Instance()->Set_ScrollX(-m_fSpeed*4.f);
+	}
 	if (m_dwDashTime + 200 < GetTickCount())
 	{
 		m_bImu = false;
 		m_bDash = false;
+		m_bJump = false;
+		m_fJumpHeight = 0.f;
 		CObjMgr::Get_Instance()->Delete_ID(OBJ_DASH);
 	}
 }
@@ -409,6 +450,7 @@ void CPlayer::Heal(void)
 			m_pFrameKey = L"Player_Charge";
 			if (m_dwHealTime + 900 < GetTickCount())
 			{
+				CSoundMgr::Get_Instance()->PlaySound(L"charge_complete.wav", SOUND_EFFECT, 1);
 				for (auto& iter : *(CUIMgr::Get_Instance()->Get_HP()))
 				{
 					if (dynamic_cast<CHP*>(iter)->Get_Destroy())
@@ -499,7 +541,7 @@ void CPlayer::Motion_Change(void)
 	else if (DIR_RIGHT == m_eDir)
 		m_tFrame.iMotion = 1;
 	if (m_ePreState != m_eCurState)
-	{		
+	{
 		switch (m_eCurState)
 		{
 		case CPlayer::IDLE:
@@ -553,6 +595,11 @@ void CPlayer::Motion_Change(void)
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::DEAD:
+			m_tFrame.iFrameStart = 0;
+			m_tFrame.iFrameEnd = 8;
+
+			m_tFrame.dwFrameSpeed = 100;
+			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::FIRE:
 			break;

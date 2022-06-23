@@ -29,7 +29,7 @@ int CAttack::Update(void)
 
 void CAttack::Late_Update(void)
 {
-	if (m_dwDeleteTime + 90 < GetTickCount())
+	if (m_dwDeleteTime + 100 < GetTickCount())
 		m_bDead = true;
 }
 

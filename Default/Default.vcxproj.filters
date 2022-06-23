@@ -154,6 +154,9 @@
     <Filter Include="98. Design\SoundMgr">
       <UniqueIdentifier>{d82bc6db-cacf-4a96-bc6f-d4b1c8a95585}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\03.Monster\WarriorHusk">
+      <UniqueIdentifier>{557752de-7bfe-4725-84f1-4e1f1e8d6739}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -321,6 +324,9 @@
     <ClInclude Include="SoundMgr.h">
       <Filter>98. Design\SoundMgr</Filter>
     </ClInclude>
+    <ClInclude Include="WarriorHusk.h">
+      <Filter>01. Obj\03.Monster\WarriorHusk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -460,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="SoundMgr.cpp">
       <Filter>98. Design\SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="WarriorHusk.cpp">
+      <Filter>01. Obj\03.Monster\WarriorHusk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

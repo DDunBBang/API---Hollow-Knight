@@ -2,8 +2,10 @@
 #include "Hit.h"
 #include "BmpMgr.h"
 #include "ScrollMgr.h"
+#include "SoundMgr.h"
 
 CHit::CHit()
+	:m_bSound(true)
 {
 }
 
@@ -36,6 +38,12 @@ int CHit::Update(void)
 		return OBJ_DEAD;
 
 	Update_Rect();
+
+	if (m_bSound)
+	{
+		CSoundMgr::Get_Instance()->PlaySound(L"hero_damage.wav", SOUND_EFFECT, 1);
+		m_bSound = false;
+	}
 	return OBJ_NOEVENT;
 }
 

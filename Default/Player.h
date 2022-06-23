@@ -49,6 +49,8 @@ private:
 	DWORD		m_dwHealTime;
 	DWORD		m_dwHitTime;
 	DWORD		m_dwImuTime;
+	DWORD		m_dwDeadTime;
+	DWORD		m_dwParryTime;
 
 	STATE		m_ePreState;
 	STATE		m_eCurState;
