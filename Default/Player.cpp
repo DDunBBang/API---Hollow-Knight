@@ -400,7 +400,8 @@ void CPlayer::Jumping(void)
 	}
 	else if (m_tRect.bottom < fY - 3 || !bLineCol)
 	{
-		m_tInfo.fY += m_fSpeed * 2;
+		m_tInfo.fY += m_fSpeed * 2.f;
+		CScrollMgr::Get_Instance()->Set_ScrollY(-m_fSpeed*2.f);
 		if (0 == m_tFrame.iFrameStart)
 		{
 			m_eCurState = DOWN;
