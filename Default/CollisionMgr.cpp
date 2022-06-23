@@ -48,7 +48,7 @@ int CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour)
 					// 상 충돌
 					if (Dest->Get_Info().fY < Sour->Get_Info().fY)
 					{
-						Dest->Set_PosY(-fHeight);
+						//Dest->Set_PosY(-fHeight);
 						return 1;
 					}
 					// 하 충돌
@@ -102,7 +102,7 @@ bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, lis
 							{
 								_Temp->Set_Parry(true);
 								CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", SOUND_EFFECT, 1);
-								Sleep(200);
+								Sleep(150);
 							}
 							else
 							{
@@ -116,7 +116,7 @@ bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, lis
 							{
 								_Temp->Set_Parry(true);
 								CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", SOUND_EFFECT, 1);
-								Sleep(200);
+								Sleep(150);
 							}
 							else
 							{

@@ -156,6 +156,7 @@
     <ClInclude Include="Dash.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Ending.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="FalseKnight.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Dash.cpp" />
     <ClCompile Include="Default.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Ending.cpp" />
     <ClCompile Include="FalseKnight.cpp" />
     <ClCompile Include="Field.cpp" />

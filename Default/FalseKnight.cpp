@@ -25,7 +25,7 @@ void CFalseKnight::Initialize(void)
 	m_tInfo = { 6000.f, 450.f, 160.f, 300.f };
 	m_tInfo.fCX = 160.f;
 	m_tInfo.fCY = 300.f;
-	m_iHP = 5;
+	m_iHP = 15;
 	m_bLand = true;
 	m_eType = BOSS;
 

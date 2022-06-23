@@ -96,7 +96,7 @@ int CPlayer::Update(void)
 				}
 				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
 				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
-				CObjMgr::Get_Instance()->Add_Object(OBJ_ATTACK_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
 				dynamic_cast<CSoul*>((*(CUIMgr::Get_Instance()->Get_UIList(UI_SOUL))).front())->Set_Gauge(1);
 				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
@@ -117,7 +117,7 @@ int CPlayer::Update(void)
 				}
 				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
 				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
-				CObjMgr::Get_Instance()->Add_Object(OBJ_ATTACK_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
+				CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
 				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
 			m_bDownAttack = false;
@@ -135,7 +135,7 @@ int CPlayer::Update(void)
 			CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MATTACK))) ||
 			CCollisionMgr::Collision_Rect(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_PLAYER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_TRAP))))
 		{
-			CObjMgr::Get_Instance()->Add_Object(OBJ_HIT, CAbstractFactory<CHit>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
+			CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CHit>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
 			m_eCurState = HIT;
 			m_pFrameKey = L"Player_HIT";
 			m_bHit = true;

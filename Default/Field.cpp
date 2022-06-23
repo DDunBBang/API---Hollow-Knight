@@ -28,6 +28,7 @@
 #include "Leapinghusk.h"
 #include "WarriorHusk.h"
 #include "SoundMgr.h"
+#include "Door.h"
 
 
 CField::CField()
@@ -47,6 +48,9 @@ void CField::Initialize(void)
 	CTileMgr::Get_Instance()->Load_Tile();
 	Load_File();
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bg/Field.bmp", L"Field");
+
+	//CObjMgr::Get_Instance()->Add_Object(OBJ_BROKEN, CAbstractFactory<CDoor>::Create(900.f, 1500.f));
+
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create());
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 1500.f));

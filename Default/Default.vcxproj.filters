@@ -157,6 +157,12 @@
     <Filter Include="01. Obj\03.Monster\WarriorHusk">
       <UniqueIdentifier>{557752de-7bfe-4725-84f1-4e1f1e8d6739}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\07. Broken">
+      <UniqueIdentifier>{e1b168d8-880c-4167-9a38-8fbe7693d633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\07. Broken\Door">
+      <UniqueIdentifier>{aeff79ba-c043-4630-9d6b-735c95075811}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -327,6 +333,9 @@
     <ClInclude Include="WarriorHusk.h">
       <Filter>01. Obj\03.Monster\WarriorHusk</Filter>
     </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>01. Obj\07. Broken\Door</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -469,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="WarriorHusk.cpp">
       <Filter>01. Obj\03.Monster\WarriorHusk</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>01. Obj\07. Broken\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
