@@ -16,7 +16,7 @@ void CDoor::Initialize(void)
 {
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/door/door.bmp", L"Door");
 	
-	m_tInfo.fCX = 300.f;
+	m_tInfo.fCX = 160.f;
 	m_tInfo.fCY = 650.f;
 	m_tInfo.eSave = EDIT_DOOR;
 
@@ -37,6 +37,18 @@ int CDoor::Update(void)
 
 void CDoor::Late_Update(void)
 {
+	if (6 >= m_iHP && 4 <= m_iHP)
+	{
+		m_tFrame.iMotion = 1;
+	}
+	else if (3 >= m_iHP && 1 <= m_iHP)
+	{
+		m_tFrame.iMotion = 2;
+	}
+	else if (0 >= m_iHP)
+	{
+		m_bDead = true;
+	}
 }
 
 void CDoor::Render(HDC hDC)
@@ -46,14 +58,15 @@ void CDoor::Render(HDC hDC)
 
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
 
+	//Rectangle(hDC, m_tRect.left + iScrollX, m_tRect.top + iScrollY, m_tRect.right + iScrollX, m_tRect.bottom + iScrollY);
 	GdiTransparentBlt(hDC,
-		int(m_tRect.left) + iScrollX,
-		int(m_tRect.top) + iScrollY,
-		int(m_tInfo.fCX),
-		int(m_tInfo.fCY),
+		int(m_tInfo.fX - 150.f) + iScrollX,
+		int(m_tInfo.fY - 325.f) + iScrollY,
+		300,
+		650,
 		hMemDC,
 		m_tFrame.iMotion * 553,
-		962,
+		0,
 		553,
 		962,
 		RGB(255, 255, 255));

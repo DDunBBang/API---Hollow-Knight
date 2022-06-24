@@ -23,7 +23,7 @@ public:
 	void		Set_Angle(float _fAngle) { m_fAngle = _fAngle; }
 	void		Set_Target(CObj* _pTarget) { m_pTarget = _pTarget; }
 	void		Set_FrameKey(TCHAR* _pFrameKey) { m_pFrameKey = _pFrameKey; }
-	void Set_HP(int _iHP) { m_iHP -= _iHP; }
+	void		Set_HP(int _iHP) { m_iHP -= _iHP; }
 	void		Set_Parry(bool _bParry) { m_bParry = _bParry; }
 
 	bool		Get_Dead(void) { return m_bDead; }

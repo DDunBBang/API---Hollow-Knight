@@ -31,6 +31,26 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 
 }
 
+bool CCollisionMgr::Collision_Broken(list<CObj*> _Dest, list<CObj*> _Sour)
+{
+	RECT		rc{};
+
+
+	for (auto& Dest : _Dest)
+	{
+		for (auto& Sour : _Sour)
+		{
+			if (IntersectRect(&rc, &(Dest->Get_Rect()), &(Sour->Get_Rect())))
+			{
+				Sour->Set_HP(1);
+				return true;
+			}
+		}
+	}
+	return false;
+
+}
+
 int CCollisionMgr::Collision_Rect_Ex(list<CObj*> _Dest, list<CObj*> _Sour)
 {
 	for (auto& Dest : _Dest)
