@@ -19,7 +19,7 @@ CMyMenu::~CMyMenu()
 
 void CMyMenu::Initialize(void)
 {
-	CSoundMgr::Get_Instance()->PlayBGM(L"menu_bgm.wav", 1);
+	CSoundMgr::Get_Instance()->PlayBGM(L"menu_bgm.wav", 0.5);
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Menu/Menu.bmp", L"Menu");
 }
 
