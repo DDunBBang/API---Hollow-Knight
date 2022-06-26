@@ -33,7 +33,7 @@ void CMyMenu::Late_Update(void)
 {
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_RETURN))
 	{
-		CSceneMgr::Get_Instance()->Scene_Change(SC_FIELD2);
+		CSceneMgr::Get_Instance()->Scene_Change(SC_FIELD);
 		return;
 	}
 	if (CKeyMgr::Get_Instance()->Key_Down('E'))
