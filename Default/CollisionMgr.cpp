@@ -122,7 +122,7 @@ bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, lis
 							{
 								_Temp->Set_Parry(true);
 								CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", SOUND_EFFECT, 1);
-								Sleep(200);
+								Sleep(250);
 							}
 							else
 							{
@@ -136,7 +136,7 @@ bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, lis
 							{
 								_Temp->Set_Parry(true);
 								CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", SOUND_EFFECT, 1);
-								Sleep(200);
+								Sleep(250);
 							}
 							else
 							{
@@ -162,6 +162,11 @@ bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, lis
 						Sour->Set_PosX(50.f);
 					else
 						Sour->Set_PosX(-50.f);
+					Sour->Set_HP(1);
+				}
+				if (CMonster::FLY == dynamic_cast<CMonster*>(Sour)->Get_Type())
+				{
+					CSoundMgr::Get_Instance()->PlaySound(L"enemy_damage.wav", SOUND_EFFECT, 1);
 					Sour->Set_HP(1);
 				}
 				if (CMonster::BOSS == dynamic_cast<CMonster*>(Sour)->Get_Type())

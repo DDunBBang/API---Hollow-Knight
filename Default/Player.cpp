@@ -231,6 +231,31 @@ void CPlayer::Late_Update(void)
 			m_bImu = false;
 		}
 	}
+
+	if (1664 < m_tInfo.fY)
+	{
+		CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CHit>::Create(m_tInfo.fX, m_tInfo.fY, m_eDir));
+		m_eCurState = HIT;
+		m_pFrameKey = L"Player_HIT";
+		m_bHit = true;
+		m_dwHitTime = GetTickCount();
+		for (int i = 4; i >= 0; --i)
+		{
+			if (!dynamic_cast<CHP*>((*(CUIMgr::Get_Instance()->Get_HP()))[i])->Get_Destroy())
+			{
+				dynamic_cast<CHP*>((*(CUIMgr::Get_Instance()->Get_HP()))[i])->Set_Destroy(true);
+				break;
+			}
+			if (0 == i)
+			{
+				m_eCurState = DEAD;
+				m_pFrameKey = L"Player_DEAD";
+				m_bImu = true;
+			}
+		}
+		Set_Pos(400.f, 1500.f);
+		CScrollMgr::Get_Instance()->Reset_Scroll(0.f, -1400.f);
+	}
 }
 
 void CPlayer::Render(HDC hDC)
@@ -518,10 +543,10 @@ void CPlayer::Hit(void)
 		CScrollMgr::Get_Instance()->Set_ScrollY(-8);
 		break;
 	}
-	if (DIR_LEFT == m_eDir)
-		m_tInfo.fX += m_fSpeed;
-	else
-		m_tInfo.fX -= m_fSpeed;
+	//if (DIR_LEFT == m_eDir)
+	//	m_tInfo.fX += m_fSpeed;
+	//else
+	//	m_tInfo.fX -= m_fSpeed;
 }
 
 void CPlayer::Offset(void)

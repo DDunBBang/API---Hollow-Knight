@@ -2,6 +2,7 @@
 #include "Spear.h"
 #include "BmpMgr.h"
 #include "ScrollMgr.h"
+#include "ObjMgr.h"
 
 
 CSpear::CSpear()

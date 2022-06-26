@@ -2,6 +2,7 @@
 #include "SceneMgr.h"
 #include "MyMenu.h"
 #include "Field.h"
+#include "Field2.h"
 #include "Ending.h"
 #include "MyEdit.h"
 #include "SoundMgr.h"
@@ -36,6 +37,10 @@ void CSceneMgr::Scene_Change(SCENEID eScene)
 
 		case SC_FIELD:
 			m_pScene = new CField;
+			break;
+
+		case SC_FIELD2:
+			m_pScene = new CField2;
 			break;
 
 		case SC_ENDING:

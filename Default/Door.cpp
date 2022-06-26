@@ -2,6 +2,7 @@
 #include "Door.h"
 #include "BmpMgr.h"
 #include "ScrollMgr.h"
+#include "SceneMgr.h"
 
 CDoor::CDoor()
 {
@@ -47,6 +48,7 @@ void CDoor::Late_Update(void)
 	}
 	else if (0 >= m_iHP)
 	{
+		CSceneMgr::Get_Instance()->Scene_Change(SC_FIELD2);
 		m_bDead = true;
 	}
 }

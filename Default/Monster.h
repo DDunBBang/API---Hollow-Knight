@@ -4,7 +4,7 @@ class CMonster :
 	public CObj
 {
 public:
-	enum Type { NOMAL, RARE, BOSS, END };
+	enum Type { NOMAL, RARE, FLY, BOSS, END };
 public:
 	CMonster();
 	virtual ~CMonster();

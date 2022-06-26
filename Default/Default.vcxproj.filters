@@ -169,6 +169,12 @@
     <Filter Include="02. Scene\03. BossStage">
       <UniqueIdentifier>{f77240e7-8b7b-4b67-bf9c-ad10ff02150a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\03.Monster\Fly">
+      <UniqueIdentifier>{37ed8867-b06f-4c67-8efe-3b3b13c32bb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\03.Monster\Goem">
+      <UniqueIdentifier>{900675e3-579e-4f47-95e3-2cac87d46497}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -348,6 +354,12 @@
     <ClInclude Include="BossStage.h">
       <Filter>02. Scene\03. BossStage</Filter>
     </ClInclude>
+    <ClInclude Include="Fly.h">
+      <Filter>01. Obj\03.Monster\Fly</Filter>
+    </ClInclude>
+    <ClInclude Include="Goem.h">
+      <Filter>01. Obj\03.Monster\Goem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -499,6 +511,12 @@
     </ClCompile>
     <ClCompile Include="BossStage.cpp">
       <Filter>02. Scene\03. BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="Fly.cpp">
+      <Filter>01. Obj\03.Monster\Fly</Filter>
+    </ClCompile>
+    <ClCompile Include="Goem.cpp">
+      <Filter>01. Obj\03.Monster\Goem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
