@@ -151,12 +151,6 @@
     <Filter Include="01. Obj\03.Monster\WarriorHusk">
       <UniqueIdentifier>{557752de-7bfe-4725-84f1-4e1f1e8d6739}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\07. Broken">
-      <UniqueIdentifier>{e1b168d8-880c-4167-9a38-8fbe7693d633}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\07. Broken\Door">
-      <UniqueIdentifier>{aeff79ba-c043-4630-9d6b-735c95075811}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Scene\02. Field2">
       <UniqueIdentifier>{9dd6ac95-f7d5-4e6b-8807-efc05890099d}</UniqueIdentifier>
     </Filter>
@@ -174,6 +168,15 @@
     </Filter>
     <Filter Include="01. Obj\03.Monster\Goem">
       <UniqueIdentifier>{900675e3-579e-4f47-95e3-2cac87d46497}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\07. Door">
+      <UniqueIdentifier>{e1b168d8-880c-4167-9a38-8fbe7693d633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\07. Door\Door">
+      <UniqueIdentifier>{aeff79ba-c043-4630-9d6b-735c95075811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\07. Door\Boss_Door">
+      <UniqueIdentifier>{462534db-5347-4ea3-8bf0-e9a52d408ee1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -346,7 +349,7 @@
       <Filter>01. Obj\03.Monster\WarriorHusk</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
-      <Filter>01. Obj\07. Broken\Door</Filter>
+      <Filter>01. Obj\07. Door\Door</Filter>
     </ClInclude>
     <ClInclude Include="Field2.h">
       <Filter>02. Scene\02. Field2</Filter>
@@ -359,6 +362,9 @@
     </ClInclude>
     <ClInclude Include="Goem.h">
       <Filter>01. Obj\03.Monster\Goem</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_Door.h">
+      <Filter>01. Obj\07. Door\Boss_Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -504,7 +510,7 @@
       <Filter>01. Obj\03.Monster\WarriorHusk</Filter>
     </ClCompile>
     <ClCompile Include="Door.cpp">
-      <Filter>01. Obj\07. Broken\Door</Filter>
+      <Filter>01. Obj\07. Door\Door</Filter>
     </ClCompile>
     <ClCompile Include="Field2.cpp">
       <Filter>02. Scene\02. Field2</Filter>
@@ -517,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="Goem.cpp">
       <Filter>01. Obj\03.Monster\Goem</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_Door.cpp">
+      <Filter>01. Obj\07. Door\Boss_Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

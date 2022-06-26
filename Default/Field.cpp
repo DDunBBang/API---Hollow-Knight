@@ -29,6 +29,7 @@
 #include "WarriorHusk.h"
 #include "SoundMgr.h"
 #include "Door.h"
+#include "Boss_Door.h"
 
 
 CField::CField()
@@ -52,7 +53,6 @@ void CField::Initialize(void)
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
 	CScrollMgr::Get_Instance()->Reset_Scroll((CObjMgr::Get_Instance()->Get_Player()->Get_Info().fX), -(CObjMgr::Get_Instance()->Get_Player()->Get_Info().fY));
 
-	//CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFalseKnight>::Create());
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 1500.f));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 50.f));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 900.f));
@@ -66,7 +66,6 @@ void CField::Initialize(void)
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CWarriorHusk>::Create(5800.f, 450.f));
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL_BASE, CAbstractFactory<CSoul_Base>::Create_UI());
 	CUIMgr::Get_Instance()->Add_UI(UI_SOUL, CAbstractFactory<CSoul>::Create_UI());
-	CUIMgr::Get_Instance()->Add_UI(UI_INVEN, CAbstractFactory<CInven>::Create_UI());
 
 	for (size_t i = 0; i < 5; ++i)
 	{

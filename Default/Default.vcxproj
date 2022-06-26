@@ -151,6 +151,7 @@
     <ClInclude Include="Blade.h" />
     <ClInclude Include="BmpMgr.h" />
     <ClInclude Include="BossStage.h" />
+    <ClInclude Include="Boss_Door.h" />
     <ClInclude Include="Bottom.h" />
     <ClInclude Include="Charge.h" />
     <ClInclude Include="CollisionMgr.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="Blade.cpp" />
     <ClCompile Include="BmpMgr.cpp" />
     <ClCompile Include="BossStage.cpp" />
+    <ClCompile Include="Boss_Door.cpp" />
     <ClCompile Include="Bottom.cpp" />
     <ClCompile Include="Charge.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />

@@ -14,7 +14,7 @@ CAttack::~CAttack()
 
 void CAttack::Initialize(void)
 {
-	m_tInfo.fCX = 120.f;
+	m_tInfo.fCX = 140.f;
 	m_tInfo.fCY = 120.f;
 }
 

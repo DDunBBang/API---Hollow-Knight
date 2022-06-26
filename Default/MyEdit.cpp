@@ -19,6 +19,7 @@
 #include "Plat.h"
 #include "Door.h"
 #include "Fly.h"
+#include "Boss_Door.h"
 
 CMyEdit::CMyEdit()
 	:m_bTrue(false), m_etype(EDIT_END)
@@ -40,7 +41,7 @@ void CMyEdit::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bg/Field.bmp", L"Field");
 	CTileMgr::Get_Instance()->Initialize();
 
-	for (int i = 0; i < 11; ++i)
+	for (int i = 0; i < 12; ++i)
 	{
 		m_tInfo.fX = 30.f;
 		m_tInfo.fY = float(50 * (i + 1));
@@ -84,7 +85,7 @@ void CMyEdit::Render(HDC hDC)
 
 	CObjMgr::Get_Instance()->Render(hDC);
 
-	TCHAR szTitle[11][32];
+	TCHAR szTitle[12][32];
 
 	swprintf_s(szTitle[0], L"바닥");
 	swprintf_s(szTitle[1], L"천장");
@@ -96,11 +97,12 @@ void CMyEdit::Render(HDC hDC)
 	swprintf_s(szTitle[7], L"돌송곳");
 	swprintf_s(szTitle[8], L"플랫");
 	swprintf_s(szTitle[9], L"돌문");
-	swprintf_s(szTitle[10], L"파리");
+	swprintf_s(szTitle[10], L"보스문");
+	swprintf_s(szTitle[11], L"파리");
 
 	if (m_etype != EDIT_END)
 		DrawText(hDC, szTitle[m_etype], lstrlen(szTitle[m_etype]), &m_Mouse, DT_CENTER);
-	for (int i = 0; i < 11; ++i)
+	for (int i = 0; i < 12; ++i)
 	{
 		Rectangle(hDC, rc[i].left, rc[i].top, rc[i].right, rc[i].bottom);
 		DrawText(hDC, szTitle[i], lstrlen(szTitle[i]), &rc[i], DT_CENTER);
@@ -206,6 +208,14 @@ void CMyEdit::Select(void)
 				m_etype = EDIT_FLY;
 			}
 		}
+		if (IntersectRect(&rcTrue, &m_Mouse, &rc[11]))
+		{
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON))
+			{
+				m_bTrue = true;
+				m_etype = EDIT_BOSS_DOOR;
+			}
+		}
 	}
 }
 
@@ -302,6 +312,9 @@ void CMyEdit::Load_File()
 			break;
 		case EDIT_FLY:
 			CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFly>::Create(tInfo.fX, tInfo.fY));
+			break;
+		case EDIT_BOSS_DOOR:
+			CObjMgr::Get_Instance()->Add_Object(OBJ_BROKEN, CAbstractFactory<CBoss_Door>::Create(tInfo.fX, tInfo.fY));
 			break;
 		}
 	}
@@ -405,6 +418,12 @@ void CMyEdit::Key_Input(void)
 			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
 			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 				CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CFly>::Create((float)iX, (float)iY));
+			break;
+		case EDIT_BOSS_DOOR:
+			iX = pt.x - (pt.x%TILECX) + TILECX * 0.5;
+			iY = pt.y - (pt.y%TILECY) + TILECY * 0.5;
+			if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+				CObjMgr::Get_Instance()->Add_Object(OBJ_BROKEN, CAbstractFactory<CBoss_Door>::Create((float)iX, (float)iY));
 			break;
 		}
 	}

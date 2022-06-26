@@ -133,6 +133,19 @@ int CPlayer::Update(void)
 				CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
 				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
+			if (CCollisionMgr::Collision_Broken(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BOSS_DOOR))))
+			{
+				CSoundMgr::Get_Instance()->PlaySound(L"breakable_wall_hit.wav", SOUND_EFFECT, 1);
+				if (m_bDownAttack)
+				{
+					m_bJump = true;
+					m_fJumpHeight = 50.f;
+				}
+				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
+				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
+				CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
+				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
+			}
 			m_bDownAttack = false;
 			m_bUpAttack = false;
 

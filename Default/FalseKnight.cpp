@@ -22,7 +22,7 @@ CFalseKnight::~CFalseKnight()
 
 void CFalseKnight::Initialize(void)
 {
-	m_tInfo = { 6000.f, 450.f, 160.f, 300.f };
+	m_tInfo = { 1000.f, 1400.f, 160.f, 300.f };
 	m_tInfo.fCX = 160.f;
 	m_tInfo.fCY = 300.f;
 	m_iHP = 20;
@@ -57,15 +57,6 @@ int CFalseKnight::Update(void)
 	float	fHeight = fabs(CObjMgr::Get_Instance()->Get_Player()->Get_Info().fY - m_tInfo.fY);
 	float	fDiagonal = sqrtf(fWidth * fWidth + fHeight * fHeight);
 
-	if (300 > fDiagonal)
-	{
-		if(!m_bTarget)
-		{ 
-			CSoundMgr::Get_Instance()->StopSound(SOUND_BGM);
-			CSoundMgr::Get_Instance()->PlayBGM(L"boss_bgm.wav", 1);
-		}
-		m_bTarget = true;
-	}
 	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
 	if (m_bDead)
 		return OBJ_DEAD;
@@ -97,14 +88,12 @@ void CFalseKnight::Late_Update(void)
 	}
 	if (m_dwJumpTime + 400 < GetTickCount())
 		m_bJump = false;
-	if (m_bTarget)
-	{
-		if (m_dwSelectPattern + 800 < GetTickCount() && !m_bPattern)
-			SelectPattern();
-	}
+
+	if (m_dwSelectPattern + 800 < GetTickCount() && !m_bPattern)
+		SelectPattern();
 	Move_Frame();
 	Motion_Change();
-	if(m_bGroggy)
+	if (m_bGroggy)
 	{
 		if (m_tFrame.iFrameStart == m_tFrame.iFrameEnd)
 		{
@@ -133,8 +122,8 @@ void CFalseKnight::Render(HDC hDC)
 	HDC	hMemDC = CBmpMgr::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(hDC,
-		int(m_tInfo.fX-325.f) + iScrollX,
-		int(m_tInfo.fY-400.f) + iScrollY,
+		int(m_tInfo.fX - 325.f) + iScrollX,
+		int(m_tInfo.fY - 400.f) + iScrollY,
 		650,
 		600,
 		hMemDC,
@@ -274,7 +263,7 @@ void CFalseKnight::Jumping()
 
 void CFalseKnight::SelectPattern()
 {
-	m_iPattern = rand() % 12 + 1;
+	m_iPattern = rand() % 10 + 1;
 	//m_iPattern = 12;
 	if (4 >= m_iPattern)
 	{
@@ -283,12 +272,6 @@ void CFalseKnight::SelectPattern()
 		m_pFrameKey = L"FalseKnight_Jump";
 	}
 	else if (7 >= m_iPattern)
-	{
-		CSoundMgr::Get_Instance()->PlaySound(L"false_knight_wave.wav", SOUND_EFFECT, 1);
-		m_eCurState = WAVE;
-		m_pFrameKey = L"FalseKnight_Wave";
-	}
-	else if (10 >= m_iPattern)
 	{
 		CSoundMgr::Get_Instance()->PlaySound(L"false_knight_wave.wav", SOUND_EFFECT, 1);
 		m_eCurState = WAVE;

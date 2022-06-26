@@ -5,6 +5,7 @@
 #include "Field2.h"
 #include "Ending.h"
 #include "MyEdit.h"
+#include "BossStage.h"
 #include "SoundMgr.h"
 
 CSceneMgr* CSceneMgr::m_pInstance = nullptr;
@@ -41,6 +42,10 @@ void CSceneMgr::Scene_Change(SCENEID eScene)
 
 		case SC_FIELD2:
 			m_pScene = new CField2;
+			break;
+
+		case SC_BOSS:
+			m_pScene = new CBossStage;
 			break;
 
 		case SC_ENDING:

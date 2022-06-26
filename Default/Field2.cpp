@@ -30,6 +30,7 @@
 #include "SoundMgr.h"
 #include "Door.h"
 #include "Fly.h"
+#include "Boss_Door.h"
 
 CField2::CField2()
 {
@@ -44,8 +45,10 @@ CField2::~CField2()
 void CField2::Initialize(void)
 {
 	CObjMgr::Get_Instance()->Release();
+	Load_File();
 
 	CScrollMgr::Get_Instance()->Reset_Scroll(0.f, -1400.f);
+	CObjMgr::Get_Instance()->Add_Object(OBJ_BOSS_DOOR, CAbstractFactory<CBoss_Door>::Create(6240.f, 1504.f));
 
 	CObjMgr::Get_Instance()->Add_Object(OBJ_PLAYER, CAbstractFactory<CPlayer>::Create());
 	//CUIMgr::Get_Instance()->Add_UI(UI_SOUL_BASE, CAbstractFactory<CSoul_Base>::Create_UI());
@@ -54,8 +57,6 @@ void CField2::Initialize(void)
 	//{
 	//	CUIMgr::Get_Instance()->Get_HP()->push_back(CAbstractFactory<CHP>::Create_UI(165.f + (i * 50), 15.f));
 	//}
-
-	Load_File();
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Stage/bg/Field.bmp", L"Field");
 }
 
