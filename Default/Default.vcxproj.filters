@@ -178,6 +178,9 @@
     <Filter Include="01. Obj\07. Door\Boss_Door">
       <UniqueIdentifier>{462534db-5347-4ea3-8bf0-e9a52d408ee1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\08. Key">
+      <UniqueIdentifier>{27ac7373-e32f-4c8f-99a9-7c7037e4cdd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -366,6 +369,9 @@
     <ClInclude Include="Boss_Door.h">
       <Filter>01. Obj\07. Door\Boss_Door</Filter>
     </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>01. Obj\08. Key</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -526,6 +532,9 @@
     </ClCompile>
     <ClCompile Include="Boss_Door.cpp">
       <Filter>01. Obj\07. Door\Boss_Door</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>01. Obj\08. Key</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

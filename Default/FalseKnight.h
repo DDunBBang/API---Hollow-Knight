@@ -45,5 +45,6 @@ private:
 	DWORD	m_dwJumpTime;
 	DWORD	m_dwPatternTime;
 	DWORD	m_dwSelectPattern;
+	DWORD	m_dwDead;
 };
 

@@ -58,7 +58,7 @@ void CField::Initialize(void)
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(900.f, 900.f));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CHornHusk>::Create(3500.f, 1500.f));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(400.f, 900.f));
-	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(4500.f, 900.f));
+	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(4700.f, 900.f));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CLeapinghusk>::Create(4000.f, 1500.f));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CWarriorHusk>::Create(3000.f, 1500.f));
 	CObjMgr::Get_Instance()->Add_Object(OBJ_MONSTER, CAbstractFactory<CWarriorHusk>::Create(5500.f, 900.f));

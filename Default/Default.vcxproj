@@ -172,6 +172,7 @@
     <ClInclude Include="HP.h" />
     <ClInclude Include="Include.h" />
     <ClInclude Include="Inven.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="KeyMgr.h" />
     <ClInclude Include="Leapinghusk.h" />
     <ClInclude Include="MainGame.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="HornHusk.cpp" />
     <ClCompile Include="HP.cpp" />
     <ClCompile Include="Inven.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="KeyMgr.cpp" />
     <ClCompile Include="Leapinghusk.cpp" />
     <ClCompile Include="MainGame.cpp" />

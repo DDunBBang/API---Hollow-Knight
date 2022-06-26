@@ -40,6 +40,7 @@ private:
 	bool		m_bUpAttack;
 	bool		m_bInven;
 	bool		m_bAttack;
+	bool		m_bKey;
 
 	float		m_fTime;
 	float		m_fJumpHeight;

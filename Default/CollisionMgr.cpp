@@ -122,7 +122,7 @@ bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, lis
 							{
 								_Temp->Set_Parry(true);
 								CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", SOUND_EFFECT, 1);
-								Sleep(250);
+								Sleep(300);
 							}
 							else
 							{
@@ -136,7 +136,7 @@ bool CCollisionMgr::Collision_Attack_Monster(CObj* _Temp, list<CObj*> _Dest, lis
 							{
 								_Temp->Set_Parry(true);
 								CSoundMgr::Get_Instance()->PlaySound(L"hero_parry.wav", SOUND_EFFECT, 1);
-								Sleep(250);
+								Sleep(300);
 							}
 							else
 							{

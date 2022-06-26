@@ -22,7 +22,7 @@ CPlayer::CPlayer()
 	: m_ePreState(END), m_eCurState(IDLE), m_dwHealTime(GetTickCount()),
 	m_dwAttackTime(GetTickCount()), m_fTime(0.f), m_bDash(false), m_dwDashTime(GetTickCount()), m_bHeal(false),
 	m_bHit(false), m_dwHitTime(GetTickCount()), m_bImu(false), m_dwImuTime(GetTickCount()), m_bDownAttack(false),
-	m_bUpAttack(false), m_bInven(false), m_bAttack(false), m_fJumpHeight(0), m_dwParryTime(GetTickCount())
+	m_bUpAttack(false), m_bInven(false), m_bAttack(false), m_fJumpHeight(0), m_dwParryTime(GetTickCount()), m_bKey(false)
 {
 
 }
@@ -133,7 +133,7 @@ int CPlayer::Update(void)
 				CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
 				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
 			}
-			if (CCollisionMgr::Collision_Broken(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BOSS_DOOR))))
+			if (m_bKey && CCollisionMgr::Collision_Broken(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BOSS_DOOR))))
 			{
 				CSoundMgr::Get_Instance()->PlaySound(L"breakable_wall_hit.wav", SOUND_EFFECT, 1);
 				if (m_bDownAttack)
@@ -141,6 +141,15 @@ int CPlayer::Update(void)
 					m_bJump = true;
 					m_fJumpHeight = 50.f;
 				}
+				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
+				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
+				CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));
+				dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).front())->Set_Attack(false);
+			}
+			if (CCollisionMgr::Collision_Broken(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_KEY))))
+			{
+				m_bKey = true;
+				CSoundMgr::Get_Instance()->PlaySound(L"sword_hit_reject.wav", SOUND_EFFECT, 1);
 				float fX = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fX;
 				float fY = dynamic_cast<CBlade*>((*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLADE))).back())->Get_Info().fY;
 				CObjMgr::Get_Instance()->Add_Object(OBJ_EFFECT, CAbstractFactory<CAttackEffect>::Create(fX, fY, m_eDir));

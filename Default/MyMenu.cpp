@@ -19,6 +19,7 @@ CMyMenu::~CMyMenu()
 
 void CMyMenu::Initialize(void)
 {
+	CObjMgr::Get_Instance()->Release();
 	CSoundMgr::Get_Instance()->PlayBGM(L"menu_bgm.wav", 0.5);
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Menu/Menu.bmp", L"Menu");
 }
@@ -32,7 +33,7 @@ void CMyMenu::Late_Update(void)
 {
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_RETURN))
 	{
-		CSceneMgr::Get_Instance()->Scene_Change(SC_FIELD);
+		CSceneMgr::Get_Instance()->Scene_Change(SC_FIELD2);
 		return;
 	}
 	if (CKeyMgr::Get_Instance()->Key_Down('E'))

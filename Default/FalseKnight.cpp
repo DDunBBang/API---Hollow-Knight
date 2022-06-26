@@ -7,11 +7,12 @@
 #include "AbstractFactory.h"
 #include "Wave.h"
 #include "Attack.h"
+#include "SceneMgr.h"
 #include "SoundMgr.h"
 
 CFalseKnight::CFalseKnight()
 	:m_iPattern(0), m_dwJumpTime(GetTickCount()), m_dwPatternTime(GetTickCount()), m_bLoop(false), m_dwSelectPattern(GetTickCount()), m_bTarget(false),
-	m_bJumpAttack(false), m_bWave(false), m_iWave(1), m_bSwing(false), m_iSwingL(1), m_iSwingR(1), m_iLoop(0), m_bPattern(false), m_bGroggy(false)
+	m_bJumpAttack(false), m_bWave(false), m_iWave(1), m_bSwing(false), m_iSwingL(1), m_iSwingR(1), m_iLoop(0), m_bPattern(false), m_bGroggy(false), m_dwDead(GetTickCount())
 {
 }
 
@@ -58,8 +59,6 @@ int CFalseKnight::Update(void)
 	float	fDiagonal = sqrtf(fWidth * fWidth + fHeight * fHeight);
 
 	CCollisionMgr::Collision_Rect_Ex(*(CObjMgr::Get_Instance()->Get_ObjList(OBJ_MONSTER)), *(CObjMgr::Get_Instance()->Get_ObjList(OBJ_BLOCK)));
-	if (m_bDead)
-		return OBJ_DEAD;
 
 	if (!m_bGroggy)
 	{
@@ -79,17 +78,22 @@ int CFalseKnight::Update(void)
 
 void CFalseKnight::Late_Update(void)
 {
-	if (0 == m_iHP)
+	if (0 >= m_iHP)
 	{
 		m_eCurState = GROGGY;
 		m_pFrameKey = L"FalseKnight_Groggy";
 		m_tInfo.fCX = 0.f;
 		m_tInfo.fCY = 0.f;
+		if(!m_bGroggy)
+			m_dwDead = GetTickCount();
 	}
+	if (m_bGroggy && m_dwDead + 3000 < GetTickCount())
+		CSceneMgr::Get_Instance()->Scene_Change(SC_MENU);
+
 	if (m_dwJumpTime + 400 < GetTickCount())
 		m_bJump = false;
 
-	if (m_dwSelectPattern + 800 < GetTickCount() && !m_bPattern)
+	if (m_dwSelectPattern + 300 < GetTickCount() && !m_bPattern)
 		SelectPattern();
 	Move_Frame();
 	Motion_Change();
